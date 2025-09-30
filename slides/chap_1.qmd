@@ -1,0 +1,507 @@
+---
+title: "Survival Models (MATH3085/6143)"
+subtitle: "Chapter 1: Introduction"
+format:
+  revealjs: 
+    theme: [default, custom.scss]
+    slide-number: true
+    progress: false
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: "André Victor Ribeiro Amaral"
+    url: "https://www.avramaral.com/"  
+    email: "a.v.ribeiro-amaral@soton.ac.uk"
+    affiliations: "University of Southampton"
+date: last-modified
+date-format: "DD/MM/YYYY"
+---
+
+```{r setup}
+#| echo: FALSE
+#| output: FALSE
+#| message: FALSE
+knitr::opts_chunk$set(include = TRUE)
+options(digits = 4)
+library("tidyverse")
+```
+
+## Preface
+
+:::{.justify}
+
+These slides are based on material written by previous lecturers of this course.
+
+
+Information about the module (syllabus, schedule, etc.) is available on [[Blackboard]{.alert}](https://blackboard.soton.ac.uk/) and on the [[module website (avramaral.github.io/MATH3085/)]{.alert}](https://avramaral.github.io/MATH3085/).
+
+:::
+
+## Instructors
+
+:::{.justify}
+
+This module will be co-taught by 
+
+1. [Dr André Amaral](https://www.avramaral.com/){target="_blank"} ([a.v.ribeiro-amaral@soton.ac.uk](mailto:a.v.ribeiro-amaral@soton.ac.uk)): Chapters 1-9
+2. [Dr Chao Zheng](https://www.personal.soton.ac.uk/cz1y20/){target="_blank"} ([chao.zheng@southampton.ac.uk](mailto:chao.zheng@southampton.ac.uk)): Chapters 10-16
+
+For any queries, please see either of us during our office hours
+
+- Dr André Amaral (weeks 1-6): Tuesday, 14:00–16:00, Room 54/10007.
+- Dr Chao Zheng (weeks 7-11 and 15): Tuesday, 14:00–16:00, Room 54/9001.
+
+:::
+
+
+## Timetabling 
+
+:::{.justify}
+
+[MATH3085/6143]{.alert} has been given a timetable with the following slots
+
+| Day          | Time             | Room     |
+|--------------|------------------|----------|
+| Tuesday      | 16:00–18:00      | 02/1089  |
+| Thursday     | 15:00–17:00      | 35/1001  |
+
+<div style="margin-top: 25pt;"></div>
+
+:::{.fragment}
+Below is the [tentative]{.alert} schedule for the [first part]{.alert} of the module.   
+
+:::{.small-text}
+| Week | Tuesday (Session 1)  | Tuesday (Session 2)  | Thursday (Session 1) | Thursday (Session 2) |
+| ---- | -------------------- | -------------------- | -------------------- | -------------------- | 
+| 01   | Chapter 1            | Chapter 2            | Chapter 3            | Chapter 4 (part 1)   | 
+| 02   | Chapter 4 (part 2)   | Problem Sheet 1      | Chapter 5            | Chapter 6 (part 1)   | 
+| 03   | Chapter 6 (part 2)   | Chapter 6 (part 3)   | Chapter 6 (part 4)   | Problem Sheet 2      | 
+| 04   | Chapter 7 (part 1)   | Chapter 7 (part 2)   | Chapter 7 (part 3)   | Problem Sheet 3      | 
+| 05   | Chapter 8 (part 1)   | Chapter 8 (part 2)   | Chapter 8 (part 3)   | Chapter 8 (part 4)   | 
+| 06   | Chapter 9 (part 1)   | Chapter 9 (part 2)   | Chapter 9 (part 3)   | Problem Sheet 4      | <!-- Ends in Nov 09 -->
+:::
+:::
+
+:::
+
+## How is MATH3085/6143 taught?
+
+:::{.justify}
+
+- **Lecture**  
+  - [Slides](https://avramaral.github.io/MATH3085/lecture_slides.html) and video recordings can be downloaded after every lecture. 
+  - [Lecture notes](https://avramaral.github.io/MATH3085/#lecture-notes) are available in two formats (skeleton & complete).
+
+:::{.fragment}
+- **Problem Class**  
+  - Will work through 6 [problem sheets](https://avramaral.github.io/MATH3085/problem_sheets.html).
+  - Please attempt the problems before the problem class.
+  - Solutions will be available after the problem class.
+
+:::
+
+:::{.fragment}
+- **`R` [Self-paced Tutorial](https://avramaral.github.io/MATH3085/computer_lab.html)**  
+  - Do not need to start until after Chapter 7.  
+  - Drop-in support for `R` (details to be released later).
+  
+:::
+:::
+
+## Assessment
+
+:::{.justify}
+The basic module assessment breakdown is
+
+1. 30% [data analysis project](https://avramaral.github.io/MATH3085/project.html)
+2. 70% written exam
+
+The [data analysis project](https://avramaral.github.io/MATH3085/project.html) involves a series of tasks in which you will conduct survival analysis on provided datasets using `R`. The project will be released around mid-December 2025, and detailed instructions and guidance will be provided towards the end of the term.
+:::
+
+# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 1:**]{.secondary} Introduction</span>
+
+## Survival Analysis
+
+:::{.justify}
+
+- The aim in most statistical modelling problems (e.g. `MATH2010`) is to investigate the relationship between  
+  - an observed response (usually denoted by $y$) .
+  - $k$ explanatory variables (denoted by $x = (x1, \cdots, x_k)$).
+  
+<div style="margin-top: 10pt;"></div>
+
+:::{.fragment}
+- In [MATH3085/6143]{.secondary}, the response is always the [**time from origin until an event of interest occurs**]{.alert}.  
+
+<div style="margin-top: 10pt;"></div>
+:::
+
+:::{.fragment}
+- Because the response is a time, we denote the observation using $t$, and the corresponding random variable using $T$.  
+:::
+:::
+
+## Survival Analysis
+
+:::{.justify}
+
+[Survival analysis]{.secondary} refers to a set of special statistical methods required to analyse [**time-to-event data**]{.alert}.
+  
+<div style="margin-top: 10pt;"></div>
+
+:::{.fragment}
+The object of survival modelling is to learn about the variability in $T$ in a population of interest and (often) how this is associated with other potentially explanatory variables (covariates).
+:::
+:::
+
+## Applications and alternative terminology
+
+:::{.justify}
+
+Historically, survival analysis originated from medical applications where 
+
+- the event was death, and
+- the time to the event was called the **survival time**.  
+
+
+:::{.fragment .centering}
+![David Cox](images/chap_1/David-Cox-RSS2016.jpg){width=40%}
+![Seminal Paper](images/chap_1/jrssb-1972.png){width=40%}
+
+[Sir David Cox (1924–2022)]{.secondary} and his seminal paper in 1972.
+:::
+
+
+:::
+
+## Applications and alternative terminology
+
+:::{.justify}
+
+However, survival analysis now has applications in many areas beyond medicine including the following
+
+- **Demography:** age at "milestone," such as
+  - death,
+  - birth of first child, etc.
+
+<div style="margin-top: -10pt;"></div>
+:::{.fragment}
+- **Engineering**
+  - failure time of a machine.
+
+:::
+<div style="margin-top: -10pt;"></div>
+:::{.fragment}
+- **Economics**
+  - duration of  unemployment.
+  
+:::
+<div style="margin-top: -10pt;"></div>
+:::{.fragment}
+- **Psychology**
+  - response time to stimulus or activation.
+
+:::
+:::
+
+## Applications and alternative terminology
+
+:::{.justify}
+Important [actuarial]{.alert} examples where we are required to model survival data include
+
+- Time between pensionable age and death.
+
+<div style="margin-top: -10pt;"></div>
+
+:::{.fragment}
+- Time between taking out a life insurance policy and death.
+:::
+<div style="margin-top: -10pt;"></div>
+:::{.fragment}
+- Time between taking out a critical illness insurance policy and onset of illness.
+:::
+<div style="margin-top: -10pt;"></div>
+:::{.fragment}
+- Failure time for a product with warranty insurance.
+:::
+:::
+
+## Applications and alternative terminology
+
+:::{.justify}
+
+Due to the different application areas, you may encounter [different terminologies]{.alert}.  
+
+The following table summarises alternative terminologies you may encounter in this module and elsewhere.
+
+<div style="margin-top: 25pt;"></div>
+
+| [**Survival analysis**]{.secondary} | [**Origin**]{.secondary} | [**Event of interest**]{.secondary} | [**Time to event**]{.secondary} |
+|-------------------------------|------------------------|------------------------------|-------------------|
+| Event history analysis        | Initial event          | Death                        | Survival time     |
+| Duration analysis             | Initiating event       | Failure                      | Failure time      |
+| Hazard modelling              | Starting event         | Endpoint                     | Response time     |
+| Reliability analysis          | Time origin            | Outcome                      | Waiting time      |
+|                               |                        | Terminating event            | Duration          |
+|                               |                        | Target event                 | Spell             |
+|                               |                        |                              | Episode           |
+
+
+:::
+
+## Why is Survival Analysis "special"?
+
+:::{.justify}
+
+Why does survival analysis need its own module? 
+
+- Models for non-negative random variable $T$. In `MATH2010`, the response had a normal distribution which allows for negative responses.
+
+:::{.fragment}
+- Data are often not well-described by standard probability distributions, e.g. the normal distribution.
+:::
+<div style="margin-top: -10pt;"></div>
+:::{.fragment}
+- Data are typically [**censored**]{.alert} (explained soon).
+:::
+<div style="margin-top: -10pt;"></div>
+:::{.fragment}
+- Model parameters often **not** of  primary interest. Often interest in the whole survival distribution, e.g. all quantiles, not just measures of location such as  mean or median.
+:::
+<div style="margin-top: -10pt;"></div>
+:::{.fragment}
+- Time-dependent covariates, i.e. they are not fixed like in `MATH2010`.
+:::
+<div style="margin-top: -10pt;"></div>
+:::{.fragment}
+- [**Truncation:**]{.alert} some cases may be missing (explained soon).
+:::
+:::
+
+## Types of time to event
+
+:::{.justify .small-text}
+
+- [**Continuous time**]{.alert} 
+  - In theory, the value of $T$ can be recorded to arbitrary precision.  
+  - In practice, the value of $T$ is rounded to a convenient level of precision.  
+  - Tied data values cannot occur in theory (with probability 0), but do in practice.  
+
+:::{.fragment}
+- [**Grouped continuous time**]{.alert} 
+  - Imprecise time measurements, only reporting the interval in which the observation lies.  
+  - [**Example:**]{.secondary} time in completed years, months, weeks, or days.  
+  - Common in population mortality studies (report age in completed years at death).  
+  
+:::
+:::{.fragment}
+- [**Discrete time**]{.alert}   
+  - True discrete-time scale, $T = 1, 2, 3, \cdots$. 
+  - [**Example:**]{.secondary} number of operations of a machine to first failure, number of attempts to pass a test, etc.
+  
+:::
+:::
+
+## Censoring
+
+:::{.justify}
+
+A common feature of survival data is [**censoring**]{.alert}.  
+
+- [**Censoring**]{.alert} occurs when we do not know all times-to-event $T$ exactly, but only have bounds on some of the survival times.  
+
+:::{.fragment}
+- Special methods are needed for censored data because 
+  - Censored observations provide information.  
+  - Exclusion of censored data leads to bias.
+  - Discarding censored data would be inefficient.
+:::
+
+
+:::
+
+## Censoring
+
+:::{.justify}
+
+Observations of $T$ may be
+
+- observed precisely, 
+- [right]{.secondary} censored,
+- [left]{.secondary} censored, or
+- [interval]{.secondary} censored.
+
+In statistical modelling, [censoring has to be taken into account to avoid bias]{.alert}.
+
+:::
+
+## Right censoring [**(Gap on page 04)**]{.alert}
+
+:::{.justify}
+
+An observation of $T$ is [**right censored**]{.alert} if we only observe a lower bound for $T$, i.e. we know that $T$ was greater than some value, e.g. $18$, but not the exact value itself.
+
+A censored value with be denoted by $T^*$ or $T^+$, so we know 
+$$T \ge T^* \qquad \mbox{equivalently} \qquad T \in \left(T^*, \infty \right).$$
+:::
+
+## Right censoring
+
+:::{.justify .small-text}
+```{r, echo = TRUE, fig.width = 5, fig.height = 3.75, fig.align = "center"}
+# In this figure, subject 1 is not censored and we would observe the response T_1. 
+# Subjects 2 and 3 are right censored: we only know that the true responses T_2 and T_3 are greater than T_2^* and T_3^*, respectively.
+
+d <- data.frame(id = c(1, 2, 3), start = c(0, 0, 0), end = c(5, 8, 6), added =  c(0, 1, 2), status = c(1, 0, 0))
+
+p <- ggplot(d, aes(y = factor(id))) +
+       geom_segment(aes(x = start, xend = end, yend = factor(id)), linewidth = 0.8, colour = "black") +
+       geom_segment(aes(x = end, xend = end, y = as.numeric(factor(id)) - 0.3, yend = as.numeric(factor(id)) + 0.3), linetype = "dotted", colour = "black") +
+       geom_point(data = filter(d, status == 1), aes(x = end, y = factor(id)), size = 2) +
+       geom_segment(data = filter(d, status == 0), aes(x = end, xend = end + added, yend = factor(id)), linetype = "dashed", colour = "black") +
+       geom_point(data = filter(d, status == 0), aes(x = end + added), size = 2, shape = 16, colour = "black") + 
+       scale_y_discrete(name = "Subject", labels = c("1", "2", "3")) + scale_x_continuous(name = "Time") +
+       theme_bw() + theme(text = element_text(size = 16, family = "Latin Modern Roman 10"))
+p + annotate("text", x = 5.0, y = 1.18, label = "T[1]", vjust = -1, family = "Latin Modern Roman 10", parse = TRUE) + annotate("text", x = 8.0, y = 2.09, label = "T[2]^'*'", vjust = -1, family = "Latin Modern Roman 10", parse = TRUE) + annotate("text", x = 9.0, y = 2.18, label = "T[2]", vjust = -1, family = "Latin Modern Roman 10", parse = TRUE) + annotate("text", x = 6.0, y = 3.09, label = "T[3]^'*'", vjust = -1, family = "Latin Modern Roman 10", parse = TRUE) + annotate("text", x = 8.0, y = 3.18, label = "T[3]", vjust = -1, family = "Latin Modern Roman 10", parse = TRUE)
+```
+:::
+
+## Right censoring
+
+:::{.justify}
+
+Reasons for right censoring include
+
+- Event (e.g., death) has not been observed before the end of study;
+- Individual lost-to-followup.
+- Individual withdrawal from study.
+
+
+In most survival analyses (particularly involving mortality) we should expect right censoring.
+
+:::
+
+## Left censoring
+
+:::{.justify}
+
+An observation of $T$ is [**left censored**]{.alert} if we only observe an upper bound for $T$, i.e., we know that $T$ was less than some value, e.g. $18$, but not the exact value itself.
+
+<div style="margin-top: 25pt;"></div>
+
+- Left censoring is not as common as right censoring.
+- [Example:]{.secondary} a patient enrolls in a study for a chronic illness, but they already have the illness. You know the illness started before their enrollment date.
+
+:::
+
+## Interval censoring
+
+:::{.justify}
+
+An observation of $T$ is [**interval censored**]{.alert} if we only observe an interval for $T$, i.e. we know that $T$ is between two values, e.g. $(18,~ 20)$, but not the exact value itself.
+
+<div style="margin-top: 25pt;"></div>
+
+- Note that left and right censored observations are actually interval censored where the upper or lower limit of the interval is $-\infty$ or $\infty$, respectively.
+- [Example]{.secondary} (recurrence of a disease)[:]{.secondary} a patient with cancer undergoes surgery. They are given a check-up at time $t_1$ and show no signs of recurrence. At their next check-up at time $t_2$, the cancer has returned. The event of recurrence is interval-censored between $t_1$ and $t_2$.
+
+:::
+
+## Informative and non-informative censoring
+
+:::{.justify}
+
+Censoring is [**informative**]{.alert} if the reason for a subject being censored is related to their survival time $T$. This means the censoring event itself provides extra information about the subject's outcome beyond simply knowing that their survival time falls within a certain range.
+
+<div style="margin-top: -10pt;"></div>
+
+Censoring is [**non-informative**]{.alert} if the reason for a subject being censored is unrelated to their survival time (the standard assumption in most cases).
+:::
+
+
+## Informative and non-informative censoring
+
+:::{.justify}
+- Let $T$ be the true time until the event of interest occurs. It is the survival time you would measure if you could follow a subject indefinitely.
+
+- Let $C$ be the time a subject is censored. It is when their observation ends for reasons other than the event itself.
+
+<div style="margin-top: -20pt;"></div>
+
+:::{.fragment}
+In a [survival study]{.alert}, we may have
+
+- [The event occurs first ($T \leq C$):]{.secondary} if the event time $T$ is less than or equal to the censoring time $C$, you get to observe the event. You know the exact value of $T$.
+- [Censoring occurs first ($T > C$):]{.secondary} if the true event time $T$ is greater than the censoring time $C$, you do not get to see the event. You only know that the subject survived up to time $C$. The observation is right-censored, and all you can say is that the true event time $T$ is in the interval $(C, ~\infty)$.
+:::
+:::
+
+## Informative and non-informative censoring
+
+:::{.justify}
+[Examples]{.secondary} of causes of informative censoring include
+
+- Patients lost to follow-up because of good prognosis.
+- Withdrawals of patients due to ill health related to outcome of interest. 
+
+:::{.fragment}
+A [sufficient condition for non-informative censoring is that $C$ and $T$ are independent variables]{.alert}. For example $C$ is a (non-random) time fixed in advance of the study.
+:::
+
+<div style="margin-top: 10pt;"></div>
+
+:::{.fragment}
+[Informative censoring causes complications for statistical modelling because we need a joint model for $T$ and $C$.]{.secondary} [We will assume **non-informative censoring** throughout]{.alert}.
+:::
+:::
+
+## Truncation
+
+:::{.justify}
+
+[**Left truncation**]{.alert} of survival data occurs when cases whose survival times $T$ are shorter than a given time, either fixed or random, are [**not**]{.alert} observed.
+
+- [Example:]{.secondary} a study of heart attack survival which excludes individuals who died before reaching hospital.
+
+<div style="margin-top: -20pt;"></div>
+
+[**Right truncation**]{.alert} of survival data occurs when cases which have not experienced the event are [**not**]{.alert} observed.
+
+- [Example:]{.secondary} data obtained from death certificates (individuals who are still alive are not included in the sample).
+
+<div style="margin-top: 10pt;"></div>
+
+:::{.fragment}
+The key difference between censoring and truncation is that [censoring]{.alert} [deals with incomplete information about the event time]{.secondary}, while [truncation]{.alert} [deals with incomplete information about the group of people being studied]{.secondary}.
+:::
+
+:::
+
+## Goals of survival analysis
+
+:::{.justify}
+
+Some basic [goals of survival analysis]{.alert} include the following
+
+- Describe how survival in the sample depends on time.
+
+:::{.fragment}
+- Inference to the population of interest.
+:::
+
+:::{.fragment}
+- Compare whole survival distributions for groups.
+:::
+
+:::{.fragment}
+- Explain survival differentials using explanatory variables.
+:::
+
+:::{.fragment}
+- Predict future survival. 
+:::
+:::
+
+

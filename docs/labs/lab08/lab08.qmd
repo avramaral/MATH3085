@@ -1,0 +1,166 @@
+---
+title: "MATH3091: Computer Lab 08"
+format: 
+  html:
+    css: styles.css
+---
+
+```{r setup, echo = FALSE, include = FALSE}
+#| echo: TRUE
+#| output: TRUE
+#| message: FALSE
+
+knitr::opts_chunk$set(include = TRUE, fig.width = 6, fig.height = 4, fig.align = "center")
+```
+
+## Analysis of `accident.csv` data
+
+Load the data in `accident.csv` into a variable `accident`.
+```{r}
+accident <- read.csv("../datasets/accident.csv") # Change the path, if needed
+head(accident)
+```
+
+The data in `accident.csv` concerns the number of road accidents (`number`) and the volume of traffic (`volume`), on each of two roads in Cambridge (`road`), at various times of day (`time`, taking values `morning`, `midday` or `afternoon`).
+
+We would like to answer questions like:
+
+1. Is Mill Road more dangerous than Trumpington Road?
+1. How does time of day affect the rate of road accidents? 
+
+Let $Y_{ij}$ denote the number of accidents and $\mu_{ij}$ denote the expected number of accidents for the $i$th road at the $j$th time. We assume
+
+$$
+Y_{ij} \sim \text{Poisson}(\mu_{ij}), \ i=1, 2 \text{ for Road},
+j=1, 2, 3 \text{ for time}.
+$$
+
+
+We might reasonably expect the number of accidents to depend on traffic `volume`, $v_{ij}$.  It is better to work with log volume rather than volume itself as the volumes are very high.
+
+Use the Poisson GLM with canonical log link.
+
+$$
+\log (\mu_{ij}) = \mu + \alpha_i + \beta_j + \gamma \log v_{ij}.
+$$
+This is equivalent to assuming:
+
+$$
+\mu_{ij} = \text{constant} \times \text{$i$-th road effect}
+  \times \text{$j$0th time effect}  \times \text{volume}^{\gamma}
+$$
+
+By default, `R` will set $\alpha_1=0$ and $\beta_1=0$. Thus $\alpha_2=0$ if the roads are equally risky, $\beta_2$ represents difference between time 2 and 1,  and $\beta_3$ represents difference between time 3 and 1.
+
+We can fit this model in `R` as follows.
+```{r}
+# Fit a Poisson log-linear model to the data:
+acc_glm <- glm(number ~ road + time + log(volume), family = poisson, data = accident)
+summary(acc_glm)
+```
+
+- [What do you conclude about how the accident rate depends on the road, the time of day and the volume of traffic?]{.attention}
+
+```{r, include = FALSE}
+# The output seems to say Mill road is more dangerous than Trumpington road. 
+# The mornings and afternoons are about as dangerous as each other and each is quite a lot more dangerous than the middle of the day. 
+# The accident rate has a strong dependence on the traffic volume.
+```
+
+- [Does the scaled deviance indicate an problem with the fit of the model?]{.attention}
+
+```{r, include = FALSE}
+# From the summary output, the scaled deviance is 1.88. 
+# `acc_glm` has 5 free parameters, and there are `n = 6` data points, so if the model is correct, we expect the scaled deviance to have chi^2_1 distribution.
+# The 95% point of a chi^2_1 is
+qchisq(0.95, df = 1)
+# i.e., 3.84. 
+# Since the scaled deviance is less than this, there is no evidence of poor model fit from this measure.
+```
+
+- [Conduct hypothesis tests to check whether you could drop any terms from the model.]{.attention}
+
+```{r}
+# Consider model without `volume`.
+acc_glm_rt <- glm(number ~ road + time, family  = poisson, data = accident)
+anova(acc_glm_rt, acc_glm, test="LRT")
+# We prefer the model with `volume`.
+
+# Consider model without `time`.
+acc_glm_rv <- glm(number ~ road + log(volume), family = poisson, data = accident)
+anova(acc_glm_rv, acc_glm, test="LRT")
+# It is borderline whether or not to include `time`.
+
+# Consider model without `road`.
+acc_glm_tv <- glm(number ~ time + log(volume), family = poisson, data = accident)
+anova(acc_glm_tv, acc_glm, test="LRT")
+# We prefer the model with `road`.
+
+```
+
+## Analysis of `hodgkins.csv` data
+
+The data in `hodgkins.csv` concerns 538 patients with Hodgkin's disease, who have been cross-classified according to two factors, `type` the histological type of their disease (4 levels) and `rtreat`, their response to treatment (3 levels).
+
+Load the data in `hodgkins.csv` into a variable `hodgkins`.
+```{r}
+# Analysis of `hodgkins.csv` data
+hodgkins <- read.csv("../datasets/hodgkins.csv") # Change the path, if needed
+head(hodgkins)
+```
+
+We could display this data in a contingency table.
+```{r}
+# Display the data in contingency table form:
+xtabs(count ~ type + rtreat, data = hodgkins)
+```
+
+Cross-classification data are extremely common, and can be modelled very effectively using generalised linear models.
+The observations of the response variable are taken to be the counts (in this case the 12 patient totals) and a generalised
+linear model is used to determine how the expected counts depend on any explanatory variables (in this case, the factors `type` and `rtreat`). The dataset as it is presented in the original `hodgkins` data frame is already in the correct format to fit
+such a generalised linear model.
+
+Counts are non-negative integers, so one approach is to treat them as observations of Poisson random variables. The canonical link function is then the $\log$ function, and Poisson generalised linear models with the log link are called **log-linear models**.
+
+A possible log-linear model for this data set is
+$$
+Y_i\sim\text{Poisson}(\mu_i),\quad
+  \log\mu_i=\alpha+\beta_T(t_i)+\beta_R(r_i)\qquad i=1,\cdots ,12\,,
+$$
+where $Y_i$ is the $i$-th count and $t_i$ and $r_i$ are the corresponding levels of `type` and `rtreat`.
+
+We can fit this model in `R`.
+```{r}
+# Fit a log-linear model with main effects only.
+hod_main <- glm(count ~ type + rtreat, family = poisson, data = hodgkins)
+```
+
+This model only contains the "main effects" `type` and `rtreat`. Alternatively, we could fit a model with an interaction between these two main effects, which is the saturated model.
+```{r}
+# Fit a log-linear model with interaction between main effects.
+hod_int <- glm(count ~ type * rtreat, family = poisson, data = hodgkins)
+```
+
+We can find the estimated cell counts under each of the models.
+```{r}
+# Find estimated cell counts under the two models.
+fitted(hod_main)
+fitted(hod_int)
+```
+
+[What do you notice about the estimated cell counts under the saturated model `hod_int`, compared with the observed counts?]{.attention}
+```{r, include = FALSE}
+# For the saturated model, the estimated cell counts are equal to the observed cell counts.
+```
+
+[Which model do you prefer?]{.attention}
+```{r}
+# Compare the two models
+anova(hod_main, hod_int, test = "LRT")
+```
+
+```{r, include = FALSE}
+# There is strong evidence to prefer `hod_int`, and we conclude that response to treatment is dependent on the type of the disease.
+```
+
+By comparing these two models, we are determining whether `type` and `rtreat` are independent, or whether there is significant evidence of association. If we need the interaction term, then this provides evidence that the cross-classifying factors are not independent of one another.

@@ -1,0 +1,20 @@
+---
+title: "`R` Catch-up"
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false
+    from: markdown+emoji
+---
+
+If you are new to `R` or would like a refresher, use the following self-paced tutorials.
+
+- [Chapter 1: Getting started in `R`](https://southamptonmaths.shinyapps.io/MATH3085_chapter1/){target="_blank"}
+- [Chapter 2: Data manipulation](https://southamptonmaths.shinyapps.io/MATH3085_chapter2/){target="_blank"}
+- [Chapter 3: Functions, conditional execution, and loops](https://southamptonmaths.shinyapps.io/MATH3085_chapter3/){target="_blank"}
+- [Chapter 4: Graphics](https://southamptonmaths.shinyapps.io/MATH3085_chapter4/){target="_blank"}
+- [Chapter 5: Simulation studies](https://southamptonmaths.shinyapps.io/MATH3092_chapter5/){target="_blank"}
+
+The **data files** needed to complete the tutorials are [available here](/labs/r-catch-up-data.zip).
+

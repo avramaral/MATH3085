@@ -1,0 +1,17 @@
+Income,Satisfaction,Count
+<6000,Very Dissatisfied,20
+<6000,A Little Dissatisfied,24
+<6000,Moderately Satisfied,80
+<6000,Very Satisfied,82
+6000-15000,Very Dissatisfied,22
+6000-15000,A Little Dissatisfied,38
+6000-15000,Moderately Satisfied,104
+6000-15000,Very Satisfied,125
+15000-25000,Very Dissatisfied,13
+15000-25000,A Little Dissatisfied,28
+15000-25000,Moderately Satisfied,81
+15000-25000,Very Satisfied,113
+>25000,Very Dissatisfied,7
+>25000,A Little Dissatisfied,18
+>25000,Moderately Satisfied,54
+>25000,Very Satisfied,92

@@ -1,0 +1,91 @@
+---
+title: "Lecture Slides"
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false
+    from: markdown+emoji
+---
+
+Welcome to the [Lecture Slides]{.attention} section! Here, you will find the slides for each chapter **MATH3085/6143**.
+
+:pushpin: **Note:** slides may be updated throughout the course.
+
+---
+
+##### [:bar_chart: **Chapter 01: Introduction**]{.secondary}
+
+This chapter introduces survival analysis, a set of statistical methods for time-to-event data that features unique challenges like censoring and truncation.
+
+- :page_facing_up: [Chapter 1](/slides/_output/chap_1.html) (last updated on 29/09/2025)
+
+<div style="margin-top: 25pt;"></div>
+
+##### [:bar_chart: **Chapter 02: Statistical Models**]{.secondary}
+
+This chapter introduces the fundamental role of statistical models (differentiating between parametric, non-parametric, and regression approaches) to simulate the process that generates survival data.
+
+- :page_facing_up: [Chapter 2](/slides/_output/chap_2.html) (last updated on 29/09/2025)
+
+<div style="margin-top: 25pt;"></div>
+
+##### [:bar_chart: **Chapter 03: The Survival Distribution**]{.secondary}
+
+This chapter introduces the core mathematical functions used to characterize a survival distribution, primarily the survival function and the hazard function.
+
+- :page_facing_up: [Chapter 3](/slides/_output/chap_3.html) (last updated on 29/09/2025)
+
+<div style="margin-top: 25pt;"></div>
+
+<!--
+
+##### [:bar_chart: **Chapter 04: Distributions for Survival Models**]{.secondary}
+
+This chapter introduces several common parametric distributions for survival modeling, including the Exponential, Weibull, Log-logistic, Lognormal, and Gompertz.
+
+- :page_facing_up: [Chapter 4](/slides/_output/chap_4.html) (incomplete)
+
+<div style="margin-top: 25pt;"></div>
+
+##### [:bar_chart: **Chapter 05: Survival models: parameter estimation**]{.secondary}
+
+This chapter introduces parameter estimation for parametric models using maximum likelihood estimation (MLE), a method adapted to handle right-censored data.
+
+- :page_facing_up: [Chapter 5](/slides/_output/chap_5.html) (incomplete)
+
+<div style="margin-top: 25pt;"></div>
+
+##### [:bar_chart: **Chapter 06: Non-parametric Survival Estimation**]{.secondary}
+
+This chapter introduces non-parametric methods for estimating the survival distribution, focusing on the widely used Kaplan-Meier (KM) product-limit estimator.
+
+- :page_facing_up: [Chapter 6](/slides/_output/chap_6.html) (incomplete)
+
+<div style="margin-top: 25pt;"></div>
+
+##### [:bar_chart: **Chapter 07: Survival Regression Models**]{.secondary}
+
+This chapter introduces survival regression to analyze the effect of explanatory variables, focusing on the semi-parametric Cox Proportional Hazards (PH) model and the parametric Accelerated Failure Time (AFT) model.
+
+- :page_facing_up: [Chapter 7](/slides/_output/chap_7.html) (incomplete)
+
+<div style="margin-top: 25pt;"></div>
+
+##### [:bar_chart: **Chapter 08: Multistate Survival Models**]{.secondary}
+
+This chapter introduces multistate models, which generalize the simple alive-dead framework to processes with multiple states by using the theory of time-homogeneous Markov processes.
+
+- :page_facing_up: [Chapter 8](/slides/_output/chap_8.html) (incomplete)
+
+<div style="margin-top: 25pt;"></div>
+
+##### [:bar_chart: **Chapter 09: Inference for Multistate Models**]{.secondary}
+
+This chapter introduces statistical inference for time-homogeneous multistate models by explaining how to estimate constant transition intensities from observed data using maximum likelihood.
+
+- :page_facing_up: [Chapter 9](/slides/_output/chap_9.html) (incomplete)
+
+<div style="margin-top: 25pt;"></div>
+
+-->

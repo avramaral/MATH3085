@@ -1,0 +1,359 @@
+---
+title: "Survival Models (MATH3085/6143)"
+subtitle: "Chapter 2: Statistical Models"
+format:
+  revealjs: 
+    theme: [default, custom.scss]
+    slide-number: true
+    progress: false
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: "André Victor Ribeiro Amaral"
+    url: "https://www.avramaral.com/"  
+    email: "a.v.ribeiro-amaral@soton.ac.uk"
+    affiliations: "University of Southampton"
+date: last-modified
+date-format: "DD/MM/YYYY"
+---
+
+```{r setup}
+#| echo: FALSE
+#| output: FALSE
+#| message: FALSE
+knitr::opts_chunk$set(include = TRUE)
+options(digits = 4)
+library("tidyverse")
+library("MASS")
+```
+
+## Recap
+
+:::{.justify}
+
+In the last chapter, we
+
+- Learned that survival analysis is a field dedicated to analyzing [time-to-event data]{.alert}.
+- Identified the challenges in working with time-to-event data, such as censoring and truncation.
+- Defined [censoring]{.alert} as having incomplete information about a subject's event time.
+- Defined [truncation]{.alert} as having incomplete information about the group of people being studied.
+:::
+
+# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 2:**]{.secondary} Statistical Models</span>
+
+
+## Introduction
+
+:::{.justify}
+
+Statistical analysis (or inference) involves 
+
+- [Drawing conclusions]{.alert} and
+- [Making decisions and predictions]{.alert}
+
+<div style="margin-top: -30pt;"></div>
+
+using the evidence provided to us by observed data.
+
+<div style="margin-top: 25pt;"></div>
+
+:::{.fragment}
+To do this, we use **statistical models**, where we simulate the process by which the observed data were generated through a [probability distribution]{.alert}.
+:::
+
+:::
+
+## Introduction
+
+:::{.justify}
+
+- The form of the model helps us to understand the real-world process by which the data were generated.
+
+:::{.fragment}
+- [If the model explains the observed data well]{.alert}, then it should also [inform us about future (or unobserved) data]{.alert}, and hence help us to make predictions (and decisions).
+:::
+
+:::{.fragment}
+- The use of statistical models also allows us to [quantify the uncertainty]{.alert} associated with any conclusions, predictions or decisions we make.
+:::
+
+:::{.fragment}
+We rarely believe in our models, but regard them as [temporary constructs subject to improvement]{.alert}.
+:::
+
+
+:::
+
+## Example: Leukaemia
+
+:::{.justify}
+
+Survival times are given for 33 patients who died from [acute myelogenous leukaemia]{.alert}. In `R`, this can be found in the `leuk` object in the `MASS` package.
+
+```{r, echo = TRUE, fig.width = 5, fig.height = 3.75, fig.align = "center"}
+as_tibble(leuk)
+```
+
+`leuk` is a data frame with columns: `wbc` (white blood count), `ag` (a test result, "present" or "absent"), and `time` (survival time in weeks).
+
+:::
+
+## Notation
+
+:::{.justify}
+
+- Suppose that we have $n$ data observations, then we use
+$$
+t_1,t_2,\cdots , t_n
+$$
+to denote these observed event (failure, death, $\cdots$) or censoring times.
+
+:::{.fragment}
+- For the [leukaemia survival times]{.alert}, $n=33$ and $t_1=65$, $t_2=156$, $\cdots , t_{33}=43$.
+:::
+
+:::{.fragment}
+- We denote the complete data by the vector $\mathbf{t}=(t_1,t_2, \cdots , t_n)$.
+:::
+
+:::
+
+## Notation
+
+:::{.justify}
+
+- In a [**statistical model**]{.alert}, we consider $t_1,t_2, \cdots , t_n$ to be observations of random variables (denoted with the corresponding capital letters)
+$$
+T_1,T_2,\cdots , T_n.
+$$
+
+:::{.fragment}
+- We also use the vector notation $\mathbf{T}=(T_1,T_2,\cdots , T_n)$.
+:::
+
+:::{.fragment}
+This is the same as `MATH2010`, but with $t$ and $T$, instead of $y$ and $Y$, respectively.
+:::
+
+:::
+
+## Statistical models
+
+:::{.justify}
+
+A [**statistical model**]{.alert} specifies a probability distribution for the random variables $\mathbf{T}$ corresponding to the data observations $\mathbf{t}$.
+
+
+:::{.fragment}
+Providing a specification for the distribution of $n$ jointly varying random variables is made much easier if we can make some **simplifying assumptions**, such as
+
+1. $T_1,T_2,\cdots , T_n$ are *independent* random variables.
+2. $T_1,T_2,\cdots , T_n$ have the same probability distribution (so $t_1,t_2, \cdots , t_n$ are observations of a single random variable $T$).
+
+:::
+
+:::
+
+## Statistical models
+
+<div style="margin-top: 15pt;"></div>
+
+:::{.justify}
+
+1. $T_1,T_2,\cdots , T_n$ are *independent* random variables.
+2. $T_1,T_2,\cdots , T_n$ have the same probability distribution (so $t_1,t_2, \cdots , t_n$ are observations of a single random variable $T$).
+
+:::{.fragment}
+Assumption `1` is very common, even in quite complex examples.
+:::
+
+:::{.fragment}
+Assumption `2` is not always appropriate, but may be reasonable when we are [modelling a homogeneous population, without other information]{.alert}.
+
+- Making assumption `2` means we cannot include explanatory variables, so sometimes we will not make this assumption.
+:::
+
+<div style="margin-top: -22pt;"></div>
+
+:::{.fragment}
+When we make assumptions `1` and `2`, we say that $T_1,T_2,\cdots , T_n$ are *independent and identically distributed* (i.i.d.).
+:::
+
+:::
+
+## A fully specified model
+
+:::{.justify}
+
+Sometimes a model completely specifies the probability distribution of $T_1,T_2,\cdots , T_n$.
+
+:::{.fragment}
+For example, for the [leukaemia survival times]{.alert}, we might assume the model
+
+$$
+T_1,T_2,\ldots , T_n \stackrel{\text{i.i.d.}}{\sim} \mathrm{lognormal}(\mu,\sigma^2)
+$$
+where $\mu=3$ and $\sigma^2=4$.
+:::
+
+:::{.fragment}
+Note that $T_1,T_2,\cdots , T_n \stackrel{\text{i.i.d.}}{\sim} \mathrm{lognormal}(\mu,\sigma^2)$ is equivalent to 
+$$
+\log(T_1), \log(T_2), \cdots , \log(T_n) \stackrel{\text{i.i.d.}}{\sim} \mathrm{N}(\mu,\sigma^2),
+$$
+where $\log$ is the natural logarithm.
+:::
+:::
+
+## A fully specified model
+
+:::{.justify}
+
+For example, for the [leukaemia survival times]{.alert}, we might assume the model
+$$
+T_1,T_2,\cdots , T_n \stackrel{\text{i.i.d.}}{\sim} \mathrm{lognormal}(\mu,\sigma^2)
+$$
+where $\mu=3$ and $\sigma^2=4$.
+
+:::{.fragment}
+- The key is that we have assumed **exact values** for $\mu$ and $\sigma^2$. 
+:::
+
+<div style="margin-top: -5pt;"></div>
+
+:::{.fragment}
+- This would be appropriate when there is some external (to the data) theory as to why the model (in particular $\mu=3$ and $\sigma^2=4$) is appropriate.
+:::
+
+<div style="margin-top: -5pt;"></div>
+
+:::{.fragment}
+- The data can then be used to assess the plausibility of the model. [Do the data support the model or not?]{.alert}
+:::
+
+<div style="margin-top: -5pt;"></div>
+
+:::{.fragment}
+- We **rarely have** external theory to specify a model so precisely.
+:::
+:::
+
+## A parametric statistical model
+
+:::{.justify}
+For the [leukaemia survival times]{.alert}, a more common model would be
+$$
+T_1,T_2,\cdots , T_n \stackrel{\text{i.i.d.}}{\sim} \mathrm{lognormal}(\mu,\sigma^2)
+$$
+where $\mu$ and $\sigma^2$ are [**unspecified**]{.alert}.
+
+:::{.fragment}
+This is called a [**parametric statistical model**]{.alert} as it completely specifies the probability distribution which generated the data, **apart from a (small) number of parameters** (here $\mu$ and $\sigma^2$).
+:::
+
+:::{.fragment}
+The data are then used to [**estimate**]{.alert} the unknown parameters ($\mu$ and $\sigma^2$), and to assess the plausibility of other assumptions (lognormal distribution, independence, etc.).
+:::
+
+:::
+
+## A non-parametric statistical model
+
+:::{.justify}
+
+Sometimes, it is not appropriate, or we want to avoid, making a precise specification for the distribution which generated $T_1,T_2,\cdots , T_n$. 
+
+:::{.fragment}
+Then, we might propose the model 
+$$
+T_1,T_2,\cdots , T_n \text{ are i.i.d. random variables.}
+$$
+:::
+
+:::{.fragment}
+This is sometimes described as a [**nonparametric (or distribution-free) specification**]{.alert}. 
+:::
+:::
+
+## A non-parametric statistical model
+
+:::{.justify}
+
+It imposes limitations on the kind of statistical inferences we can obtain, but still allows us to do some interesting things, such as the following
+
+- Use exploratory/graphical techniques, such as [box plots and histograms]{.alert} to learn about the distribution of the (common) random variable $T$ which generated the data.
+
+:::{.fragment}
+- Estimate features of the distribution of $T$, such as its expectation $\mathbb{E}(T)$, variance $\text{Var}(T)$, $\mathbb{P}(T>t_0)$ for some specified $t_0$, etc.
+:::
+
+:::{.fragment}
+- Estimate the distribution or [survival function]{.alert} of $T$ (**to be covered in this module**).
+:::
+:::
+
+## Regression models
+
+:::{.justify}
+
+Often, we model survival data to  learn about the relationship between survival time $T$ and other potentially explanatory variables $x_1,x_2, \cdots$.
+
+:::{.fragment}
+The [leukaemia survival times]{.alert} include values of two such explanatory variables
+
+- `ag`, taking values in the set $\left\{\mathrm{present},~\mathrm{absent}\right\}$ (a test result).
+- `wbc` (white blood cell count), a numerical variable.
+:::
+
+:::{.fragment}
+::: {.callout-note .small-text}
+# Common assumptions 
+1. $T_1,T_2,\cdots , T_n$ are *independent* random variables.
+2. $T_1,T_2,\cdots , T_n$ have the same probability distribution (so $t_1,t_2, \cdots , t_n$ are observations of a single random variable $T$).
+:::
+
+<div style="margin-top: -20pt;"></div>
+
+In a regression model, we assume that $T_1 ,T_2,\cdots , T_n$ are independent random variables but they are not identically distributed (we make assumption `1` but not assumption `2`).
+:::
+:::
+
+## Regression models
+
+:::{.justify}
+
+Instead, we assume the differences between their distributions is explained by a [**regression function**]{.alert} of the values of the explanatory variables.
+
+:::{.fragment}
+For example, for $i=1,\cdots,n$ we assume $T_i \sim \mathrm{lognormal}(\mu_i,\sigma^2)$ independently with
+$$
+\mu_i=\beta_0+\beta_1 x_{i1} +\beta_2 x_{i2}
+$$
+where $x_{i1}$ is the $i$-th value of `wbc` and
+$$
+x_{i2} = 
+\left\{ \begin{array}{ll}
+1 & \text{if}~~\texttt{ag}~~\text{is present}\\
+0 & \text{if}~~\texttt{ag}~~\text{is absent}
+\end{array} 
+\right.
+$$
+i.e., $x_{i2}$ is a dummy variable.
+:::
+:::
+
+## The data analysis process
+
+:::{.justify}
+
+The data analysis can be summarised by the following diagram
+
+![](images/chap_2/diagram.png){width=47% fig-align="center"}
+
+<div style="margin-top: -15pt;"></div>
+
+:::{.fragment}
+In `MATH3085/6143`,  we focus on models and methods which have been [**specifically developed for survival data**]{.alert}.
+:::
+:::

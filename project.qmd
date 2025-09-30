@@ -1,0 +1,13 @@
+---
+title: "Data Analysis Project"
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false
+    from: markdown+emoji
+---
+
+Welcome to the [Data Analysis Project]{.attention} section! Here, you will find detailed instructions for the project in **MATH3085/6143**.
+
+---

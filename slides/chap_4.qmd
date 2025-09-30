@@ -1,0 +1,70 @@
+---
+title: "Survival Models (MATH3085/6143)"
+subtitle: "Chapter 4: Distributions for Survival Models"
+format:
+  revealjs: 
+    theme: [default, custom.scss]
+    slide-number: true
+    progress: false
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: "André Victor Ribeiro Amaral"
+    url: "https://www.avramaral.com/"  
+    email: "a.v.ribeiro-amaral@soton.ac.uk"
+    affiliations: "University of Southampton"
+date: last-modified
+date-format: "DD/MM/YYYY"
+---
+
+```{r setup}
+#| echo: FALSE
+#| output: FALSE
+#| message: FALSE
+knitr::opts_chunk$set(include = TRUE)
+options(digits = 4)
+library("tidyverse")
+```
+
+## Recap
+
+:::{.justify}
+
+In the last chapter, we
+
+- Established the three core functions needed to model survival time $T$, namely the [density Function $f_T$]{.alert}, the [survival function $S_T$]{.alert}, and the [hazard function $h_T$]{.alert}.
+
+- Defined the [survival function $S_T$]{.alert} as the probability of surviving past time $t$, and found that the [expected lifetime $\mathbb{E}(T)$]{.alert} equals the area under this curve.
+
+- Defined the [hazard function $h_T$]{.alert} as the instantaneous event rate at the time $t$, [conditional on prior survival]{.alert}.
+
+- Confirmed [all survival functions are linked]{.alert}, meaning specifying any one function completely defines the entire distribution of the survival time $T$.
+:::
+
+# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 4:**]{.secondary} Distributions for Survival Models</span>
+
+
+## Introduction
+
+:::{.justify}
+
+TBD
+
+:::
+
+## Title
+
+:::{.justify}
+
+TBD
+
+:::
+
+## Title
+
+:::{.justify}
+
+TBD
+
+:::

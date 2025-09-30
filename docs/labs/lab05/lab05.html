@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MATH3091: Computer Lab 05</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="lab05_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lab05_files/libs/quarto-html/quarto.js"></script>
+<script src="lab05_files/libs/quarto-html/popper.min.js"></script>
+<script src="lab05_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="lab05_files/libs/quarto-html/anchor.min.js"></script>
+<link href="lab05_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lab05_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lab05_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="lab05_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="lab05_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MATH3091: Computer Lab 05</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="exploring-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="exploring-the-data">Exploring the data</h2>
+<p>Load the data in <code>beetle.csv</code> into a variable <code>beetle</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>beetle <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../datasets/beetle.csv"</span>) <span class="co"># Change the path, if needed</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(beetle)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    dose exposed killed
+1 1.6907      59      6
+2 1.7242      60     13
+3 1.7552      62     18
+4 1.7842      56     28
+5 1.8113      63     52
+6 1.8369      59     53</code></pre>
+</div>
+</div>
+<p>This dataset represents the number of beetles exposed (<code>exposed</code>) and number killed (<code>killed</code>) in eight groups exposed to different doses (<code>dose</code>) of a particular insecticide. We are interested in how the proportion of beetles killed is related to dose.</p>
+<p>To do so, We could add a column to the dataset for the proportion of beetles killed in each of the eight groups.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a column for the proportion of beetles killed.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>beetle<span class="sc">$</span>prop_killed <span class="ot">&lt;-</span> beetle<span class="sc">$</span>killed <span class="sc">/</span> beetle<span class="sc">$</span>exposed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Plot <code>prop_killed</code> against <code>dose</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prop_killed <span class="sc">~</span> dose, <span class="at">data =</span> beetle)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab05_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We might naively think about using a linear model to model the dependence of <code>prop_killed</code> on <code>dose</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a linear model of prop_killed on dose</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>beetle_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(prop_killed <span class="sc">~</span> dose , <span class="at">data =</span> beetle, <span class="at">weights =</span> exposed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We use <code>weights = exposed</code> to weight the response for each group by the number of beetles in that group. <span class="attention">Do you think this linear model is appropriate here?</span></p>
+<p>You can add a fitted regression line to your plot of <code>prop_killed</code> against <code>dose</code> with</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prop_killed <span class="sc">~</span> dose, <span class="at">data =</span> beetle)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(beetle_lm, <span class="at">col =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab05_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="attention">Does the fitted regression line look reasonable here? What is the predicted proportion of beetles who would be killed in a new group given <code>dose = 2</code>? Do you think this a good prediction?</span></p>
+</section>
+<section id="fitting-a-logistic-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-a-logistic-regression-model">Fitting a logistic regression model</h2>
+<p>A better model might be to model the number of beetles killed in each group as a binomial random variable with probability of death depending on dose. Let <span class="math inline">\(p_i\)</span> denote the probability of death in the <span class="math inline">\(i\)</span>-th group, <span class="math inline">\(i=1, \cdots, 8.\)</span></p>
+<p>A <strong>logistic regression model</strong> is <span class="math display">\[
+Y_i | n_i, p_i \sim \text{Binomial}(n_i,p_i),\quad
+\text{logit}(p_i) \equiv
+\log\left({{p_i}\over{1-p_i}}\right)=\beta_1+\beta_2 x_i, \quad i=1,\ldots ,8,
+\]</span> where <span class="math inline">\(Y_i\)</span> is the number of beetles <code>killed</code>, <span class="math inline">\(n_i\)</span> is the number of beetles <code>exposed</code> and <span class="math inline">\(x_i\)</span> is the dose, for the <span class="math inline">\(i\)</span>-th row of the dataset.</p>
+<p>This is a generalised linear model with a binomial distribution for the response and logistic link function.</p>
+<p>The quantity <span class="math inline">\(p_i/(1-p_i)\)</span> is called the <strong>odds</strong> of the event whose probability is <span class="math inline">\(p_i\)</span>; in this case, the odds of death. The interpretation of the above model is that the logarithm of the odds of death is linear in <span class="math inline">\(x\)</span> (the explanatory variable <code>dose</code>).</p>
+<p>Fitting generalised linear models in <code>R</code> is very similar to fitting linear models. You replace the command <code>lm</code> with the command <code>glm</code>. The distribution and link function which you require for your model is specified by the argument <code>family</code>, which is supplied to the model. For example <code>family = binomial(link = "logit")</code> fits a generalised linear model with binomial distribution and logistic link. In fact <code>family = binomial</code>, does the same, as the default is the canonical link. The form of the linear predictor is specified in the model formula for <code>glm</code> in the same way as for <code>lm</code>.</p>
+<p>There are several ways to fit a logistic regression model in <code>R</code>. One method, following our approach with linear models, is to let the response in the <code>formula</code> be the proportion of “successes” (proportion of beetles killed, <code>prop_killed</code>), and weight by the number of trials (number of beetles in the group, <code>exposed</code>).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a logistic regression model, using prop_killed as response.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>beetle_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(prop_killed <span class="sc">~</span> dose, <span class="at">data =</span> beetle, <span class="at">family =</span> binomial, <span class="at">weights =</span> exposed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Another method is to write the response as a matrix with two columns, with first column the number of “successes” (the number of beetles killed, <code>killed</code>), and second column the number of “failures” (the number of beetles not killed, <code>exposed - killed</code>). We do not need to add weights with this approach.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a logistic regression model, with a two-column matrix, with columns (number of successes, and number of failures) as the response.</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>beetle_glm_2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">cbind</span>(killed, exposed <span class="sc">-</span> killed) <span class="sc">~</span> dose, <span class="at">data =</span> beetle, <span class="at">family =</span> binomial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The result of the <code>glm</code> command is a generalised linear model object which can be used within many of the same <code>R</code> commands as a linear model object. Some useful ones are <code>resid</code>, <code>coef</code>, <code>deviance</code>, <code>fitted</code>, <code>summary</code>, <code>update</code> and <code>anova</code>.</p>
+</section>
+<section id="interpreting-the-output" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-the-output">Interpreting the output</h2>
+<p>As with linear models, we can get parameter estimates and standard errors, and conduct simple hypothesis tests, by using the <code>summary</code> command</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarise the fitted logistic regression.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># `dose` is highly significant.</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(beetle_glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = prop_killed ~ dose, family = binomial, data = beetle, 
+    weights = exposed)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  -60.717      5.181  -11.72   &lt;2e-16 ***
+dose          34.270      2.912   11.77   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 284.202  on 7  degrees of freedom
+Residual deviance:  11.232  on 6  degrees of freedom
+AIC: 41.43
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<p>The <code>Coefficients</code> section gives the maximum likelihood estimates of the parameters, together with their standard errors. The column <code>z value</code> is a statistic for testing the hypothesis that the corresponding parameter is equal to zero, which should be compared with a standard normal distribution. The <code>Pr(&gt;|z|)</code> column gives a <span class="math inline">\(p\)</span>-value for this hypothesis test.</p>
+<p><span class="attention">Use the <code>summary</code> command to check that the model <code>beetle_glm_2</code> is equivalent to model <code>beetle_glm</code>.</span></p>
+<p>Our fitted model is that <span class="math display">\[
+\log \left( \frac{ p(x_i)}{1-p(x_i)} \right)
+= \beta_1 + \beta_2 \, x_i = -60.72 + 34.27 x_i
+\]</span> The MLE of <span class="math inline">\(\beta_2\)</span> is <span class="math inline">\(\hat{\beta_2} = 34.27\)</span> with SE (asymptotic standard error) <span class="math inline">\(2.912\)</span>. From this, we can test <span class="math inline">\(H_0: \beta_2 =0\)</span> by noting that, under <span class="math inline">\(H_0\)</span>, approximately <span class="math inline">\(\hat{\beta_2}/\text{SE} \sim \text{Normal}(0, 1)\)</span>. So we will reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(|z| = |\hat{\beta_2}/\text{SE}| &gt; 1.96\)</span>. In this case, <span class="math inline">\(z = 11.77\)</span>, so we reject <span class="math inline">\(H_0\)</span> at <span class="math inline">\(5\%\)</span> significance level. In fact, we would reject <span class="math inline">\(H_0\)</span> at any reasonable significance level; from the <code>summary</code> we see the <span class="math inline">\(p\)</span>-value for this test is <span class="math inline">\(&lt;2 \times 10^{-16}\)</span>.</p>
+<p>We further interpret the estimate as follows. We first examine the model for two values of dose <span class="math inline">\(x\)</span>: <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>. <span class="math display">\[\begin{align*}
+\log \left( \frac{ p(x_2)}{1-p(x_2)} \right) &amp;= \beta_1 + \beta_2 \, x_2 \\
+&amp;= \beta_1 + \beta_2 \, x_1 + \beta_2 (x_2 - x_1) \\
+&amp;=  \log \left( \frac{ p(x_1)}{1-p(x_1)} \right) +   \beta_2 (x_2 - x_1).
+\end{align*}\]</span> By exponentiating both sides, <span class="math display">\[
+\frac{p(x_2)}{1-p(x_2)} = \frac{ p(x_1)}{1-p(x_1) } \cdot \exp\{\beta_2 (x_2 - x_1)\}.
+\]</span></p>
+<p>If we have <span class="math inline">\(x_2 - x_1 = 1\)</span>, so <span class="math inline">\(x_1 = x_2 - 1\)</span>, we find that <span class="math display">\[\begin{align*}
+\frac{p(x_2)}{1-p(x_2)}  &amp;=   \frac{ p(x_1)}{1-p(x_1) } \, e^{ \beta_2} \\
+\text{Odds of death for $x_2$} &amp;= \text{Odds of death for $(x_2-1)$} \times  e^{\beta_2}.
+\end{align*}\]</span> The odds of death gets multiplied by <span class="math inline">\(\exp(\beta_2)\)</span> for each unit increase in <span class="math inline">\(x\)</span>.</p>
+<p>Returning to our example, for a unit increase in <span class="math inline">\(x\)</span> (<code>dose</code>), the estimated odds of death of a beetle are multiplied by <code>exp(34.27)</code>. For example, consider two beetles with <span class="math inline">\(x= 1.7\)</span> and <span class="math inline">\(1.8\)</span> respectively.<br>
+We estimate that the odds of death of the second beetle is <code>exp(34.27 * 0.1) = 30.8</code> times the odds of death for the first beetle.</p>
+</section>
+<section id="making-predictions" class="level2">
+<h2 class="anchored" data-anchor-id="making-predictions">Making predictions</h2>
+<p>We can make predictions for new doses by using <code>predict</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make predictions at `dose = 1.7` and `1.8`</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># By default, in `predict`, type = "link", which means we predict `logit(p)`</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>newdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dose =</span> <span class="fu">c</span>(<span class="fl">1.7</span>, <span class="fl">1.8</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(beetle_glm, <span class="at">newdata =</span> newdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         1          2 
+-2.4579008  0.9691318 </code></pre>
+</div>
+</div>
+<p><span class="attention">Are these predictions what you expected? Can you see what is being predicted here?</span> You can check the help on this predict method with</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>?predict.glm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The default for the <code>type</code> argument is <code>type = "link"</code>, which means these values are predictions of <span class="math inline">\(\text{logit}(p(x))\)</span>, for each of the new doses. If we need the predicted probability of death <span class="math inline">\(p(x)\)</span>, we use <code>type = "response"</code> instead.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To predict probabilities `p`, use `type = "response"`</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(beetle_glm, <span class="at">newdata =</span> newdata, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         1          2 
+0.07886269 0.72494641 </code></pre>
+</div>
+</div>
+<p><span class="attention">What is the predicted probability of death at <code>dose = 2</code>? How does this compare with the prediction you found earlier with the linear model?</span></p>
+<p>We can add a curve of the predicted probabilities from the logistic regression model to our plot of <code>prop_killed</code> against dose, alongside the fitted regression line from the linear model.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add fitted regression curves from linear model and logistic GLM to a scatterplot of `prop_killed` against `dose`:</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>newdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dose =</span> <span class="fu">seq</span>(<span class="fl">1.6</span>, <span class="dv">2</span>, <span class="at">length =</span> <span class="dv">30</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prop_killed <span class="sc">~</span> dose, <span class="at">data =</span> beetle, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">1.5</span>), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">1.6</span>, <span class="dv">2</span>))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(beetle_lm, <span class="at">col =</span> <span class="dv">4</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(newdata<span class="sc">$</span>dose, <span class="fu">predict</span>(beetle_glm, <span class="at">newdata =</span> newdata, <span class="at">type =</span> <span class="st">"response"</span>), <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, <span class="fu">c</span>(<span class="st">"Linear model"</span>, <span class="st">"Logistic GLM"</span>), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab05_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="attention">Make sure that you understand what all of these commands are doing. Which of the models do you prefer after looking at these fitted regression curves?</span></p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

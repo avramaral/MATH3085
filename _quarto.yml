@@ -1,0 +1,37 @@
+project:
+  type: website
+  output-dir: docs
+  # Only render these top-level QMD files; i.e., does not re-render inside projects
+  render: 
+    - index.qmd
+    - lecture_slides.qmd
+    - problem_sheets.qmd
+    - computer_lab.qmd
+    - project.qmd
+    - installing_R.qmd
+    - basic_R.qmd
+  # Copy these folders (as-is) into docs/ when building.
+  resources: 
+    - slides
+    - labs
+    - problem_sheets
+  
+website:
+  title: "MATH3085/6143: Survival Models"
+  search: false
+  navbar:
+    left:
+      - lecture_slides.qmd
+      - problem_sheets.qmd
+      - computer_lab.qmd
+      - project.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    from: markdown+emoji
+
+
+

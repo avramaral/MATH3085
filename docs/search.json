@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "MATH3085/6143: Survival Models",
+    "section": "",
+    "text": "Welcome to MATH3085/6143: Survival Models! MATH3085/6143 introduces the fundamental concepts and key issues in lifetime and time-to-event data analysis, with applications in areas such as actuarial practice, medical sciences, and demography.\nNote that MATH3085 and MATH6143 are double-badged. This means that the course content of the two modules is the same but some of the assessment differs.\n\n\n🧑‍🏫 Instructors\nThis module will be co-taught by\n\nDr André Amaral (a.v.ribeiro-amaral@soton.ac.uk): Chapters 1-9\nDr Chao Zheng (chao.zheng@southampton.ac.uk): Chapters 10-16\n\nFor any queries, please see either of us during our office hours\n\nDr André Amaral (weeks 1-6): Tuesday, 14:00–16:00, Room 54/10007.\nDr Chao Zheng (weeks 7-11 and 15): Tuesday, 14:00–16:00, Room 54/9001.\n\n\n\n\n📝 Assessment\nThe basic module assessment breakdown is\n\n30% data analysis project\n70% written exam\n\nThe data analysis project involves a series of tasks in which you will conduct survival analysis on provided datasets using R. The project will be released around mid-December 2025, and detailed instructions and guidance will be provided towards the end of the term.\n\n\n\n📖 Lecture Notes\nLecture notes are available in two formats:\n\nSkeleton notes: containing omissions corresponding to mathematical details.\nComplete notes: in which the previously omitted parts are included and highlighted in blue.\n\nStudents are encouraged to use whichever version of the notes they find most helpful to their learning.\n\n\n\n📒 Syllabus\nThe module content is structured into 16 chapters (with the corresponding slides updated throughout the term)\n\nIntroduction\nStatistical Models\nThe Survival Distribution\nDistributions for Survival Models \nSurvival models: parameter estimation \nNon-parametric Survival Estimation \nSurvival Regression Models \nMultistate Survival Models \nInference for Multistate Models \nModelling Human Lifetime\nThe Life Table and Life Expectancy\nInterpolating a Life Table\nLife Table Models\nExposure to Risk\nComparing Mortality Rates\nGraduation\n\nThese chapters can be divided into six parts (labelled A to F), each corresponding to a problem sheet. The table below shows which chapters are included in each part.\n\n\n\n\nPart\nChapters\nProblem sheet\n\n\n\n\nA\n1-4\n1\n\n\nB\n5-6\n2\n\n\nC\n7\n3\n\n\nD\n8-9\n4\n\n\nE\n10-13\n5\n\n\nF\n14-16\n6\n\n\n\n\n\n\n\n📆 Tentative Schedule\nMATH3085/6143 has been given a timetable with the following slots\n\n\n\n\nDay\nTime\nRoom\n\n\n\n\nTuesday\n16:00-18:00\n02/1089\n\n\nThursday\n15:00-17:00\n35/1001\n\n\n\n\n\n\n\nBelow is the tentative schedule for the module.\n\n\n\n\n\n\n\n\n\n\n\nWeek\nTuesday (Session 1)\nTuesday (Session 2)\nThursday (Session 1)\nThursday (Session 2)\n\n\n\n\n01\nChapter 1\nChapter 2\nChapter 3\nChapter 4 (part 1)\n\n\n02\nChapter 4 (part 2)\nProblem Sheet 1\nChapter 5\nChapter 6 (part 1)\n\n\n03\nChapter 6 (part 2)\nChapter 6 (part 3)\nChapter 6 (part 4)\nProblem Sheet 2\n\n\n04\nChapter 7 (part 1)\nChapter 7 (part 2)\nChapter 7 (part 3)\nProblem Sheet 3\n\n\n05\nChapter 8 (part 1)\nChapter 8 (part 2)\nChapter 8 (part 3)\nChapter 8 (part 4)\n\n\n06\nChapter 9 (part 1)\nChapter 9 (part 2)\nChapter 9 (part 3)\nProblem Sheet 4\n\n\n07\n\n\nChapter 10 (part 1)\nChapter 10 (part 2)\n\n\n08\nChapter 11 (part 1)\nChapter 11 (part 2)\nChapter 12 (part 1)\nChapter 12 (part 2)\n\n\n09\nChapter 13 (part 1)\nChapter 13 (part 2)\nChapter 13 (part 3)\nChapter 13 (part 4)\n\n\n10\nProblem Sheet 5 (part 1)\nProblem Sheet 5 (part 2)\nChapter 14\nChapter 15\n\n\n11\nChapter 16 (part 1)\nChapter 16 (part 2)\nProblem Sheet 6 (part 1)\nProblem Sheet 6 (part 2)\n\n\n15\nRevision Class (part 1)\nRevision Class (part 1)\n\n\n\n\n\n\nWeeks 1-6 will be taught by Dr André Amaral, and weeks 7-11 and 15 will be taught by Dr Chao Zheng."
+  },
+  {
+    "objectID": "computer_lab.html",
+    "href": "computer_lab.html",
+    "title": "Computer Labs",
+    "section": "",
+    "text": "The statistical software package R will be used to model real survival data. To support your learning, we have created a set of self-paced tutorials. The tutorials includes quizzes and more substantial exercises. You do not need to start it until after you have studied Chapter 7.\nIf you are new to R or would like a refresher, we have also repurposed some self-paced R tutorials used in other modules. Instructions for installing R and RStudio on your own machine are available here, and the repurposed tutorials are available here.\nAdditionally, drop-in support sessions for R will be available. More details will be provided once the schedule is confirmed.\n\nThe self-paced tutorial can be accessed here (developed by Dr Antony Overstall)."
+  },
+  {
+    "objectID": "lecture_slides.html",
+    "href": "lecture_slides.html",
+    "title": "Lecture Slides",
+    "section": "",
+    "text": "Welcome to the Lecture Slides section! Here, you will find the slides for each chapter MATH3085/6143.\n📌 Note: slides may be updated throughout the course.\n\n\n📊 Chapter 01: Introduction\nThis chapter introduces survival analysis, a set of statistical methods for time-to-event data that features unique challenges like censoring and truncation.\n\n📄 Chapter 1 (last updated on 29/09/2025)\n\n\n\n\n\n\n📊 Chapter 02: Statistical Models\nThis chapter introduces the fundamental role of statistical models (differentiating between parametric, non-parametric, and regression approaches) to simulate the process that generates survival data.\n\n📄 Chapter 2 (last updated on 29/09/2025)\n\n\n\n\n\n\n📊 Chapter 03: The Survival Distribution\nThis chapter introduces the core mathematical functions used to characterize a survival distribution, primarily the survival function and the hazard function.\n\n📄 Chapter 3 (last updated on 29/09/2025)"
+  },
+  {
+    "objectID": "problem_sheets.html",
+    "href": "problem_sheets.html",
+    "title": "Problem Sheets",
+    "section": "",
+    "text": "Welcome to the Problem Sheets section! Here, you will find the problem sheets for block of chapters. Try to work through them beforehand, as we will go through the solutions together and answer any questions during the problem classes.\n📌 Note: solutions will be made available after each class.\n\n\nProblem Sheet 01\n\n\n📝 Problem Sheet 01\n🔒 Solution (available after class) \n\n\n\n\n\n\nProblem Sheet 02\n\n\n📝 Problem Sheet 02\n🔒 Solution (available after class) \n\n\n\n\n\n\nProblem Sheet 03\n\n\n📝 Problem Sheet 03\n🔒 Solution (available after class) \n\n\n\n\n\n\nProblem Sheet 04\n\n\n📝 Problem Sheet 04\n🔒 Solution (available after class) \n\n\n\n\n\n\nProblem Sheet 05\n\n\n📝 Problem Sheet 05\n🔒 Solution (available after class) \n\n\n\n\n\n\nProblem Sheet 06\n\n\n📝 Problem Sheet 06\n🔒 Solution (available after class)"
+  },
+  {
+    "objectID": "project.html",
+    "href": "project.html",
+    "title": "Data Analysis Project",
+    "section": "",
+    "text": "Welcome to the Data Analysis Project section! Here, you will find detailed instructions for the project in MATH3085/6143."
+  },
+  {
+    "objectID": "installing_R.html",
+    "href": "installing_R.html",
+    "title": "Installing R and RStudio on your own machine",
+    "section": "",
+    "text": "These pages give you brief instructions on how to install R and RStudio onto your own machine.\nNote that to use RStudio, you first need to have installed R.\n\nInstalling R\n\nGo to http://www.r-project.org.\nClick on download R.\nChoose a mirror. It is recommended that you choose either one of the 0-Cloud or UK mirrors.\nClick on Download R for ... depending on your operating system and follow the instructions.\n\n\n\nInstalling RStudio\n\nGo to https://posit.co/.\nGo to Free & Open Source → Analyze & Explore → RStudio IDE.\nClick on Download RStudio Desktop under Open Source Edition.\nDownload the installer appropriate for your operating system."
+  },
+  {
+    "objectID": "basic_R.html",
+    "href": "basic_R.html",
+    "title": "R Catch-up",
+    "section": "",
+    "text": "If you are new to R or would like a refresher, use the following self-paced tutorials.\n\nChapter 1: Getting started in R\nChapter 2: Data manipulation\nChapter 3: Functions, conditional execution, and loops\nChapter 4: Graphics\nChapter 5: Simulation studies\n\nThe data files needed to complete the tutorials are available here."
+  }
+]

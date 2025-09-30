@@ -1,0 +1,29 @@
+---
+title: "Installing `R` and `RStudio` on your own machine"
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false
+    from: markdown+emoji
+---
+
+These pages give you brief instructions on how to install `R` and `RStudio` onto your own machine.
+
+Note that to use `RStudio`, you first need to have installed `R`.
+
+#### Installing `R`
+
+1. Go to [http://www.r-project.org](http://www.r-project.org).
+2. Click on [`download R`](https://cran.r-project.org/mirrors.html).
+3. Choose a mirror. It is recommended that you choose either one of the `0-Cloud` or `UK` mirrors.
+4. Click on `Download R for ...` depending on your operating system and follow the instructions.
+
+
+#### Installing RStudio
+
+1. Go to [https://posit.co/](https://posit.co/).
+2. Go to `Free & Open Source` → `Analyze & Explore` →  `RStudio IDE`.
+3. Click on `Download RStudio Desktop` under `Open Source Edition`.
+4. Download the installer appropriate for your operating system.
+

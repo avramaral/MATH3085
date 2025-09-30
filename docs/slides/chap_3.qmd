@@ -1,0 +1,381 @@
+---
+title: "Survival Models (MATH3085/6143)"
+subtitle: "Chapter 3: The Survival Distribution"
+format:
+  revealjs: 
+    theme: [default, custom.scss]
+    slide-number: true
+    progress: false
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: "André Victor Ribeiro Amaral"
+    url: "https://www.avramaral.com/"  
+    email: "a.v.ribeiro-amaral@soton.ac.uk"
+    affiliations: "University of Southampton"
+date: last-modified
+date-format: "DD/MM/YYYY"
+---
+
+```{r setup}
+#| echo: FALSE
+#| output: FALSE
+#| message: FALSE
+knitr::opts_chunk$set(include = TRUE)
+options(digits = 4)
+library("tidyverse")
+library("patchwork")
+```
+
+## Recap
+
+:::{.justify}
+
+In the last chapter, we
+
+- Defined [**statistical models**]{.alert} in the context of **survival analysis**.
+- Discussed using simplifying assumptions like independence and, sometimes, identical distribution (i.i.d.) to specify models.
+- Differentiated between fully specified, [parametric]{.alert} (parameters estimated from data), and [non-parametric models]{.alert}.
+- Introduced [regression models]{.alert}, where differences in survival time distributions are explained by explanatory variables (covariates).
+:::
+
+# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 3:**]{.secondary} The Survival Distribution</span>
+
+
+## The density function [**(Gap on page 14)**]{.alert}
+
+:::{.justify .fragment}
+
+We model survival time using a random variable $T$.
+
+If $T$ is a continuous random variable ([as we shall generally assume throughout this module]{.alert}), then its distribution is defined by its **probability density function** (p.d.f.) $f_T(t)$, or $f(t)$ for short.
+
+<div style="margin-top: 50pt;"></div>
+
+:::{.fragment}
+Recall that, for any values $t_1$ and $t_2$, we have
+$$
+\mathbb{P}(t_1\le T\le t_2)=\int_{t_1}^{t_2} f_T(t) \mathrm{d}t
+$$
+:::
+:::
+
+## The density function [**(Gap on page 14)**]{.alert}
+
+:::{.small-text}
+
+```{r, echo = TRUE, fig.width = 8, fig.height = 3.75, fig.align = "center"}
+x_seq <- seq(0, 3, length = 100); df <- data.frame(t = x_seq, ft = dweibull(x_seq, 1.8, 1))
+
+t1_val <- df[['t']][40]; t2_val <- df[['t']][60]
+
+df_shade  <- filter(df, t >= t1_val & t <= t2_val); poly_data <- data.frame(t = c(t1_val, df_shade[['t']], t2_val), ft = c(0, df_shade[['ft']], 0))
+
+ggplot(df, aes(x = t, y = ft)) +
+  geom_polygon(data = poly_data, fill = "gray", alpha = 0.6) +
+  geom_line(linewidth = 0.8) +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), axis.line.x = element_line(linewidth = 0.5, color = "black"), axis.line.y = element_line(linewidth = 0.5, color = "black")) +
+  labs(x = "t", y = "f(t)") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.05)), breaks = c(1, t1_val, t2_val, 2, 3), labels = c(1, expression(t[1]), expression(t[2]), 2, 3)) + scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+  theme(text = element_text(size = 16, family = "Latin Modern Roman 10"))
+
+```
+:::
+
+## The distribution function [**(Gap on page 15)**]{.alert}
+
+:::{.justify .fragment}
+Recall that the distribution function $F_T(t)$, for a random variable $T$, is defined as
+$$
+F_T(t)=\mathbb{P}(T\le t)
+$$
+and that for a continuous survival ([non-negative]{.alert}) variable with p.d.f. $f_T$, we have
+$$
+F_T(t)=\int_0^t f_T(s) \mathrm{d}s
+$$
+:::
+
+## The distribution function [**(Gap on page 15)**]{.alert}
+
+:::{.small-text}
+
+```{r, echo = TRUE, fig.width = 8, fig.height = 3.75, fig.align = "center"}
+x_seq <- seq(0, 3, length.out = 100); df <- data.frame(t = x_seq, F_t = pweibull(x_seq, 1.8, 1))
+
+ggplot(df, aes(x = t, y = F_t)) +
+  geom_line(linewidth = 0.8) +
+  geom_hline(yintercept = 1, linetype = "dashed", linewidth = 0.5) +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), axis.line.x = element_line(linewidth = 0.5, color = "black"), axis.line.y = element_line(linewidth = 0.5, color = "black")) +
+  labs(x = "t", y = "F(t)") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.0))) + scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 1)) +
+  theme(text = element_text(size = 16, family = "Latin Modern Roman 10"))
+```
+:::
+
+## The survival function [**(Gap on page 16)**]{.alert}
+
+:::{.justify .fragment}
+
+In survival analysis, we usually prefer to focus on the [**survival function**]{.alert} (sometimes called the [**survivor function**]{.alert}), $S_T(t)$, which is defined as
+$$
+S_T(t)=\mathbb{P}(T> t)
+$$
+so for a continuous survival variable with p.d.f. $f_T$, we have
+$$
+S_T(t)=\int_t^\infty f_T(s) \mathrm{d}s
+$$
+
+:::
+
+## The survival function [**(Gap on page 16)**]{.alert}
+
+:::{.small-text}
+
+```{r, echo = TRUE, fig.width = 8, fig.height = 3.75, fig.align = "center"}
+x_seq <- seq(0, 3, length.out = 100); df <- data.frame(t = x_seq, S_t = 1 - pweibull(x_seq, 1.8, 1))
+
+ggplot(df, aes(x = t, y = S_t)) +
+  geom_line(linewidth = 0.8) +
+  geom_hline(yintercept = 0, linetype = "dashed", linewidth = 0.5) +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), axis.line.x = element_line(linewidth = 0.5, color = "black"), axis.line.y = element_line(linewidth = 0.5, color = "black")) +
+  labs(x = "t", y = expression(S(t))) +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.0))) +  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 1)) +
+  theme(text = element_text(size = 16, family = "Latin Modern Roman 10"))
+```
+:::
+
+## The survival function: properties [**(Gap on page 17)**]{.alert}
+
+:::{.justify}
+
+:::{.fragment}
+- The [**survival function**]{.alert} is a decreasing function of $t$ with $S_T(0) = 1$ and  $S_T(t) \to 0$ as $t\to\infty$.
+:::
+
+:::{.fragment}
+- The survival function is related to the distribution function through
+$$
+S_T(t)+F_T(t)=1\qquad\Rightarrow\qquad S_T(t)=1-F_T(t)
+$$
+:::
+
+:::{.fragment}
+- The [expected lifetime]{.alert} is given, in terms of the survival function by
+$$
+\begin{eqnarray*}
+\mathbb{E}(T) & = & \int_0^{\infty} u f_T(u) \mathrm{d}u\\
+& = & \left[ - u S_T(u) \right]_0^\infty + \int_0^\infty S_T(u) \mathrm{d}u = \int_0^\infty S_T(t)dt,
+\end{eqnarray*}
+$$
+i.e., the area under the survival function curve.
+:::
+:::
+
+## The residual survival function  [**(Gap on page 18)**]{.alert}
+
+:::{.justify .fragment .small-text}
+The [**residual survival function**]{.alert} is defined for $t\ge 0$ as
+$$
+S_T(t|x)=\mathbb{P}(T> t+x|T>x)
+$$
+for some specified $x$. It gives the [probability of surviving beyond $t+x$ given that you have survived past $x$]{.alert}.
+
+It defines the distribution of future (beyond $x$) survival for the subpopulation of survivors up to time $x$. 
+
+:::{.fragment}
+Using the standard definition of a conditional probability, we have
+$$
+\begin{eqnarray*}
+S_T(t|x)&=&\frac{\mathbb{P}(T>t+x \quad \mbox{and} \quad T>x)}{\mathbb{P}(T>x)}\\[5pt]
+&=&\frac{\mathbb{P}(T>t+x)}{\mathbb{P}(T>x)}\\
+&=&\frac{S_T(t+x)}{S_T(x)}
+\end{eqnarray*}
+$$
+Similarly the residual distribution function is $F_T(t|x)=1-S_T(t|x)$.
+:::
+:::
+
+## The hazard function
+
+:::{.justify}
+The [**hazard function**]{.alert}, $h_T(t)$, represents the [instantaneous rate of occurrence]{.alert} of the event (failure) at time 
+$t$, conditional on survival up to $t$.
+
+::: {.callout-note}
+Think of it as the answer to this question
+
+> If an individual is still alive at time $t$, how likely are they to experience the event in the very next moment?
+
+<div style="margin-top: 10pt;"></div>
+
+:::
+:::
+
+## The hazard function  [**(Gap on page 19)**]{.alert}
+
+:::{.justify .fragment}
+
+The [**hazard function**]{.alert} is defined for $t\ge 0$ as
+$$
+h_T(t) = \lim_{\delta t\to 0}\frac{\mathbb{P}(T\le t+\delta t|T> t)}{\delta t}.
+$$
+The numerator $\mathbb{P}(T\le t+\delta t|T> t)$ can be thought of as the expected number of events in the time interval $(t,t+\delta t]$ (in a residual population of size $1$ at time $t$).
+
+<div style="margin-top: -15pt;"></div>
+
+:::{.fragment}
+Hence, the ratio 
+
+<div style="margin-top: -15pt;"></div>
+
+$$
+\frac{\mathbb{P}(T\le t+\delta t|T> t)}{\delta t}
+$$
+<div style="margin-top: -5pt;"></div>
+
+is the  **event rate** over the time interval $(t,t+\delta t]$.
+:::
+
+:::{.fragment}
+
+<div style="margin-top: -15pt;"></div>
+
+The [hazard function is the limiting (or instantaneous) event rate at time $t$]{.alert}.
+
+:::
+:::
+
+## The hazard function: properties  [**(Gap on page 20)**]{.alert}
+
+:::{.justify .fragment}
+The [**hazard function**]{.alert} is given by
+
+$$
+\begin{eqnarray*}
+h_T(t) & = & \lim_{\delta t\to 0}\frac{\mathbb{P}(T\le t+\delta t|T> t)}{\delta t}\\
+& = & \lim_{\delta t\to 0} \frac{ \mathbb{P}(T\le t+\delta t \quad \mbox{and} \quad T> t)}{\delta t \mathbb{P}(T> t)}\\
+& = & \lim_{\delta t\to 0} \frac{ \mathbb{P}(t < T\le t+\delta t)}{\delta t \mathbb{P}(T> t)}\\
+& = & \lim_{\delta t\to 0} \frac{ f_T(t) \delta t}{\delta t \mathbb{P}(T> t)} =  \frac{ f_T(t)}{S_T(t)}.
+\end{eqnarray*}
+$$
+
+<div style="margin-top: 25pt;"></div>
+
+:::{.fragment}
+The only constraint on the hazard function $h_T(t)$  is that it must be [non-negative for $t\in (0,\infty)$]{.alert}.
+:::
+:::
+
+## [**hazard**]{.alert} vs. [**density**]{.alert}
+
+:::{.justify}
+
+- The [**hazard function**]{.alert} 
+  - Compares the relative probabilities of events occurring at different times $t$, [conditional on $T>t$]{.alert}.
+  - Accounts for the size of the population at risk at $t$ (i.e., the hazard only considers individuals who are still “at risk” at time $t$, so it automatically adjusts for the shrinking number of people remaining in the population as time goes on.)
+
+<div style="margin-top: 10pt;"></div>
+
+:::{.fragment}
+- The [**density function**]{.alert} 
+
+  - Simply compares the relative probabilities of events occurring at different times $t$ [in the population at large]{.alert}.
+
+<div style="margin-top: 10pt;"></div>
+
+:::
+
+:::{.fragment}
+
+- A time $t$ with a high value for $h(t)$ is not necessarily a likely failure time, [as there may be a small probability that any individual
+survive until then]{.alert}.
+
+:::
+:::
+
+<!--
+## [**hazard**]{.alert} vs. [**density**]{.alert}
+
+:::{.small-text}
+```{r, echo = TRUE, fig.width = 8, fig.height = 3.75, fig.align = "center"}
+x_seq <- seq(0, 3, length.out = 100)
+y_pdf <- dweibull(x_seq, 1.8, 1.0); y_cdf <- pweibull(x_seq, 1.8, 1.0); y_haz <- y_pdf / (1 - y_cdf)
+z_pdf <- dweibull(x_seq, 2.2, 0.8); z_cdf <- pweibull(x_seq, 2.2, 0.8); z_haz <- z_pdf / (1 - z_cdf)
+df_pdf_long <- data.frame(t = rep(x_seq, 2), ft = c(y_pdf, z_pdf), Distribution = factor(rep(c("Dist1", "Dist2"), each = 100)))
+df_haz_long <- data.frame(t = rep(x_seq, 2), ht = c(y_haz, z_haz), Distribution = factor(rep(c("Dist1", "Dist2"), each = 100)))
+
+custom_theme <- theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), legend.position = "none", axis.line.x = element_line(linewidth = 0.5, color = "black"), axis.line.y = element_line(linewidth = 0.5, color = "black")) + theme(text = element_text(size = 16, family = "Latin Modern Roman 10"))
+
+p1 <- ggplot(df_pdf_long, aes(x = t, y = ft, color = Distribution, linetype = Distribution)) + geom_line(linewidth = 0.8) +
+        scale_color_manual(values = c("Dist1" = "black", "Dist2" = "black")) + scale_linetype_manual(values = c("Dist1" = "solid", "Dist2" = "dashed")) +
+        labs(x = "t", y = expression(f(t))) + scale_x_continuous(expand = expansion(mult = c(0, 0.05))) + scale_y_continuous(expand = expansion(mult = c(0, 0.05))) + custom_theme
+p2 <- ggplot(df_haz_long, aes(x = t, y = ht, color = Distribution, linetype = Distribution)) + geom_line(linewidth = 0.8) +
+        scale_color_manual(values = c("Dist1" = "black", "Dist2" = "black")) + scale_linetype_manual(values = c("Dist1" = "solid", "Dist2" = "dashed")) +
+        labs(x = "t", y = expression(h(t))) + scale_x_continuous(expand = expansion(mult = c(0, 0.05))) + scale_y_continuous(expand = expansion(mult = c(0, 0.05))) + custom_theme
+p1 + p2
+```
+:::
+-->
+
+## [**hazard**]{.alert} vs. [**density**]{.alert} ([Shiny App](https://avramaral.shinyapps.io/weibull_comparison/){target="_blank"})
+
+:::{.justify}
+
+<iframe src="https://avramaral.shinyapps.io/weibull_comparison/" width="100%" height="600" frameborder="0"></iframe>
+
+:::
+
+## The integrated hazard function  [**(Gap on page 21)**]{.alert}
+
+:::{.justify .fragment .small-text}
+
+The [**integrated (cumulative) hazard function**]{.alert} is defined by
+$$
+H_T(t)=\int_0^t h_T(u) du.
+$$
+The integrated hazard function describes the **total exposure to risk** for a survivor up to $T=t$.
+
+<div style="margin-top: -10pt;"></div>
+
+:::{.fragment}
+Note that 
+
+$$
+H_T(t)=\int_0^t h_T(u) du = \int_0^t \frac{f_T(u)}{S_T(u)} \mathrm{d}u.
+$$
+<div style="margin-top: -10pt;"></div>
+
+Using the substitution $v = 1/S_T(t)$, we have
+
+$$
+\frac{\mathrm{d}v}{\mathrm{d}u} = \frac{f_T(u)}{S_T(u)^2} \implies \mathrm{d}u = \frac{\mathrm{d}v S_T(u)^2}{f_T(u)}.
+$$
+<div style="margin-top: -10pt;"></div>
+
+Then,
+$$
+H_T(t) = \int_1^{1/S_T(t)} \frac{1}{v} \mathrm{d}v = \left[ \log v \right]_1^{1/S_T(t)} = - \log S_T(t).
+$$
+:::
+:::
+
+## Relationships
+
+:::{.justify}
+
+- Only one of the functions $f_T$, $F_T$, $S_T$, $h_T$, or $H_T$ needs to be specified to completely determine the distribution of $T$.
+
+- In survival analysis, interest is usually focused on the [survival function $S_T(t)$]{.alert} and the [hazard function $h_T(t)$]{.alert}. 
+
+:::{.small-text .fragment}
+| | $$f_T$$ | $$S_T$$ | $$h_T$$ |
+| :---: | :---: | :---: | :---: |
+| $$f_T(t) = $$ | | $$-\frac{\mathrm{d}}{\mathrm{d}t} S_T(t)$$ | $$h_T(t)\exp\left[-\int_0^t h_T(s)\mathrm{d}s\right]$$ |
+| $$S_T(t) = $$ | $$\int_t^\infty f_T(s)\mathrm{d}s$$ | | $$\exp\left[-\int_0^t h_T(s)\mathrm{d}s\right]$$ |
+| $$h_T(t) = $$ | $$\frac{f_T(t)}{\int_t^\infty f_T(s)\mathrm{d}s}$$ | $$-\frac{\mathrm{d}}{\mathrm{d}t} \log S_T(t)$$ | |
+:::
+:::

@@ -1,0 +1,64 @@
+---
+title: "Problem Sheets"
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false
+    from: markdown+emoji
+---
+
+Welcome to the [Problem Sheets]{.attention} section! Here, you will find the problem sheets for [block of chapters](/index.html#syllabus). Try to work through them beforehand, as we will go through the solutions together and answer any questions during the problem classes.
+
+:pushpin: **Note:** solutions will be made available **after** each class.  
+
+---
+
+##### [**Problem Sheet 01**]{.secondary}
+
+<!--:white_check_mark:-->
+- :memo: <a href="/problem_sheets/pc01/ex01.pdf" download>Problem Sheet 01</a>
+- :lock: **Solution (available after class)**  <!-- :unlock: <a href="/problem_sheets/pc01/sol01.pdf" download>Solution</a> -->
+
+<div style="margin-top: 25pt;"></div>
+
+##### [**Problem Sheet 02**]{.secondary}
+
+<!--:white_check_mark:-->
+- :memo: <a href="/problem_sheets/pc02/ex02.pdf" download>Problem Sheet 02</a>
+- :lock: **Solution (available after class)** <!-- :unlock: <a href="/problem_sheets/pc02/sol02.pdf" download>Solution</a> -->
+
+<div style="margin-top: 25pt;"></div>
+
+##### [**Problem Sheet 03**]{.secondary}
+
+<!--:white_check_mark:-->
+- :memo: <a href="/problem_sheets/pc03/ex03.pdf" download>Problem Sheet 03</a>
+- :lock: **Solution (available after class)** <!-- :unlock: <a href="/problem_sheets/pc03/sol03.pdf" download>Solution</a> -->
+
+<div style="margin-top: 25pt;"></div>
+
+##### [**Problem Sheet 04**]{.secondary}
+
+<!--:white_check_mark:-->
+- :memo: <a href="/problem_sheets/pc04/ex04.pdf" download>Problem Sheet 04</a>
+- :lock: **Solution (available after class)** <!-- :unlock: <a href="/problem_sheets/pc04/sol04.pdf" download>Solution</a> -->
+
+<div style="margin-top: 25pt;"></div>
+
+##### [**Problem Sheet 05**]{.secondary}
+
+<!--:white_check_mark:-->
+- :memo: <a href="/problem_sheets/pc05/ex05.pdf" download>Problem Sheet 05</a>
+- :lock: **Solution (available after class)** <!-- :unlock: <a href="/problem_sheets/pc05/sol05.pdf" download>Solution</a> -->
+
+<div style="margin-top: 25pt;"></div>
+
+##### [**Problem Sheet 06**]{.secondary}
+
+<!--:white_check_mark:-->
+- :memo: <a href="/problem_sheets/pc06/ex06.pdf" download>Problem Sheet 06</a>
+- :lock: **Solution (available after class)** <!-- :unlock: <a href="/problem_sheets/pc06/sol06.pdf" download>Solution</a> -->
+
+<div style="margin-top: 25pt;"></div>
+

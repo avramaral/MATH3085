@@ -1,0 +1,21 @@
+/* css styles */
+
+.attention {
+  color: #9A2515; !important
+}
+
+.secondary {
+  color: #000033; !important
+}
+
+.small-text { 
+  font-size: 0.95em; 
+}
+
+.inst1 {
+  color: blue; !important
+}
+
+.inst2 {
+  color: red; !important
+}

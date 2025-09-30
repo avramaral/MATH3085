@@ -1,0 +1,9 @@
+"Cell","Sex","Remis","Count"
+"Nodular","Male","No",1
+"Nodular","Male","Yes",4
+"Nodular","Female","No",2
+"Nodular","Female","Yes",6
+"Diffuse","Male","No",12
+"Diffuse","Male","Yes",1
+"Diffuse","Female","No",3
+"Diffuse","Female","Yes",1

@@ -1,0 +1,31 @@
+---
+title: "Computer Labs"
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false
+    from: markdown+emoji
+---
+
+The statistical software package `R` will be used to model real survival data. To support your learning, we have created a set of self-paced tutorials. The tutorials includes quizzes and more substantial exercises. You do **not** need to start it until after you have studied `Chapter 7`.
+
+If you are new to `R` or would like a refresher, we have also repurposed some self-paced `R` tutorials used in other modules. Instructions for installing `R` and `RStudio` on your own machine are [available here](/installing_R.html), and the repurposed tutorials are [available here](/basic_R.html).
+
+Additionally, drop-in support sessions for `R` will be available. More details will be provided once the schedule is confirmed.
+
+---
+
+The self-paced tutorial can be accessed [here](https://southamptonmaths.shinyapps.io/MATH3085/){target="_blank"} (developed by [Dr Antony Overstall](https://www.southampton.ac.uk/people/5x7g5g/doctor-antony-overstall){target="_blank"}).
+
+<!--
+
+##### [:beetle: Lab 05 (Week 08): Modelling Beetle Mortality Under Toxic Exposure**]{.secondary}
+
+We analyse how exposure to different doses of an insecticide affects beetle mortality. The study examines eight groups subjected to varying levels of the insecticide to determine its lethal effects.
+
+- :memo: [Instructions](/labs/lab05/lab05.html)
+- :speaking_head: <a href="/labs/lab05/lab05_sol.R" download>Solution</a>
+
+-->
+

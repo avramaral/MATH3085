@@ -1,0 +1,12 @@
+name: weibull_plots
+title:
+username: avramaral
+account: avramaral
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 15601239
+bundleId: 10969638
+url: https://avramaral.shinyapps.io/weibull_plots/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

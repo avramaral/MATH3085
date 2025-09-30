@@ -1,0 +1,136 @@
+---
+title: "MATH3091: Computer Lab 09"
+format: 
+  html:
+    css: styles.css
+---
+
+```{r setup, echo = FALSE, include = FALSE}
+#| echo: TRUE
+#| output: TRUE
+#| message: FALSE
+
+knitr::opts_chunk$set(include = TRUE, fig.width = 6, fig.height = 4, fig.align = "center")
+```
+
+## Exploring the data
+
+Load the data in `lymphoma.csv` into a variable `lymphoma`.
+```{r}
+lymphoma <- read.csv("../datasets/lymphoma.csv") # Change the path, if needed
+head(lymphoma)
+```
+
+
+The  data represents 30 lymphoma patients classified by sex (`Sex`), cell type of lymphoma (`Cell`) and response to treatment (`Remis`). The aim here is to study the complex dependence structures between the three classifying factors. 
+
+Use `xtabs` to find a three-way ($2\times 2\times 2$) contingency table for this data
+```{r}
+# make a three-way contingency table for the data
+xtabs(Count ~ Cell + Sex + Remis, data = lymphoma)
+```
+
+Here, the saturated model is the three factor interaction model `Cell * Remis * Sex`. We can fit a saturated log-linear model as follows
+
+```{r}
+# Fit a saturated model:
+ly_sat <- glm(Count ~ Cell * Remis * Sex, data = lymphoma, family = poisson)
+```
+
+Use the `fitted` method to find the fitted values for this saturated model, and the `summary` method to find the scaled deviance.
+
+```{r}
+# Fitted values
+# The fitted values are the same as the observed counts, as the saturated model fits perfectly.
+fitted(ly_sat)
+data.frame(fitted = fitted(ly_sat), observed = lymphoma$Count)
+
+# We can see the scaled deviance in the output from `summary()`.
+# The scaled deviance (residual deviance) is 0.
+summary(ly_sat)
+```
+
+Now, we drop the three factor interaction term.
+```{r}
+# Drop the three factor interaction term.
+ly_glm1 <- update(ly_sat, . ~ . - Cell:Remis:Sex)
+summary(ly_glm1)
+```
+
+[Note the colon instead of the `*` in `Cell:Remis:Sex`. What would happen if you used `*`?
+Which `formula` would you use to fit the same model directly (without using `update`)?]{.attention}
+
+```{r}
+# To fit the same model directly, we could do use
+ly_glm1_direct <- glm(Count ~ Cell + Remis + Sex + Cell:Remis + Cell:Sex + Remis:Sex, data = lymphoma, family = poisson)
+```
+
+Consider dropping each of the two-way interaction terms. For instance, to fit the model without the
+`Remis:Sex` interaction
+```{r}
+# Model without the `Remis:Sex` interaction.
+ly_glm2 <- update(ly_glm1, . ~ . - Remis:Sex)
+```
+
+We can compare the models `ly_glm1` and `ly_glm2` by using a log-likelihood ratio test.
+```{r}
+# Log-likelihood ratio tests to drop terms.
+anova(ly_glm2, ly_glm1, test = "LRT")
+```
+
+[Which model do you prefer? Can you drop any other interaction terms? Can you drop any main effects?]{.attention} Remember that you should only consider dropping a main effect from the model if you have already removed all interaction terms involving that main effect.
+
+```{r, eval = FALSE}
+# Do not reject null hypothesis of simpler model, prefer `ly_glm2`.
+
+# Now consider dropping `Cell:Remis`.
+ly_glm3 <- update(ly_glm2, . ~ . - Cell:Remis)
+anova(ly_glm3, ly_glm2, test = "LRT")
+# The p-value is small, so we reject the simpler model, and still prefer `ly_glm2`.
+
+# Now consider dropping `Cell:Sex`.
+ly_glm4 <- update(ly_glm2, . ~ . - Cell:Sex)
+anova(ly_glm4, ly_glm2, test = "LRT")
+# The p-value is small, so we reject the simpler model, and still prefer `ly_glm2`.
+
+# We must then keep all the main effects in the model, because we include each of `Cell`, `Remis` and `Sex` in at least one interaction term.
+```
+
+## Investigating the dependence structure
+
+Absence of the interaction term `Remis:Sex` from `ly_glm2` does not imply the independence of remission and sex. It merely implies that remission  is independent of sex **conditional on** cell type, that is
+$$
+\mathbb{P}(R,S|C)=\mathbb{P}(R|C)\mathbb{P}(S|C)\,.
+$$
+
+Another way of expressing this is
+$$
+\mathbb{P}(R|S,C)=\mathbb{P}(R|C),
+$$
+that is, the probability of each level of $R$ given a particular combination of $S$ and $C$, does not depend on which level $S$ takes. Equivalently, we can write $P(S|R,C)=P(S|C)$. This can be observed by calculating the estimated odds in favour of $R=\text{yes}$ over $R=\text{no}$ for the `lymphoma` dataset.
+
+We now illustrate the above theory. We first find the 8 fitted probabilities which are simply the fitted counts divided by 30 (which is the total number of patients classified).
+
+```{r}
+# Find the expected cell counts under the model `ly_glm2`
+fitted_count <- fitted(ly_glm2)
+fitted_count
+
+# Find the expected cell probabilities under the model `ly_glm2`
+fitted_prob <- fitted_count/(sum(fitted_count))
+fitted_prob
+```
+
+We then form the odds ratios by dividing the probabilities, e.g. $\frac{0.1282}{0.0385} = 3.33$.
+
+[Check that you can replicate Table from the notes.]{.attention} The odds depend only on a patient's `Cell` type, and not on their `Sex`. This means that remission and sex are conditionally independent given cell type. [Are they marginally independent?]{.attention}
+
+```{r, include = FALSE}
+# We can add up the probabilities for each cell type to give the marginal probabilities as in Table 6.8.
+# The odds of remission are (for female patients)
+0.2208 / 0.1792
+# and (for male patients)
+0.1792 / 0.4208
+# which are not the same.
+# Female patients are much more likely to go into remission. Thus, `Remis` and `Sex` are not marginally independent.
+```

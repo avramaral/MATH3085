@@ -1,0 +1,121 @@
+---
+title: "MATH3085/6143: Survival Models"
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false
+    from: markdown+emoji
+---
+
+Welcome to **[MATH3085/6143: Survival Models]{.attention}**! **MATH3085/6143** introduces the fundamental concepts and key issues in lifetime and time-to-event data analysis, with applications in areas such as actuarial practice, medical sciences, and demography. 
+
+Note that **MATH3085** and **MATH6143** are double-badged. This means that the course content of the two modules is the same but some of the assessment differs.
+
+---
+
+### :teacher: **Instructors**
+
+This module will be co-taught by 
+
+1. [Dr André Amaral](https://www.avramaral.com/){target="_blank"} ([a.v.ribeiro-amaral@soton.ac.uk](mailto:a.v.ribeiro-amaral@soton.ac.uk)): Chapters 1-9
+2. [Dr Chao Zheng](https://www.personal.soton.ac.uk/cz1y20/){target="_blank"} ([chao.zheng@southampton.ac.uk](mailto:chao.zheng@southampton.ac.uk)): Chapters 10-16
+
+For any queries, please see either of us during our office hours
+
+- Dr André Amaral (weeks 1-6): Tuesday, 14:00–16:00, Room 54/10007.
+- Dr Chao Zheng (weeks 7-11 and 15): Tuesday, 14:00–16:00, Room 54/9001.
+
+---
+
+### :pencil: **Assessment**
+
+The basic module assessment breakdown is
+
+1. 30% [data analysis project](project.html)
+2. 70% written exam
+
+The [data analysis project](project.html) involves a series of tasks in which you will conduct survival analysis on provided datasets using `R`. The project will be released around mid-December 2025, and detailed instructions and guidance will be provided towards the end of the term.
+
+---
+
+### :book: **Lecture Notes**  
+
+Lecture notes are available in two formats:
+
+1. <a href="/lecture_notes/skeleton.pdf" download>Skeleton notes</a>: containing omissions corresponding to mathematical details.
+2. <a href="/lecture_notes/complete.pdf" download>Complete notes</a>: in which the previously omitted parts are included and highlighted in blue.
+
+Students are encouraged to use whichever version of the notes they find most helpful to their learning.
+
+---
+
+### :ledger: **Syllabus**
+
+The module content is structured into 16 chapters (with the corresponding slides updated throughout the term)
+
+1.  [Introduction](/slides/_output/chap_1.html)
+2.  [Statistical Models](/slides/_output/chap_2.html)
+3.  [The Survival Distribution](/slides/_output/chap_3.html)
+4.  Distributions for Survival Models <!--(/slides/_output/chap_4.html)-->
+5.  Survival models: parameter estimation <!--(/slides/_output/chap_5.html)-->
+6.  Non-parametric Survival Estimation <!--(/slides/_output/chap_6.html)-->
+7.  Survival Regression Models <!--(/slides/_output/chap_7.html)-->
+8.  Multistate Survival Models <!--(/slides/_output/chap_8.html)-->
+9.  Inference for Multistate Models <!--(/slides/_output/chap_9.html)-->
+10. Modelling Human Lifetime
+11. The Life Table and Life Expectancy
+12. Interpolating a Life Table
+13. Life Table Models
+14. Exposure to Risk
+15. Comparing Mortality Rates
+16. Graduation
+
+These chapters can be divided into six parts (labelled A to F), each corresponding to a [problem sheet](/problem_sheets.html). The table below shows which chapters are included in each part.
+
+:::{.small-text}
+| Part | Chapters | Problem sheet |
+|------|----------|---------------|
+| A    | 1-4      | 1             |
+| B    | 5-6      | 2             |
+| C    | 7        | 3             |
+| D    | 8-9      | 4             |
+| E    | 10-13    | 5             |
+| F    | 14-16    | 6             |
+:::
+
+---
+
+### :calendar: **Tentative Schedule** 
+
+MATH3085/6143 has been given a timetable with the following slots
+
+:::{.small-text}
+| Day       | Time       | Room   |
+|-----------|------------|--------|
+| Tuesday   | 16:00-18:00 | 02/1089 |
+| Thursday  | 15:00-17:00 | 35/1001 |
+:::
+
+<div style="margin-top: 25pt;"></div>
+
+Below is the **tentative** schedule for the module.   
+
+:::{.small-text}
+| Week | Tuesday (Session 1)  | Tuesday (Session 2)  | Thursday (Session 1) | Thursday (Session 2) |
+| ---- | -------------------- | -------------------- | -------------------- | -------------------- | 
+| [01]{.inst1}   | Chapter 1            | Chapter 2            | Chapter 3            | Chapter 4 (part 1)   | 
+| [02]{.inst1}   | Chapter 4 (part 2)   | Problem Sheet 1      | Chapter 5            | Chapter 6 (part 1)   | 
+| [03]{.inst1}   | Chapter 6 (part 2)   | Chapter 6 (part 3)   | Chapter 6 (part 4)   | Problem Sheet 2      | 
+| [04]{.inst1}   | Chapter 7 (part 1)   | Chapter 7 (part 2)   | Chapter 7 (part 3)   | Problem Sheet 3      | 
+| [05]{.inst1}   | Chapter 8 (part 1)   | Chapter 8 (part 2)   | Chapter 8 (part 3)   | Chapter 8 (part 4)   | 
+| [06]{.inst1}   | Chapter 9 (part 1)   | Chapter 9 (part 2)   | Chapter 9 (part 3)   | Problem Sheet 4      | <!-- Ends in Nov 09 -->
+| [07]{.inst2}   |                      |                      | Chapter 10 (part 1)  | Chapter 10 (part 2)  | 
+| [08]{.inst2}   | Chapter 11 (part 1)  | Chapter 11 (part 2)  | Chapter 12 (part 1)  | Chapter 12 (part 2)  | 
+| [09]{.inst2}   | Chapter 13 (part 1)  | Chapter 13 (part 2)  | Chapter 13 (part 3)  | Chapter 13 (part 4)  | 
+| [10]{.inst2}   | Problem Sheet 5 (part 1) |   Problem Sheet 5 (part 2)| Chapter 14  |  Chapter 15          | 
+| [11]{.inst2}   | Chapter 16 (part 1)  | Chapter 16 (part 2)  | Problem Sheet 6 (part 1) | Problem Sheet 6 (part 2) | 
+| [15]{.inst2}   | Revision Class (part 1) |  Revision Class (part 1) |               |                      | <!-- Ends in Jan 11 -->
+:::
+
+Weeks [1-6]{.inst1} will be taught by [Dr André Amaral]{.inst1}, and weeks [7-11 and 15]{.inst2} will be taught by [Dr Chao Zheng]{.inst2}.

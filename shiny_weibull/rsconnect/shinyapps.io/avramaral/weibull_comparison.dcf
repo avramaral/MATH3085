@@ -1,0 +1,12 @@
+name: weibull_comparison
+title: weibull_comparison
+username: avramaral
+account: avramaral
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 15601378
+bundleId: 10969641
+url: https://avramaral.shinyapps.io/weibull_comparison/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
