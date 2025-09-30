@@ -18,7 +18,7 @@ Welcome to the [Lecture Slides]{.attention} section! Here, you will find the sli
 
 This chapter introduces survival analysis, a set of statistical methods for time-to-event data that features unique challenges like censoring and truncation.
 
-- :page_facing_up: [Chapter 1](/slides/_output/chap_1.html) (last updated on 29/09/2025)
+- :page_facing_up: [Chapter 1](/slides/_output/chap_1.html) (last updated on 30/09/2025)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -26,7 +26,7 @@ This chapter introduces survival analysis, a set of statistical methods for time
 
 This chapter introduces the fundamental role of statistical models (differentiating between parametric, non-parametric, and regression approaches) to simulate the process that generates survival data.
 
-- :page_facing_up: [Chapter 2](/slides/_output/chap_2.html) (last updated on 29/09/2025)
+- :page_facing_up: [Chapter 2](/slides/_output/chap_2.html) (last updated on 30/09/2025)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -34,7 +34,7 @@ This chapter introduces the fundamental role of statistical models (differentiat
 
 This chapter introduces the core mathematical functions used to characterize a survival distribution, primarily the survival function and the hazard function.
 
-- :page_facing_up: [Chapter 3](/slides/_output/chap_3.html) (last updated on 29/09/2025)
+- :page_facing_up: [Chapter 3](/slides/_output/chap_3.html) (last updated on 30/09/2025)
 
 <div style="margin-top: 25pt;"></div>
 
