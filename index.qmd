@@ -57,7 +57,7 @@ The module content is structured into 16 chapters (with the corresponding slides
 1.  [Introduction](/slides/_output/chap_1.html)
 2.  [Statistical Models](/slides/_output/chap_2.html)
 3.  [The Survival Distribution](/slides/_output/chap_3.html)
-4.  Distributions for Survival Models <!--(/slides/_output/chap_4.html)-->
+4.  [Distributions for Survival Models](/slides/_output/chap_4.html)
 5.  Survival models: parameter estimation <!--(/slides/_output/chap_5.html)-->
 6.  Non-parametric Survival Estimation <!--(/slides/_output/chap_6.html)-->
 7.  Survival Regression Models <!--(/slides/_output/chap_7.html)-->

@@ -38,15 +38,15 @@ This chapter introduces the core mathematical functions used to characterize a s
 
 <div style="margin-top: 25pt;"></div>
 
-<!--
-
 ##### [:bar_chart: **Chapter 04: Distributions for Survival Models**]{.secondary}
 
 This chapter introduces several common parametric distributions for survival modeling, including the Exponential, Weibull, Log-logistic, Lognormal, and Gompertz.
 
-- :page_facing_up: [Chapter 4](/slides/_output/chap_4.html) (incomplete)
+- :page_facing_up: [Chapter 4](/slides/_output/chap_4.html) (last updated on 02/10/2025)
 
 <div style="margin-top: 25pt;"></div>
+
+<!--
 
 ##### [:bar_chart: **Chapter 05: Survival models: parameter estimation**]{.secondary}
 

@@ -10,6 +10,7 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="André Victor Ribeiro Amaral">
+  <meta name="dcterms.date" content="2025-02-10">
   <title>Survival Models (MATH3085/6143)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -28,6 +29,72 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="chap_4_files/libs/revealjs/dist/theme/quarto-50d97454b6a0828d56c2dde218def0e8.css">
   <link href="chap_4_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -144,7 +211,7 @@
     </div>
 </div>
 
-  <p class="date">29/09/2025</p>
+  <p class="date">02/10/2025</p>
 </section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
@@ -166,19 +233,471 @@
 <section id="introduction" class="slide level2">
 <h2>Introduction</h2>
 <div class="justify">
-<p>TBD</p>
+<ul>
+<li>We now introduce some <span class="alert">distributions which are commonly used in <strong>survival models</strong></span>.</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Each of these distributions has <span class="alert">domain <span class="math inline">\((0, \infty)\)</span></span> so is appropriate as a model for a survival time <span class="math inline">\(T\)</span>.</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>In each case, we shall present the density function <span class="math inline">\(f_T(t)\)</span>, the survival function <span class="math inline">\(S_T(t)\)</span> and the hazard function <span class="math inline">\(h_T(t)\)</span>.</li>
+</ul>
+</div>
 </div>
 </section>
-<section id="title" class="slide level2">
-<h2>Title</h2>
-<div class="justify">
-<p>TBD</p>
+<section id="the-exponential-distribution" class="slide level2">
+<h2>The exponential distribution</h2>
+<div class="justify small-text">
+<p>The <span class="alert"><strong>exponential distribution</strong></span> has a single parameter, the rate (scale) <span class="math inline">\(\beta&gt;0\)</span>, is denoted <span class="math inline">\({\exp}(\beta)\)</span> and has p.d.f. <span class="math display">\[
+f_T(t)=\beta \exp\left(-\beta t\right),
+\]</span> survival function <span class="math display">\[
+S_T(t)=\exp\left(-\beta t\right),
+\]</span> and hazard function <span class="math display">\[
+h_T(t)=\beta.
+\]</span></p>
+<div class="fragment">
+<p>If <span class="math inline">\(T\sim \exp(\beta)\)</span> then <span class="math display">\[
+\mathbb{E}(T)=\frac{1}{\beta} \qquad{\rm and}\qquad \text{Var}(T)=\frac{1}{\beta^2}.
+\]</span> Note that the p.d.f. is sometimes parameterised as <span class="math inline">\(\frac{1}{\gamma} \exp\left(-\frac{t}{\gamma}\right)\)</span>, i.e.&nbsp;<span class="math inline">\(\gamma = 1/\beta\)</span>.</p>
+</div>
 </div>
 </section>
-<section id="title-1" class="slide level2">
-<h2>Title</h2>
+<section id="the-exponential-distribution-gap-on-page-25" class="slide level2">
+<h2>The exponential distribution <span class="alert"><strong>(Gap on page 25)</strong></span></h2>
+<div class="justify fragment small-text">
+<p>The <span class="alert"><strong>survival function</strong></span> is given by <span class="math display">\[
+\begin{eqnarray*}
+S_T(t) &amp; = &amp; \int_t^{\infty} f_T(u) \mathrm{d}u\\
+&amp; = &amp; \int_t^{\infty}\beta \exp\left(-\beta u \right) \mathrm{d}u\\
+&amp; = &amp; \left[ - \exp \left( -\beta u\right) \right]_t^{\infty}\\
+&amp; = &amp;  \exp \left( -\beta t\right).
+\end{eqnarray*}
+\]</span></p>
+<div class="fragment">
+<p>The <span class="alert"><strong>hazard function</strong></span> is <span class="math display">\[
+\begin{eqnarray*}
+h_T(t) &amp; = &amp; \frac{f_T(t)}{S_T(t)}\\
+&amp; = &amp; \frac{\beta \exp \left(-\beta t\right)}{ \exp \left(-\beta t\right)}\\
+&amp; = &amp; \beta.
+\end{eqnarray*}
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="the-exponential-distribution-gap-on-page-26" class="slide level2">
+<h2>The exponential distribution <span class="alert"><strong>(Gap on page 26)</strong></span></h2>
+<div class="justify fragment small-text">
+<p>Using integration by parts, the <span class="alert"><strong>expectation</strong></span> is <span class="math display">\[
+\begin{eqnarray*}
+\mathbb{E}(T) &amp; = &amp; \int_0^{\infty} \beta t \exp \left(-\beta t\right) \mathrm{d}t\\
+&amp; = &amp; \left[ - t \exp \left(-\beta t\right) \right]_0^{\infty} + \int_0^{\infty} \exp \left(-\beta t\right) \mathrm{d}t\\
+&amp; = &amp;  \left[ - \frac{1}{\beta} \exp \left(-\beta t\right) \right]_0^\infty\\
+&amp; = &amp; \frac{1}{\beta} .
+\end{eqnarray*}
+\]</span></p>
+<div class="fragment">
+<p>The <span class="alert"><strong>variance</strong></span> can also be calculated via <span class="math inline">\(\text{Var}(T) = \mathbb{E}(T^2) - \mathbb{E}(T)^2\)</span>, where <span class="math display">\[
+\mathbb{E}(T^2) = \int_0^{\infty} \beta t^2 \exp \left(-\beta t\right) \mathrm{d}t
+\]</span> is found using integration by parts (twice). <span class="alert"><strong>Do it yourself!</strong></span></p>
+</div>
+</div>
+</section>
+<section id="the-exponential-distribution-1" class="slide level2">
+<h2>The exponential distribution</h2>
+<div class="justify small-text">
+<p>The plots below show <span class="math inline">\(f(t)\)</span>, <span class="math inline">\(S(t)\)</span>, and <span class="math inline">\(h(t)\)</span> for two different <span class="alert"><strong>exponential distributions</strong></span> with parameters <span class="math inline">\(\beta=1\)</span> (solid) and <span class="math inline">\(\beta =2\)</span> (dashed).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>t_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">3</span>, <span class="at">length.out =</span> <span class="dv">100</span>); rates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb1-2"><a href=""></a>df_combined <span class="ot">&lt;-</span> <span class="fu">lapply</span>(rates, <span class="cf">function</span>(par) { <span class="fu">data.frame</span>(<span class="at">t =</span> t_seq, <span class="at">par =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">"par = "</span>, par)), <span class="at">ft =</span> <span class="fu">dexp</span>(t_seq, <span class="at">rate =</span> par), <span class="at">St =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pexp</span>(t_seq, <span class="at">rate =</span> par), <span class="at">ht =</span> <span class="fu">dexp</span>(t_seq, <span class="at">rate =</span> par) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pexp</span>(t_seq, <span class="at">rate =</span> par))) }) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>()</span>
+<span id="cb1-3"><a href=""></a>custom_theme <span class="ot">&lt;-</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(), <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">axis.line.x =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>), <span class="at">axis.line.y =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>), <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">family =</span> <span class="st">"Latin Modern Roman 10"</span>), <span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb1-4"><a href=""></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> ft, <span class="at">linetype =</span> par)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"f(t)"</span>, <span class="at">title =</span> <span class="st">"Density function"</span> ) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.05</span> ), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme</span>
+<span id="cb1-5"><a href=""></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> St, <span class="at">linetype =</span> par)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"S(t)"</span>, <span class="at">title =</span> <span class="st">"Survival function"</span>) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.025</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme</span>
+<span id="cb1-6"><a href=""></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> ht, <span class="at">linetype =</span> par)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"h(t)"</span>, <span class="at">title =</span> <span class="st">"Hazard function"</span>  ) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.05</span> ), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme</span>
+<span id="cb1-7"><a href=""></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_4_files/figure-revealjs/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-weibull-distribution" class="slide level2">
+<h2>The Weibull distribution</h2>
+<div class="justify small-text">
+<p>The <span class="alert"><strong>Weibull distribution</strong></span> has two parameters, the shape <span class="math inline">\(\alpha&gt;0\)</span> and the scale <span class="math inline">\(\beta&gt;0\)</span>, is denoted <span class="math inline">\({\rm Weibull}(\alpha,\beta)\)</span> and has p.d.f. <span class="math display">\[
+f_T(t)=\alpha \beta \left(\beta t \right)^{\alpha-1}\exp\left\{ - \left(\beta t\right)^\alpha\right\}
+\]</span> survival function <span class="math display">\[
+S_T(t)=\exp\left\{ - \left(\beta t\right)^\alpha\right\},
+\]</span> and hazard function <span class="math display">\[
+h_T(t)=\alpha \beta \left(\beta t \right)^{\alpha-1}.
+\]</span></p>
+<div class="fragment">
+<p>If <span class="math inline">\(T\sim {\rm Weibull}(\alpha,\beta)\)</span> then <span class="math display">\[
+\mathbb{E}(T)= \frac{1}{\beta} \Gamma\left(1+\frac{1}{\alpha}\right) \qquad \text{Var}(T)= \frac{1}{\beta^2}\left\{\Gamma\left(1+\frac{2}{\alpha}\right)-
+\Gamma\left(1+\frac{1}{\alpha}\right)^2\right\}
+\]</span> where <span class="math inline">\(\Gamma(r)=\int_0^\infty x^{r-1}e^{-x}dx\)</span> is the Gamma function.</p>
+</div>
+</div>
+</section>
+<section id="the-weibull-distribution-gap-on-page-28" class="slide level2">
+<h2>The Weibull distribution <span class="alert"><strong>(Gap on page 28)</strong></span></h2>
+<div class="justify small-text fragment">
+<p>The <span class="alert"><strong>survival function</strong></span> is given by <span class="math display">\[
+\begin{eqnarray*}
+S_T(t) &amp; = &amp; \int_t^{\infty} f_T(u) \mathrm{d}u\\
+&amp; = &amp; \int_t^{\infty} \alpha\beta \left(\beta u\right)^{\alpha-1}\exp\left\{ - \left(\beta u\right)^{\alpha}\right\}\mathrm{d}u.
+\end{eqnarray*}
+\]</span> Using the substitution <span class="math inline">\(v = \beta^\alpha u^\alpha\)</span>, <span class="math display">\[
+\frac{\mathrm{d}v}{\mathrm{d}u} = \alpha \beta^\alpha u^{\alpha-1} \qquad \mbox{and} \qquad \mathrm{d}u = \alpha^{-1} \beta^{-\alpha} u^{1-\alpha} \mathrm{d}v.
+\]</span> Then <span class="math display">\[
+\begin{eqnarray*}
+S_T(t) &amp; = &amp; \int_{\beta^\alpha t^\alpha}^\infty \exp\left(-v\right) \mathrm{d}v\\
+&amp; = &amp; \left[ -  \exp\left(-v\right) \right]_{\beta^\alpha t^\alpha}^\infty\\
+&amp; = &amp; \exp\left\{ - \left(\beta t \right)^\alpha\right\}.
+\end{eqnarray*}
+\]</span></p>
+</div>
+</section>
+<section id="the-weibull-distribution-gap-on-page-29" class="slide level2">
+<h2>The Weibull distribution <span class="alert"><strong>(Gap on page 29)</strong></span></h2>
+<div class="justify small-text fragment">
+<p>The <span class="alert"><strong>hazard function</strong></span> is <span class="math display">\[
+\begin{eqnarray*}
+h_T(t) &amp; = &amp; \frac{f_T(t)}{S_T(t)}\\
+&amp; = &amp; \frac{\alpha \beta \left(\beta t\right)^{\alpha-1}\exp\left\{ - \left(\beta t \right)^{\alpha}\right\}}{\exp\left\{ - \left(\beta t \right)^\alpha\right\}}\\
+&amp; = &amp; \alpha \beta \left(\beta t \right)^{\alpha-1}.
+\end{eqnarray*}
+\]</span></p>
+</div>
+</section>
+<section id="the-weibull-distribution-gap-on-page-29-1" class="slide level2">
+<h2>The Weibull distribution <span class="alert"><strong>(Gap on page 29)</strong></span></h2>
+<div class="justify small-text fragment">
+<p>The <span class="alert"><strong>expectation</strong></span> is <span class="math display">\[
+\begin{eqnarray*}
+\mathbb{E}(T) &amp; = &amp; \int_0^{\infty}  t f_T(t) \mathrm{d}t\\
+&amp; = &amp; \int_0^{\infty} \alpha \left(\beta t \right)^{\alpha}\exp\left\{ - \left(\beta t\right)^\alpha\right\} \mathrm{d}t.
+\end{eqnarray*}
+\]</span> Using the substitution <span class="math inline">\(u = (\beta t)^{\alpha}\)</span>, (i.e.&nbsp;<span class="math inline">\(t=u^{1/\alpha}/\beta\)</span>), then <span class="math display">\[
+\frac{\mathrm{d}u}{\mathrm{d}t} = \alpha \beta^\alpha t^{\alpha-1} \qquad \mbox{and} \qquad \mathrm{d}t = \alpha^{-1} \beta^{-\alpha} t^{1-\alpha} \mathrm{d}u.
+\]</span> Then <span class="math display">\[
+\begin{eqnarray*}
+\mathbb{E}(T) &amp; = &amp; \frac{1}{\beta} \int_0^{\infty} u^{1/\alpha} \exp (-u) \mathrm{d}u\\
+&amp; = &amp; \frac{1}{\beta} \Gamma\left(1 + \frac{1}{\alpha}\right).
+\end{eqnarray*}
+\]</span> The expression for the <span class="alert"><strong>variance</strong></span> can be proved in a similar way. <span class="alert"><strong>Do it yourself!</strong></span></p>
+</div>
+</section>
+<section id="the-weibull-distribution-1" class="slide level2">
+<h2>The Weibull distribution</h2>
+<div class="justify small-text">
+<p>The plots below show <span class="math inline">\(f(t)\)</span>, <span class="math inline">\(S(t)\)</span>, and <span class="math inline">\(h(t)\)</span> for four different <span class="alert"><strong>Weibull distributions</strong></span> given by different values of shape <span class="math inline">\(\alpha\)</span> (<span style="color: red;"><span class="math inline">\(=0.5\)</span></span>, <span style="color: blue;"><span class="math inline">\(=1.0\)</span></span>, <span style="color: darkgreen;"><span class="math inline">\(=2.0\)</span></span>, and <span style="color: orange;"><span class="math inline">\(=3.0\)</span></span>) but all with scale <span class="math inline">\(\beta = 1\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>t_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">3</span>, <span class="at">length.out =</span> <span class="dv">100</span>); alpha_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb2-2"><a href=""></a>df_combined <span class="ot">&lt;-</span> <span class="fu">lapply</span>(alpha_values, <span class="cf">function</span>(alpha) { <span class="fu">data.frame</span>(<span class="at">t =</span> t_seq, <span class="at">alpha_factor =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">"alpha = "</span>, alpha)), <span class="at">ft =</span> <span class="fu">dweibull</span>(t_seq, <span class="at">shape =</span> alpha, <span class="at">scale =</span> <span class="dv">1</span>), <span class="at">St =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pweibull</span>(t_seq, <span class="at">shape =</span> alpha, <span class="at">scale =</span> <span class="dv">1</span>), <span class="at">ht =</span> <span class="fu">dweibull</span>(t_seq, <span class="at">shape =</span> alpha, <span class="at">scale =</span> <span class="dv">1</span>) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pweibull</span>(t_seq, <span class="at">shape =</span> alpha, <span class="at">scale =</span> <span class="dv">1</span>))) }) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>()</span>
+<span id="cb2-3"><a href=""></a>custom_theme <span class="ot">&lt;-</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(), <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">axis.line.x =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>), <span class="at">axis.line.y =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>), <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">family =</span> <span class="st">"Latin Modern Roman 10"</span>), <span class="at">legend.position =</span> <span class="st">"right"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb2-4"><a href=""></a>shared_scale <span class="ot">&lt;-</span> <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"alpha = 0.5"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"alpha = 1"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"alpha = 2"</span> <span class="ot">=</span> <span class="st">"darkgreen"</span>, <span class="st">"alpha = 3"</span> <span class="ot">=</span> <span class="st">"orange"</span>))</span>
+<span id="cb2-5"><a href=""></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> ft, <span class="at">color =</span> alpha_factor)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"f(t)"</span>, <span class="at">title =</span> <span class="st">"Density function"</span> ) <span class="sc">+</span> shared_scale <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.5</span>  ), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb2-6"><a href=""></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> St, <span class="at">color =</span> alpha_factor)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"S(t)"</span>, <span class="at">title =</span> <span class="st">"Survival function"</span>) <span class="sc">+</span> shared_scale <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.025</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb2-7"><a href=""></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> ht, <span class="at">color =</span> alpha_factor)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"h(t)"</span>, <span class="at">title =</span> <span class="st">"Hazard function"</span>  ) <span class="sc">+</span> shared_scale <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">6.5</span>  ), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb2-8"><a href=""></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_4_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-weibull-distribution-shiny-app" class="slide level2">
+<h2>The Weibull distribution (<a href="https://avramaral.shinyapps.io/weibull_comparison/" target="_blank">Shiny App</a>)</h2>
 <div class="justify">
-<p>TBD</p>
+<iframe src="https://avramaral.shinyapps.io/weibull_comparison/" width="100%" height="600" frameborder="0">
+</iframe>
+</div>
+</section>
+<section id="the-weibull-distribution-properties-gap-on-page-30" class="slide level2">
+<h2>The Weibull distribution: properties <span class="alert"><strong>(Gap on page 30)</strong></span></h2>
+<div class="justify fragment">
+<p><span class="math inline">\({\rm Weibull}(1,\beta)=\exp(\beta)\)</span>.</p>
+<div style="margin-top: -25pt;">
+
+</div>
+<p><span class="alert">So the Weibull with shape parameter <span class="math inline">\(\alpha=1\)</span> is exponential.</span></p>
+<div style="margin-top: 60pt;">
+
+</div>
+<div class="fragment">
+<p>If <span class="math inline">\(X\sim{\rm Weibull}(\alpha,\beta)\)</span>, then <span class="math display">\[
+T= bX \sim {\rm Weibull}(\alpha,\beta/b).
+\]</span></p>
+<div style="margin-top: 60pt;">
+
+</div>
+</div>
+<div class="fragment">
+<p>If <span class="math inline">\(X\sim\exp(1)\)</span>, then <span class="math display">\[
+T= \frac{X^{1/\alpha}}{\beta} \sim {\rm Weibull}(\alpha,\beta).
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="the-log-logistic-distribution" class="slide level2">
+<h2>The log-logistic distribution</h2>
+<div class="justify small-text">
+<p>The <span class="alert"><strong>log-logistic distribution</strong></span> has two parameters, the shape <span class="math inline">\(\alpha&gt;0\)</span> and the scale <span class="math inline">\(\beta&gt;0\)</span>, is denoted <span class="math inline">\({\rm loglogistic}(\alpha,\beta)\)</span> and has p.d.f. <span class="math display">\[
+f_T(t)=\frac{\alpha\beta(\beta t)^{\alpha-1}}{[1+(\beta t)^\alpha]^2}
+\]</span> survival function <span class="math display">\[
+S_T(t)=\frac{1}{1+(\beta t)^\alpha},
+\]</span> and hazard function <span class="math display">\[
+h_T(t)=\frac{\alpha\beta(\beta t)^{\alpha-1}}{1+(\beta t)^\alpha}.
+\]</span></p>
+<div class="fragment">
+<p>If <span class="math inline">\(T\sim {\rm loglogistic}(\alpha,\beta)\)</span> then <span class="alert">(the <span class="math inline">\(k\)</span>-th moment exists only when <span class="math inline">\(k &lt; \alpha\)</span>)</span></p>
+<div style="margin-top: -10pt;">
+
+</div>
+<p><span class="math display">\[
+\mathbb{E}(T)=\frac{\pi}{\alpha\beta\sin(\pi/\alpha)} ~~\text{if }\alpha &gt; 1 \qquad \text{Var}(T) = \frac{2\pi}{\alpha\beta^2 \sin (2\pi/\alpha)} - \left(\frac{\pi}{\alpha\beta \sin(\pi/\alpha)}\right)^2 ~~\text{if }\alpha &gt; 2.
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="the-log-logistic-distribution-gap-on-page-31" class="slide level2">
+<h2>The log-logistic distribution <span class="alert"><strong>(Gap on page 31)</strong></span></h2>
+<div class="justify small-text fragment">
+<p>The <span class="alert"><strong>survival function</strong></span> is given by <span class="math display">\[
+\begin{eqnarray*}
+S_T(t) &amp; = &amp; \int_t^{\infty} f_T(u) \mathrm{d}u\\
+&amp; = &amp; \int_t^{\infty} \frac{\alpha\beta(\beta u)^{\alpha-1}}{[1+(\beta u)^\alpha]^2} \mathrm{d}u.
+\end{eqnarray*}
+\]</span> Using the substitution <span class="math inline">\(v = 1 + (\beta u)^\alpha\)</span>, then <span class="math display">\[
+\frac{\mathrm{d}v}{\mathrm{d}u} = \alpha \beta^\alpha u^{\alpha - 1} \qquad \mbox{and} \qquad \mathrm{d}u = \frac{\mathrm{d}v}{\alpha \beta (\beta u)^{\alpha -1}}.
+\]</span> Then <span class="math display">\[
+\begin{eqnarray*}
+S_T(t) &amp; = &amp; \int_{1+(\beta t)^\alpha}^\infty \frac{1}{v^2} \mathrm{d}v\\
+&amp;= &amp; \left[ - \frac{1}{v} \right]_{1+(\beta t)^\alpha}^\infty = \frac{1}{1 + (\beta t)^\alpha}.
+\end{eqnarray*}
+\]</span></p>
+</div>
+</section>
+<section id="the-log-logistic-distribution-gap-on-page-32" class="slide level2">
+<h2>The log-logistic distribution <span class="alert"><strong>(Gap on page 32)</strong></span></h2>
+<div class="justify">
+<div class="small-text fragment">
+<p>The <span class="alert"><strong>hazard function</strong></span> is <span class="math display">\[\begin{eqnarray*}
+h_T(t) &amp; = &amp; \frac{f_T(t)}{S_T(t)}\\
+&amp; = &amp; \frac{\frac{\alpha\beta(\beta t)^{\alpha-1}}{[1+(\beta t)^\alpha]^2}}{\frac{1}{1 + (\beta t)^\alpha}}\\
+&amp; = &amp; \frac{\alpha \beta (\beta t)^{\alpha - 1}}{1 + (\beta t)^\alpha}.
+\end{eqnarray*}\]</span></p>
+<div style="margin-top: 15pt;">
+
+</div>
+<div class="fragment">
+<p>The <span class="alert"><strong>expectation</strong></span> and <span class="alert"><strong>variance</strong></span> will not be proved here! <span class="alert"><strong>Try it yourself!</strong></span></p>
+</div>
+</div>
+<div class="fragment">
+<div style="margin-top: 25pt;">
+
+</div>
+<p>Unlike the Exponential distribution (constant hazard) or the Weibull distribution (monotonic hazard, i.e.g, always increasing or always decreasing/constant), the <span class="alert">Log-Logistic distribution offers a more flexible (non-monotonic) hazard shape</span>.</p>
+</div>
+</div>
+</section>
+<section id="the-log-logistic-distribution-1" class="slide level2">
+<h2>The log-logistic distribution</h2>
+<div class="justify small-text">
+<p>The plots below show <span class="math inline">\(f(t)\)</span>, <span class="math inline">\(S(t)\)</span>, and <span class="math inline">\(h(t)\)</span> for two different <span class="alert"><strong>exponential distributions</strong></span> with different values of <span class="math inline">\(\alpha\)</span> (<span class="math inline">\(\text{solid} = 0.5\)</span> and <span class="math inline">\(\text{dashed} = 3\)</span>) but all with <span class="math inline">\(\beta = 1\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>t_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.001</span>, <span class="at">to =</span> <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">100</span>); alpha_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">3</span>); beta_scale <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># Assuming beta=1</span></span>
+<span id="cb3-2"><a href=""></a>df_combined <span class="ot">&lt;-</span> <span class="fu">lapply</span>(alpha_values, <span class="cf">function</span>(alpha) { <span class="fu">data.frame</span>(<span class="at">t =</span> t_seq, <span class="at">alpha_factor =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">"alpha = "</span>, alpha)), <span class="at">ft =</span> <span class="fu">dllogis</span>(t_seq, <span class="at">shape =</span> alpha, <span class="at">scale =</span> beta_scale), <span class="at">St =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pllogis</span>(t_seq, <span class="at">shape =</span> alpha, <span class="at">scale =</span> beta_scale), <span class="at">ht =</span> <span class="fu">dllogis</span>(t_seq, <span class="at">shape =</span> alpha, <span class="at">scale =</span> beta_scale) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pllogis</span>(t_seq, <span class="at">shape =</span> alpha, <span class="at">scale =</span> beta_scale))) }) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>()</span>
+<span id="cb3-3"><a href=""></a>custom_theme <span class="ot">&lt;-</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(), <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">axis.line.x =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>), <span class="at">axis.line.y =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>), <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">family =</span> <span class="st">"Latin Modern Roman 10"</span>), <span class="at">legend.position =</span> <span class="st">"right"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>(), <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb3-4"><a href=""></a>shared_linetype <span class="ot">&lt;-</span> <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"alpha = 0.5"</span> <span class="ot">=</span> <span class="st">"solid"</span>, <span class="st">"alpha = 3"</span> <span class="ot">=</span> <span class="st">"dashed"</span>))</span>
+<span id="cb3-5"><a href=""></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> ft, <span class="at">linetype =</span> alpha_factor)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"f(t)"</span>, <span class="at">title =</span> <span class="st">"Density function"</span> ) <span class="sc">+</span> shared_linetype <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.4</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb3-6"><a href=""></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> St, <span class="at">linetype =</span> alpha_factor)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"S(t)"</span>, <span class="at">title =</span> <span class="st">"Survival function"</span>) <span class="sc">+</span> shared_linetype <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb3-7"><a href=""></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> ht, <span class="at">linetype =</span> alpha_factor)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"h(t)"</span>, <span class="at">title =</span> <span class="st">"Hazard function"</span>  ) <span class="sc">+</span> shared_linetype <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb3-8"><a href=""></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_4_files/figure-revealjs/unnamed-chunk-3-1.png" class="quarto-figure quarto-figure-center" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-lognormal-distribution" class="slide level2">
+<h2>The lognormal distribution</h2>
+<div class="justify small-text">
+<p>The <span class="alert"><strong>lognormal distribution</strong></span> has two parameters, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2&gt;0\)</span>, is denoted by <span class="math inline">\({\rm lognormal}(\mu,\sigma^2)\)</span>. It is the distribution of <span class="math inline">\(\exp X\)</span> where <span class="math inline">\(X\sim \text{N}(\mu,\sigma^2)\)</span> and has p.d.f. <span class="math display">\[
+f_T(t)=\frac{1}{(2\pi)^{1/2}\sigma t}\exp\left(-\frac{1}{2\sigma^2}[\log t-\mu]^2\right)=
+\frac{1}{\sigma t}\phi\left(\frac{\log t-\mu}{\sigma}\right),
+\]</span> survival function <span class="math display">\[
+S_T(t)=1-\Phi\left(\frac{\log t-\mu}{\sigma}\right),
+\]</span> where <span class="math inline">\(\phi\)</span> and <span class="math inline">\(\Phi\)</span> are the standard normal density and distribution functions. The lognormal hazard function is <span class="math inline">\(h_T(t)=f_T(t)/S_T(t)\)</span> <span class="alert">(non-monotonic)</span>.</p>
+<div style="margin-top: 40pt;">
+
+</div>
+<div class="fragment">
+<p>If <span class="math inline">\(T\sim {\rm lognormal}(\mu,\sigma^2)\)</span> then <span class="math display">\[
+\mathbb{E}(T)=\exp(\mu+\sigma^2/2)\quad{\rm and}\quad \text{Var}(T)=\exp(2\mu+\sigma^2)[\exp\sigma^2 -1].
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="the-lognormal-distribution-optional" class="slide level2">
+<h2>The lognormal distribution <span class="alert"><strong>(Optional)</strong></span></h2>
+<div class="justify small-text">
+<p>Let’s start by deriving the p.d.f. of <span class="math inline">\(T\)</span>. If <span class="math inline">\(X\sim \text{N}(\mu,\sigma^2)\)</span> then <span class="math display">\[
+f_X(x) = \frac{1}{(2\pi)^{\frac{1}{2}}\sigma} \exp \left( - \frac{(x - \mu)^2}{2\sigma^2} \right).
+\]</span> Now <span class="math inline">\(t = \exp x\)</span>, so <span class="math inline">\(\frac{\mathrm{d}x}{\mathrm{d}{t}} = \frac{1}{t}\)</span>.</p>
+<p>The p.d.f. of <span class="math inline">\(T\)</span> is then given by <span class="math display">\[
+\begin{eqnarray*}
+f_T(t) &amp; = &amp; f_X(\log t) \left\vert \frac{\mathrm{d}t}{\mathrm{d}{x}} \right\vert\\
+&amp; = &amp; \frac{1}{(2\pi)^{\frac{1}{2}}\sigma} \exp \left( - \frac{(\log t - \mu)^2}{2\sigma^2} \right) \frac{1}{t} = \frac{1}{(2\pi)^{1/2}\sigma t}\exp\left(-\frac{1}{2\sigma^2}[\log t-\mu]^2\right).
+\end{eqnarray*}
+\]</span> Thus, recalling that the standard normal p.d.f. is <span class="math inline">\(\phi(u) = \frac{1}{(2\pi)^{\frac{1}{2}}} \exp \left( - \frac{u^2}{2} \right)\)</span>, we have <span class="math display">\[
+f_T(t) = \frac{1}{\sigma t}\phi\left(\frac{\log t-\mu}{\sigma}\right).
+\]</span></p>
+</div>
+</section>
+<section id="the-lognormal-distribution-optional-1" class="slide level2">
+<h2>The lognormal distribution <span class="alert"><strong>(Optional)</strong></span></h2>
+<div class="justify small-text">
+<p>The <span class="alert"><strong>survival function</strong></span> is given by <span class="math display">\[
+\begin{eqnarray*}
+S_T(t) &amp; = &amp; \int_t^{\infty} f_T(u) \mathrm{d}u\\
+&amp; = &amp; \int_t^{\infty} \frac{1}{\sigma u}\phi\left(\frac{\log u-\mu}{\sigma}\right) \mathrm{d}u
+\end{eqnarray*}
+\]</span> Using the substitution <span class="math inline">\(v = \left(\log v - \mu\right)/\sigma\)</span>, then <span class="math display">\[
+\frac{\mathrm{d}v}{\mathrm{d}u} = \frac{1}{\sigma u} \qquad \mbox{and} \qquad \mathrm{d}u = \sigma u \mathrm{d}v.
+\]</span> Then, <span class="math display">\[
+\begin{eqnarray*}
+S_T(t) &amp; = &amp; \int_{\left(\log t - \mu\right)/\sigma}^\infty \phi(v) \mathrm{d}v\\
+&amp; = &amp; \left[ \Phi(v) \right]_{\left(\log t - \mu\right)/\sigma}^\infty\\
+&amp; = &amp; 1 - \Phi \left( \frac{\log t - \mu}{\sigma} \right).
+\end{eqnarray*}
+\]</span></p>
+</div>
+</section>
+<section id="the-lognormal-distribution-optional-2" class="slide level2">
+<h2>The lognormal distribution <span class="alert"><strong>(Optional)</strong></span></h2>
+<div class="justify small-text">
+<p>The <span class="alert"><strong>hazard function</strong></span> is <span class="math display">\[
+\begin{eqnarray*}
+h_T(t) &amp; = &amp; \frac{f_T(t)}{S_T(t)}\\
+&amp; = &amp; \frac{1}{\sigma t} \cdot \frac{\phi\left(\frac{\log t-\mu}{\sigma}\right)}{1 - \Phi \left( \frac{\log t - \mu}{\sigma} \right)}.
+\end{eqnarray*}
+\]</span></p>
+</div>
+</section>
+<section id="the-lognormal-distribution-optional-3" class="slide level2">
+<h2>The lognormal distribution <span class="alert"><strong>(Optional)</strong></span></h2>
+<div class="justify small-text">
+<p>The <span class="alert"><strong>expectation</strong></span> is <span class="math inline">\(\mathbb{E}(T) = \mathbb{E}(\exp X)\)</span>, where <span class="math inline">\(X\sim N(\mu,\sigma^2)\)</span>. Therefore <span class="math display">\[
+\begin{eqnarray*}
+\mathbb{E}(T) &amp; = &amp; \int_{-\infty}^\infty \exp x f_X(x) \mathrm{d}x\\
+&amp; = &amp; \int_{-\infty}^\infty \exp x \frac{1}{(2\pi)^{\frac{1}{2}}\sigma} \exp \left( - \frac{(x - \mu)^2}{2\sigma^2} \right) \mathrm{d}x\\
+&amp; = &amp; \frac{1}{(2\pi)^{\frac{1}{2}}\sigma} \exp \left( - \frac{\mu^2}{2 \sigma^2} \right) \int_{-\infty}^\infty \exp \left( - \frac{x^2}{2 \sigma^2} + x \left(\frac{\mu}{\sigma^2}+ 1 \right) \right) \mathrm{d}x
+\end{eqnarray*}
+\]</span> The integral can be rewritten as <span class="math inline">\(\int_{-\infty}^\infty \exp \left( - \frac{u^2}{2 \sigma^2} + u \left(\frac{\mu}{\sigma^2}+ 1 \right) \right) \mathrm{d}u\)</span>.</p>
+<p>Now suppose <span class="math inline">\(U \sim \mathrm{N}(m,s^2)\)</span>, with p.d.f. <span class="math display">\[
+f_U(u) = \frac{1}{(2\pi)^{\frac{1}{2}}s} \exp \left( - \frac{(u - m)^2}{2s^2}\right).
+\]</span></p>
+<div style="text-align: right;">
+<p>
+<span class="alert"><strong>(cont.)</strong></span>
+</p>
+</div>
+</div>
+</section>
+<section id="the-lognormal-distribution-cont.-optional" class="slide level2">
+<h2>The lognormal distribution (cont.) <span class="alert"><strong>(Optional)</strong></span></h2>
+<div class="justify small-text">
+<p>Since, <span class="math inline">\(1 = \int_{-\infty}^\infty f_U(u) \mathrm{d}u\)</span>, it can be shown that <span class="math display">\[
+(2\pi)^{\frac{1}{2}}s \exp \left( \frac{m^2}{2 s^2} \right)  =  \int_{-\infty}^\infty \exp \left( - \frac{u^2}{2s^2} + \frac{mu}{s^2} \right)\mathrm{d}u.
+\]</span></p>
+<p>Now let <span class="math inline">\(s^2 = \sigma^2\)</span> and <span class="math inline">\(\mu/\sigma^2 + 1 = m/s^2\)</span>, then <span class="math display">\[
+\int_{-\infty}^\infty \exp \left( - \frac{u^2}{2 \sigma^2} + u \left(\frac{\mu}{\sigma^2}+ 1 \right) \right) \mathrm{d}u = (2\pi)^{\frac{1}{2}}\sigma \exp \left( \frac{(\mu + \sigma^2)^2}{2 \sigma^2}\right),
+\]</span> and <span class="math inline">\(\mathbb{E}(T) = \exp(\mu+\sigma^2/2).\)</span></p>
+<p>A similar approach can be used for the <span class="alert"><strong>variance</strong></span> <span class="math inline">\(\text{Var}(T) = \mathbb{E}(T^2) - \mathbb{E}(T)^2\)</span>. <span class="alert"><strong>Try it yourself!</strong></span></p>
+</div>
+</section>
+<section id="the-lognormal-distribution-1" class="slide level2">
+<h2>The lognormal distribution</h2>
+<div class="justify small-text">
+<p>The plots below show <span class="math inline">\(f(t)\)</span>, <span class="math inline">\(S(t)\)</span>, and <span class="math inline">\(h(t)\)</span> for two different <span class="alert"><strong>lognormal distributions</strong></span> given by different values of <span class="math inline">\(\sigma\)</span> (<span class="math inline">\(\text{solid} = 0.3\)</span> and <span class="math inline">\(\text{dashed} = 0.5\)</span>) but all with <span class="math inline">\(\mu = 0\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># The Log-Normal distribution has a *non-monotonic* hazard function that *rises rapidly* to a peak before *steadily decreasing* toward zero over time.</span></span>
+<span id="cb4-2"><a href=""></a><span class="co"># E.g., initial high risk (electric components): chips immediately after production often contain latent manufacturing defects. These weak units fail quickly during the first few hours or days of operation. Once these defective chips have failed, the remaining units are considered "healthy," and their risk of failure decreases steadily toward zero.</span></span>
+<span id="cb4-3"><a href=""></a>t_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.001</span>, <span class="at">to =</span> <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">100</span>); sigma_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>); mulog_scale <span class="ot">&lt;-</span> <span class="dv">0</span> </span>
+<span id="cb4-4"><a href=""></a>df_combined <span class="ot">&lt;-</span> <span class="fu">lapply</span>(sigma_values, <span class="cf">function</span>(sigma) { <span class="fu">data.frame</span>(<span class="at">t =</span> t_seq, <span class="at">sigma_factor =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">"sigma = "</span>, sigma)), <span class="at">ft =</span> <span class="fu">dlnorm</span>(t_seq, <span class="at">meanlog =</span> mulog_scale, <span class="at">sdlog =</span> sigma), <span class="at">St =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">plnorm</span>(t_seq, <span class="at">meanlog =</span> mulog_scale, <span class="at">sdlog =</span> sigma), <span class="at">ht =</span> <span class="fu">dlnorm</span>(t_seq, <span class="at">meanlog =</span> mulog_scale, <span class="at">sdlog =</span> sigma) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">plnorm</span>(t_seq, <span class="at">meanlog =</span> mulog_scale, <span class="at">sdlog =</span> sigma))) }) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>()</span>
+<span id="cb4-5"><a href=""></a>custom_theme <span class="ot">&lt;-</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(), <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">axis.line.x =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>), <span class="at">axis.line.y =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>), <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">family =</span> <span class="st">"Latin Modern Roman 10"</span>), <span class="at">legend.position =</span> <span class="st">"right"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>(), <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb4-6"><a href=""></a>shared_linetype <span class="ot">&lt;-</span> <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"sigma = 0.3"</span> <span class="ot">=</span> <span class="st">"solid"</span>, <span class="st">"sigma = 0.6"</span> <span class="ot">=</span> <span class="st">"dashed"</span>))</span>
+<span id="cb4-7"><a href=""></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> ft, <span class="at">linetype =</span> sigma_factor)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"f(t)"</span>, <span class="at">title =</span> <span class="st">"Density function"</span> ) <span class="sc">+</span> shared_linetype <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.55</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb4-8"><a href=""></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> St, <span class="at">linetype =</span> sigma_factor)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"S(t)"</span>, <span class="at">title =</span> <span class="st">"Survival function"</span>) <span class="sc">+</span> shared_linetype <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.05</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb4-9"><a href=""></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> ht, <span class="at">linetype =</span> sigma_factor)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"h(t)"</span>, <span class="at">title =</span> <span class="st">"Hazard function"</span>  ) <span class="sc">+</span> shared_linetype <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">5.05</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb4-10"><a href=""></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_4_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="gompertz-distribution" class="slide level2">
+<h2>Gompertz distribution</h2>
+<div class="justify small-text">
+<p>The <span class="alert"><strong>Gompertz distribution</strong></span> has two parameters, the shape <span class="math inline">\(\alpha&gt;0\)</span> and the scale <span class="math inline">\(\beta&gt;0\)</span>. It is denoted <span class="math inline">\({\rm Gompertz}(\alpha,\beta)\)</span> and has p.d.f. <span class="math display">\[
+f_T(t)=\alpha \exp\left(\beta t-\frac{\alpha}{\beta}(e^{\beta t}-1)\right),
+\]</span> survival function <span class="math display">\[
+S_T(t)=\exp\left(-\frac{\alpha}{\beta}(e^{\beta t}-1)\right),
+\]</span> and hazard function <span class="math display">\[
+h_T(t)=\alpha \exp(\beta t).
+\]</span></p>
+<p>See <code>Exercise 4</code> and <code>5</code> on <code>Problem Sheet 1</code> for derivations of the survival and hazard function.</p>
+<div style="margin-top: 35pt;">
+
+</div>
+<div class="fragment">
+<p><span class="alert">The Gompertz distribution models the idea that the instantaneous risk of death <strong>increases exponentially</strong> with age.</span> For example, it can be used to model human lifetime from middle age onwards.</p>
+</div>
+</div>
+</section>
+<section id="gompertz-distribution-1" class="slide level2">
+<h2>Gompertz distribution</h2>
+<div class="justify small-text">
+<p>The plots below show <span class="math inline">\(f(t)\)</span>, <span class="math inline">\(S(t)\)</span>, and <span class="math inline">\(h(t)\)</span> for two different <span class="alert"><strong>Gompertz distributions</strong></span> given by different values of <span class="math inline">\(\alpha\)</span> (<span class="math inline">\(\text{solid} = 0.5\)</span> and <span class="math inline">\(\text{dashed} = 2.0\)</span>) but all with <span class="math inline">\(\beta = 1\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>t_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.001</span>, <span class="at">to =</span> <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">100</span>); beta_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">2</span>); alpha_scale <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># Assuming alpha=1</span></span>
+<span id="cb5-2"><a href=""></a>df_combined <span class="ot">&lt;-</span> <span class="fu">lapply</span>(beta_values, <span class="cf">function</span>(beta) { <span class="fu">data.frame</span>(<span class="at">t =</span> t_seq, <span class="at">beta_factor =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">"beta = "</span>, beta)), <span class="at">ft =</span> <span class="fu">dgompertz</span>(t_seq, <span class="at">shape =</span> alpha_scale, <span class="at">rate =</span> beta), <span class="at">St =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pgompertz</span>(t_seq, <span class="at">shape =</span> alpha_scale, <span class="at">rate =</span> beta), <span class="at">ht =</span> alpha_scale <span class="sc">*</span> <span class="fu">exp</span>(beta <span class="sc">*</span> t_seq)) }) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>()</span>
+<span id="cb5-3"><a href=""></a>custom_theme <span class="ot">&lt;-</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(), <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">axis.line.x =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>), <span class="at">axis.line.y =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"black"</span>), <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">family =</span> <span class="st">"Latin Modern Roman 10"</span>), <span class="at">legend.position =</span> <span class="st">"right"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>(), <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb5-4"><a href=""></a>shared_linetype <span class="ot">&lt;-</span> <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"beta = 0.5"</span> <span class="ot">=</span> <span class="st">"solid"</span>, <span class="st">"beta = 2"</span> <span class="ot">=</span> <span class="st">"dashed"</span>))</span>
+<span id="cb5-5"><a href=""></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> ft, <span class="at">linetype =</span> beta_factor)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"f(t)"</span>, <span class="at">title =</span> <span class="st">"Density function"</span> ) <span class="sc">+</span> shared_linetype <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,  <span class="dv">2</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb5-6"><a href=""></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> St, <span class="at">linetype =</span> beta_factor)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"S(t)"</span>, <span class="at">title =</span> <span class="st">"Survival function"</span>) <span class="sc">+</span> shared_linetype <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,  <span class="dv">1</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb5-7"><a href=""></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_combined, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> ht, <span class="at">linetype =</span> beta_factor)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"t"</span>, <span class="at">y =</span> <span class="st">"h(t)"</span>, <span class="at">title =</span> <span class="st">"Hazard function"</span>  ) <span class="sc">+</span> shared_linetype <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">40</span>), <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))) <span class="sc">+</span> custom_theme <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb5-8"><a href=""></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_4_files/figure-revealjs/unnamed-chunk-5-1.png" class="quarto-figure quarto-figure-center" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
 </div>
 
 </section></section>
