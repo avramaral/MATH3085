@@ -18,7 +18,7 @@ Welcome to the [Problem Sheets]{.attention} section! Here, you will find the pro
 
 <!--:white_check_mark:-->
 - :memo: <a href="/problem_sheets/pc01/ex01.pdf" download>Problem Sheet 01</a>
-- :lock: **Solution (available after class)**  <!-- :unlock: <a href="/problem_sheets/pc01/sol01.pdf" download>Solution</a> -->
+- :unlock: <a href="/problem_sheets/pc01/sol01.pdf" download>Solution</a> <!-- :lock: **Solution (available after class)** :unlock: <a href="/problem_sheets/pc01/sol01.pdf" download>Solution</a> -->
 
 <div style="margin-top: 25pt;"></div>
 

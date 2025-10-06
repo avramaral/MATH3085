@@ -27,7 +27,52 @@ options(digits = 4)
 library("tidyverse")
 ```
 
+## Recap
+
+:::{.justify}
+
+In the last chapter, we
+
+- Defined the likelihood function $L(\theta)$, showing how to [**incorporate all censoring types**]{.alert} (although we will focus on right-censored data only).
+
+- Identified [**Maximum Likelihood Estimation (MLE)**]{.alert} as the primary method for finding the parameter estimates $\hat{\theta}$ in parametric survival models by maximizing the log-likelihood function, $\ell(\theta)$.
+
+- Derived the MLE for the Exponential model.
+
+- Estimated parameters for more complex models (e.g., Weibull) using [**numerical methods**]{.alert}. We also compared the results with `flexsurvreg()` (from `flexsurv`).
+
+:::
+
+# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 6:**]{.secondary} Non-parametric Survival Estimationn</span>
+
+
 ## Introduction
 
-TBC
+:::{.justify .small-text}
 
+Frequently, we want to estimate the distribution of $T$ for the  (i.i.d.) homogeneous model based on  
+
+<div style="margin-top: -10pt;"></div>
+
+- observations $t_1, \cdots ,t_n$ 
+- with (right-) censoring indicators $d_1, \cdots ,d_n$, 
+
+<div style="margin-top: -25pt;"></div>
+
+[**without**]{.alert} assuming a particular parametric family for $f_T$.
+
+<div style="margin-top: 60pt;"></div>
+
+:::{.fragment}
+The likelihood is given by 
+$$
+L(\theta)=\prod_{i:d_i=1} f_T(t_i; \theta)\prod_{i:d_i=0} S_T(t_i; \theta)
+$$
+and this can be made infinitely large by concentrating $f_T$ in infinitesimally narrow regions around each observed $t_i$ (i.e. those for which  $d_i=1$). That is, if we only require $f_T(t) \ge 0$ for all $t \in \mathbb{R}_+$ and $\int_0^{\infty}f_T(t)dt = 1$, without any additional smoothness or parametric constraints, then [the likelihood is unbounded]{.alert}.
+
+
+To resolve this, [the **non-parametric maximum likelihood estimate** of the survival distribution is taken to be a discrete **distribution supported on the observed failure times $\{t_i: d_i=1\}$**]{.alert}.
+
+:::
+
+:::

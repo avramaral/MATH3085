@@ -58,8 +58,8 @@ The module content is structured into 16 chapters (with the corresponding slides
 2.  [Statistical Models](/slides/_output/chap_2.html)
 3.  [The Survival Distribution](/slides/_output/chap_3.html)
 4.  [Distributions for Survival Models](/slides/_output/chap_4.html)
-5.  Survival models: parameter estimation <!--(/slides/_output/chap_5.html)-->
-6.  Non-parametric Survival Estimation <!--(/slides/_output/chap_6.html)-->
+5.  [Survival models: parameter estimation](/slides/_output/chap_5.html)
+6.  [Non-parametric Survival Estimation](/slides/_output/chap_6.html)
 7.  Survival Regression Models <!--(/slides/_output/chap_7.html)-->
 8.  Multistate Survival Models <!--(/slides/_output/chap_8.html)-->
 9.  Inference for Multistate Models <!--(/slides/_output/chap_9.html)-->
@@ -105,8 +105,8 @@ Below is the **tentative** schedule for the module.
 | Week | Tuesday (Session 1)  | Tuesday (Session 2)  | Thursday (Session 1) | Thursday (Session 2) |
 | ---- | -------------------- | -------------------- | -------------------- | -------------------- | 
 | [01]{.inst1}   | Chapter 1            | Chapter 2            | Chapter 3            | Chapter 4 (part 1)   | 
-| [02]{.inst1}   | Chapter 4 (part 2)   | Problem Sheet 1      | Chapter 5            | Chapter 6 (part 1)   | 
-| [03]{.inst1}   | Chapter 6 (part 2)   | Chapter 6 (part 3)   | Chapter 6 (part 4)   | Problem Sheet 2      | 
+| [02]{.inst1}   | Chapter 4 (part 2)   | Problem Sheet 1      | Chapter 5 (part 1)            | Chapter 5 (part 2)   | 
+| [03]{.inst1}   | Chapter 6 (part 1)   | Chapter 6 (part 2)   | Chapter 6 (part 3)   | Problem Sheet 2      | 
 | [04]{.inst1}   | Chapter 7 (part 1)   | Chapter 7 (part 2)   | Chapter 7 (part 3)   | Problem Sheet 3      | 
 | [05]{.inst1}   | Chapter 8 (part 1)   | Chapter 8 (part 2)   | Chapter 8 (part 3)   | Chapter 8 (part 4)   | 
 | [06]{.inst1}   | Chapter 9 (part 1)   | Chapter 9 (part 2)   | Chapter 9 (part 3)   | Problem Sheet 4      | <!-- Ends in Nov 09 -->

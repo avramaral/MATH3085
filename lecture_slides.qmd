@@ -46,13 +46,11 @@ This chapter introduces several common parametric distributions for survival mod
 
 <div style="margin-top: 25pt;"></div>
 
-<!--
-
 ##### [:bar_chart: **Chapter 05: Survival models: parameter estimation**]{.secondary}
 
 This chapter introduces parameter estimation for parametric models using maximum likelihood estimation (MLE), a method adapted to handle right-censored data.
 
-- :page_facing_up: [Chapter 5](/slides/_output/chap_5.html) (incomplete)
+- :page_facing_up: [Chapter 5](/slides/_output/chap_5.html) (last updated on 06/10/2025)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -60,9 +58,11 @@ This chapter introduces parameter estimation for parametric models using maximum
 
 This chapter introduces non-parametric methods for estimating the survival distribution, focusing on the widely used Kaplan-Meier (KM) product-limit estimator.
 
-- :page_facing_up: [Chapter 6](/slides/_output/chap_6.html) (incomplete)
+- :page_facing_up: [Chapter 6](/slides/_output/chap_6.html) (last updated on 06/10/2025)
 
 <div style="margin-top: 25pt;"></div>
+
+<!--
 
 ##### [:bar_chart: **Chapter 07: Survival Regression Models**]{.secondary}
 
