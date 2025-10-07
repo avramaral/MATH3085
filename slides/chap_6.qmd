@@ -74,5 +74,152 @@ and this can be made infinitely large by concentrating $f_T$ in infinitesimally 
 To resolve this, [the **non-parametric maximum likelihood estimate** of the survival distribution is taken to be a discrete **distribution supported on the observed failure times $\{t_i: d_i=1\}$**]{.alert}.
 
 :::
+:::
+
+
+## Discrete survival distributions [**(Gap on page 45)**]{.alert}
+
+:::{.justify .small-text .fragment}
+
+A discrete survival variable $T$ takes values in a sample space $0<t'_1<t'_2<\cdots <t'_m<\infty$ and is defined by any of
+
+<div style="margin-top: 35pt;"></div>
+
+:::{.fragment}
+- Probability function 
+
+$$
+f_i =\mathbb{P}(T=t'_i), \qquad \text{for}~~ i=1, \cdots, m.
+$$
+
+<div style="margin-top: 35pt;"></div>
 
 :::
+
+:::{.fragment}
+- Survival function
+
+$$
+\begin{eqnarray*}
+S(t)=\mathbb{P}(T>t)&=&1-\sum_{j:t'_j\le t} f_j\\
+&\equiv& s_i, \qquad \text{for}~~ t\in[t'_i,t'_{i+1}) ~~\text{and}~~ i=0, \cdots ,m,
+\end{eqnarray*}
+$$
+where $t'_0 \equiv 0$ and $t'_{m+1} \equiv \infty$.
+:::
+:::
+
+## Discrete survival distributions [**(Gap on page 45)**]{.alert}
+
+:::{.justify .small-text}
+
+- Hazard function  
+
+<div style="margin-top: -15pt;"></div>
+
+$$
+\begin{eqnarray*}
+h_i & = & \mathbb{P}(T=t'_i|T\ge t'_i) = \frac{\mathbb{P}(T = t'_i \quad \mbox{and} \quad T\ge t'_i)}{\mathbb{P}(T\ge t'_i)} =  \frac{\mathbb{P}(T = t'_i)}{\mathbb{P}(T\ge t'_i)} = \frac{f_i}{\mathbb{P}(T > t'_{i-1})}\\
+& = & \frac{f_i}{s_{i-1}}
+\end{eqnarray*}
+$$
+
+<div style="margin-top: -15pt;"></div>
+
+We have $s_0=1$ and
+
+$$
+\begin{eqnarray*}
+s_i & = & \mathbb{P}(T > t_i') =  1 - \mathbb{P}(T \le t_i') =  1 - \left(\mathbb{P}(T \le t_{i-1}') + f_i \right)\\
+& =& \mathbb{P}(T>t_{i-1}') - f_i = s_{i-1} - f_i =  s_{i-1}-h_i s_{i-1} =  s_{i-1}(1-h_i )
+\end{eqnarray*}
+$$
+<div style="margin-top: -15pt;"></div>
+
+Therefore,
+$$
+s_i=\prod_{j=1}^i (1-h_j)\qquad{\rm and}\qquad f_i=h_i\prod_{j=1}^{i-1} (1-h_j)
+$$
+
+It is [**best to describe the survival distributions through $\{h_i\}$**]{.alert}, which are simply constrained to be in $[0,1]$, rather than $\{f_i\}$ or $\{s_i\}$ (which have more complex constraints).
+
+:::
+
+## Likelihood [**(Gap on page 48)**]{.alert}
+
+:::{.justify .small-text}
+
+We will now [connect these functions in the discrete case to the likelihood]{.alert} discussed in the previous chapter. To do so,
+
+<div style="margin-top: 15pt;"></div>
+
+:::{.fragment}
+
+- Let $0<t'_1<t'_2<\cdots <t'_m<\infty$ denote the [**distinct**]{.alert} observed failure times observed in our sample $\{t_1,\cdots , t_n\}$.
+
+<div style="margin-top: 25pt;"></div>
+
+- $t'_0=0$ and $t'_{m+1}=\infty$.
+
+<div style="margin-top: 25pt;"></div>
+
+- $d'_i$ is the number of failures observed at $t'_i,\; ( i=1,\cdots ,m)$, so
+
+$$
+\sum_{i=1}^m  d'_i = \sum_{i=1}^n  d_i=d_+.
+$$
+
+<div style="margin-top: 15pt;"></div>
+
+- $c_i\; ( i=0,\cdots ,m)$ is the number of censored observations with censoring times between $t'_i$ and $t'_{i+1}$.
+
+:::
+:::
+
+## Likelihood [**(Gap on page 48)**]{.alert}
+
+:::{.justify .small-text}
+
+The [**likelihood**]{.alert} is given by 
+
+$$
+\begin{eqnarray*}
+L(\theta)=\prod_{i=1}^m f_i^{d'_i} \prod_{i=0}^m s_i^{c_i}
+&=&\prod_{i=1}^m \left[h_i\prod_{j=1}^{i-1} (1-h_j)\right]^{d'_i} \prod_{i=1}^m \left[\prod_{j=1}^i (1-h_j)\right]^{c_i}\\
+&=&\prod_{i=1}^m  \left[\left(\frac{h_i}{1-h_i}\right)^{d'_i}\prod_{j=1}^i (1-h_j)^{d'_i+c_i}\right]\\
+&=&\left[\prod_{i=1}^m \left(\frac{h_i}{1-h_i}\right)^{d'_i}\right]\prod_{i=1}^m\prod_{j=1}^i (1-h_j)^{d'_i+c_i}\\
+&=&\left[\prod_{i=1}^m \left(\frac{h_i}{1-h_i}\right)^{d'_i}\right]\prod_{i=1}^m\prod_{j=i}^m (1-h_i)^{d'_j+c_j}\\
+&=&\left[\prod_{i=1}^m \left(\frac{h_i}{1-h_i}\right)^{d'_i}\right]\prod_{i=1}^m(1-h_i)^{\sum_{j=i}^m (d'_j+c_j)}\\
+\end{eqnarray*}.
+$$
+:::
+
+## Likelihood [**(Gap on page 48)**]{.alert}
+
+:::{.justify .small-text}
+
+The [**log-likelihood**]{.alert} is given by 
+
+$$
+\ell(\theta)=\sum_{i=1}^m \left[d'_i\log h_i -d'_i\log(1-h_i) +\log (1-h_i)\sum_{j=i}^m (d'_j+c_j)\right],
+$$
+
+so
+
+$$
+\frac{\partial\ell}{\partial h_i}=\frac{d'_i}{h_i}+ \frac{d'_i}{1-h_i} - \frac{\sum_{j=i}^m (d'_j+c_j)}{1-h_i}.
+$$
+and
+
+$$
+\begin{eqnarray*}
+&&\frac{d'_i}{\hat{h}_i}+ \frac{d'_i-\sum_{j=i}^m (d'_j+c_j)}{1-\hat{h}_i} ~~\overset{\text{SET}}{=}~~ 0\\
+&\text{implying}\qquad&\hat{h}_i=\frac{d'_i}{\sum_{j=i}^m (d'_j+c_j)},\qquad i=1,\cdots,m.
+\end{eqnarray*}
+$$
+
+:::
+
+
+
+
