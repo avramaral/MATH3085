@@ -25,6 +25,8 @@ date-format: "DD/MM/YYYY"
 knitr::opts_chunk$set(include = TRUE)
 options(digits = 4)
 library("tidyverse")
+library("survival")	
+library("MASS")
 ```
 
 ## Recap
@@ -220,6 +222,159 @@ $$
 
 :::
 
+## The Kaplan-Meier estimator [**(Gap on page 49)**]{.alert}
+
+:::{.justify .small-text .fragment}
+
+The [**discrete hazard MLE**]{.alert} is
+$$
+\hat{h}_i=\frac{d'_i}{r_i},\qquad i=1,\cdots, m, \qquad \text{ where } \qquad r_i=\sum_{j=i}^m (d'_j+c_j)
+$$
+is the [**number at risk**]{.alert} (of failure) at $t'_i$.
+ 
+The hazard at each $t'_i$ is therefore estimated by the observed number of failures at $t'_i$ as a proportion of the number at risk at  $t'_i$.
+
+<div style="margin-top: 40pt;"></div>
+
+:::{.fragment}
+The corresponding [**estimator of the survival function**]{.alert}
+$$
+\hat{S}(t)=\prod_{j=1}^i (1-\hat{h}_j)=\prod_{j=1}^i \left(1-\frac{d'_j}{r_j}\right)\qquad t\in[t'_i,t'_{i+1}), \quad i=0,\cdots ,m
+$$
+is called the [**Kaplan-Meier (or product-limit) estimator**]{.alert}.
+:::
+:::
+
+## Kaplan-Meier estimator 
+
+:::{.justify .small-text}
 
 
+[**Gehan data**]{.alert}: remission times (in weeks) from a clinical trial of 42 leukaemia patients. Patients matched in pairs and randomised to 6-mercaptopurine (drug) or control (from `MASS` package).
 
+<div style="margin-top: -15pt;"></div>
+
+Using the `survfit()` and `Surv()` functions from the `survival` package, we can compute the KM curves as follows
+
+<div style="margin-top: -5pt;"></div>
+
+```{r, echo = TRUE, fig.width = 6, fig.height = 2.25, fig.align = "center"}
+gehanControl <- survfit(Surv(time = gehan$time[gehan$treat == "6-MP"   ], event = gehan$cens[gehan$treat == "6-MP"]   ) ~ 1)
+gehan6mp     <- survfit(Surv(time = gehan$time[gehan$treat == "control"], event = gehan$cens[gehan$treat == "control"]) ~ 1)
+
+par(family = "Latin Modern Roman 10", mar = c(1.85, 4.1, 0.5, 2.1))
+plot( gehan6mp,     mark.time = TRUE, conf.int = FALSE, col = "blue", lwd = 2, xlab = "Time (weeks)", ylab = "Survival", main = NA, xlim = c(0, 35))
+lines(gehanControl, mark.time = TRUE, conf.int = FALSE, col = "red",  lwd = 2)
+legend("topright", legend = c("6-MP", "Control"), col = c("blue", "red"), lwd = 2, bty = "n")
+# Alternatively, one can use `treat` as a covariate. This would produce the same plot.
+# gehan.km <- survfit(Surv(time, cens) ~ treat, data = gehan)
+# plot(gehan.km, xlab = "Time (weeks)", ylab = "S(time)", lty = c(1, 2), xlim = c(0, 35))
+
+```
+
+
+:::
+
+
+## Notes on Kaplan-Meier estimator [**(Gap on page 50)**]{.alert}
+
+:::{.justify .fragment}
+
+- Although the Kaplan-Meier estimator represents a discrete survival distribution, we use it to estimate $S_T(t)$ for [continuous $T$]{.alert}.
+
+<div style="margin-top: 5pt;"></div>
+
+:::{.fragment}
+
+- For censored times tied with uncensored times, we treat the censored times as infinitessimally
+larger than the uncensored ones with which they are tied (so $c_i$ includes observations censored at $t'_i$).
+
+<div style="margin-top: 5pt;"></div>
+
+:::
+
+:::{.fragment}
+
+- If the largest time is censored (so $c_m>0$), then the Kaplan-Meier estimator is positive at the largest uncensored time and therefore the estimated survivor function is [nowhere zero]{.alert}.
+
+<div style="margin-top: 5pt;"></div>
+
+:::
+
+:::{.fragment}
+
+- Sometimes, it is informative to plot $\log{S}(t)$, recalling that the hazard function $h(t)$ is equal to $-\frac{\mathrm{d}}{\mathrm{d}t}\log S(t)$.
+Hence $\log{S}(t)$ is linear for [exponentially distributed data (constant hazard)]{.alert}.
+
+:::
+:::
+
+## Kaplan-Meier estimate by hand [**(Gap on page 50)**]{.alert}
+
+:::{.justify}
+
+Consider the following survival times $\mathbf{t} = \left(3, 4, 6^*, 8, 8, 10\right)$. There are $m=4$ distinct observed survival times. 
+
+:::{.fragment}
+
+<div style="margin-top: 50pt;"></div>
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+| $i$       | $t_i$     | $t_{i+1}$ | $r_i$    | $d_i'$    | $c_i$   | $\hat{S}(t)$ |
+| :-------: | :-------: | :-------: | :-------:| :-------: |:-------:|:------------:|
+| $0$ | $0$   | $3$        | $6$   | $0$    | $0$   | $1$           |
+| $1$ | $3$   | $4$        | $6$   | $1$    | $0$   | $\frac{5}{6}$ |
+| $2$ | $4$   | $8$        | $5$   | $1$    | $1$   | $\frac{2}{3}$ |
+| $3$ | $8$   | $10$       | $3$   | $2$    | $0$   | $\frac{2}{9}$ |
+| $4$ | $10$  | $\infty$   | $1$   | $1$    | $0$   | $0$           |
+
+:::
+
+::: {.column width="50%" .small-text}
+
+```{r, echo = TRUE, fig.width = 6, fig.height = 3.25, fig.align = "center"}
+par(family = "Latin Modern Roman 10", mar = c(5.1, 4.1, 0.5, 2.1))
+
+plot(0, 0, type="l", xlim=c(0,12), ylim=c(0,1), xlab = "Time", ylab = "S(time)")
+segments(x0 = c(0, 3, 4, 8, 10), x1=c(3, 4, 8, 10, 12), y0=c(1, 5/6, 2/3, 2/9,0), y1 = c(1, 5/6, 2/3, 2/9, 0), lwd = 2, col = "red")
+segments(x0 = c(3, 4, 8, 10),    x1=c(3, 4, 8, 10),     y0=c(1, 5/6, 2/3, 2/9  ), y1 = c(5/6, 2/3, 2/9, 0   ), lwd = 2, col = "red")
+```
+
+:::
+:::
+:::
+:::
+
+## Kaplan-Meier with `R` 
+
+:::{.justify .small-text}
+
+As before, we can compute it in `R` using the `survival` package.
+
+<div style="margin-top: 10pt;"></div>
+
+```{r, echo = TRUE, fig.width = 9, fig.height = 3.55, fig.align = "center"}
+par(family = "Latin Modern Roman 10", mar = c(5.1, 4.1, 2.5, 2.1))
+
+time <- c(3, 4, 6, 8, 8, 10)
+cens <- c(1, 1, 0, 1, 1, 1 )
+
+km <- survfit(Surv(time, cens) ~ 1)
+
+par(mfrow=c(1,2))
+plot(km, conf.int = FALSE, xlab = "Time", ylab = "S(time)", main = "Without 'censoring marks' and CI")
+plot(km, mark.time = TRUE, xlab = "Time", ylab = "S(time)", main =    "With 'censoring marks' and CI")
+
+```
+:::
+
+## Standard Errors and CIs [**(Gap on page 55)**]{.alert}
+
+:::{.justify .small-text .fragment}
+
+To be completed.
+
+:::

@@ -58,7 +58,7 @@ This chapter introduces parameter estimation for parametric models using maximum
 
 This chapter introduces non-parametric methods for estimating the survival distribution, focusing on the widely used Kaplan-Meier (KM) product-limit estimator.
 
-- :page_facing_up: [Chapter 6](/slides/_output/chap_6.html) (last updated on 06/10/2025)
+- :page_facing_up: [Chapter 6](/slides/_output/chap_6.html) (last updated on 09/10/2025)
 
 <div style="margin-top: 25pt;"></div>
 
