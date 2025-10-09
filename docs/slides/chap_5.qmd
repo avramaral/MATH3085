@@ -315,7 +315,7 @@ $$
 
 :::{.justify}
 
-[Remission times (in weeks) from a clinical trial of **42 leukaemia patients**]{.alert}. Patients matched in pairs and randomised to 6-mercaptopurine (drug) or control. In `R`, data is found in the `MASS` package in the `gehan` object.
+[Remission times (before relapsing), in weeks, from a clinical trial of **42 leukaemia patients**]{.alert}. Patients matched in pairs and randomised to 6-mercaptopurine (drug) or control. In `R`, data is found in the `MASS` package in the `gehan` object.
 
 ```{r, echo = TRUE, fig.width = 8, fig.height = 3.75, fig.align = "center"}
 library("MASS")
