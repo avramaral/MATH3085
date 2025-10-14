@@ -447,7 +447,7 @@ so for Weibull data, we would expect $\log {\hat H}(t)$ to be linear in $\log(t)
 If $d'_i/r_i$ is small (typical for smaller values of $t$) then the Kaplan-Meier and Fleming-Harrington estimators of $S(t)$ will be close, as
 $$
 \begin{eqnarray*}
-exp\left(-\frac{d'_j}{r_j}\right)&=&1-\frac{d'_j}{r_j}+\frac{1}{2}\left(\frac{d'_j}{r_j}\right)^2 -\cdots\\
+\exp\left(-\frac{d'_j}{r_j}\right)&=&1-\frac{d'_j}{r_j}+\frac{1}{2}\left(\frac{d'_j}{r_j}\right)^2 -\cdots\\
 &\approx& 1-\frac{d'_j}{r_j}.
 \end{eqnarray*}
 $$
