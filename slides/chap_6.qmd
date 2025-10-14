@@ -373,8 +373,83 @@ plot(km, mark.time = TRUE, xlab = "Time", ylab = "S(time)", main =    "With 'cen
 
 ## Standard Errors and CIs [**(Gap on page 55)**]{.alert}
 
-:::{.justify .small-text .fragment}
+:::{.justify .fragment}
 
-To be completed.
+The standard error of the Kaplan-Meier estimator is given by [[**Greenwood's formula**]{.alert} (i.e., a formula used to approximate the variance of the Kaplan-Meier estimator)](https://en.wikipedia.org/wiki/Kaplan%E2%80%93Meier_estimator#Statistical_considerations){target="_blank"}
+$$
+\text{se}[\hat{S}(t)]^2=\hat{S}(t)^2
+\sum_{j=1}^i {{d'_j}\over{r_j(r_j-d'_j)}}\qquad t\in[t'_i,t'_{i+1}), \quad i=0,\cdots ,m
+$$
 
+Using a normal approximation for the sampling distribution of $\hat{S}(t)$, we can obtain endpoints of an approximate $(1-\alpha)\%$ confidence interval for $S(t)$ as 
+$$
+\hat{S}(t)\pm z_{\left(1-\frac{\alpha}{2}\right)} \cdot \text{se}[\hat{S}(t)].
+$$
+
+
+:::
+
+## Standard Errors and CIs [**(Gap on page 55)**]{.alert}
+
+:::{.justify}
+Better confidence intervals are often obtained on the log scale, using
+$$
+\text{se}[\log\hat{S}(t)]^2=
+\sum_{j=1}^i {{d'_j}\over{r_j(r_j-d'_j)}}\qquad t\in[t'_i,t'_{i+1}), \quad i=0,\cdots ,m
+$$
+to give endpoints of an alternative $(1-\alpha)\%$ confidence interval as
+$$
+\hat{S}(t)\cdot \exp\left\{\pm z_{\left(1-\frac{\alpha}{2}\right)}\cdot \text{se}[\log\hat{S}(t)]\right\}.
+$$
+:::
+
+
+## The Nelson-Aalen estimator [**(Gap on page 56)**]{.alert}
+
+:::{.justify .fragment}
+
+The [**Nelson-Aalen estimator**]{.alert} estimates the cumulative hazard function $H(t)$ by integrating (summing) the discrete hazard estimators $\hat{h}_i=d'_i/r_i$, and is given by
+
+:::{.small-text}
+$$
+\hat{H}(t)=\sum_{j=1}^i \hat{h}_j=\sum_{j=1}^i \frac{d'_j}{r_j}\qquad t\in[t'_i,t'_{i+1}), \quad i=0,\cdots ,m.
+$$
+:::
+
+<div style="margin-top: 20pt;"></div>
+
+:::{.fragment}
+As $S(t)=\exp \{-H(t)\}$, [the Nelson-Aalen estimator provides an estimator of $S(t)$]{.alert} as
+
+:::{.small-text}
+$$
+\hat{S}(t)= \exp\left(-\sum_{j=1}^i\frac{d'_j}{r_j}\right)= \prod_{j=1}^i\exp\left(-\frac{d'_j}{r_j}\right)\qquad t\in[t'_i,t'_{i+1}), \quad i=0,\cdots,m
+$$
+:::
+which is sometimes called the [**Fleming-Harrington estimator**]{.alert}.
+
+:::
+:::
+
+## Notes on Nelson-Aalen estimator [**(Gap on page 57)**]{.alert}
+
+:::{.justify .fragment .small-text}
+
+Plotting $\log[{\hat H}(t)]$ against $\log(t)$ checks whether a Weibull model might fit the data, as for the Weibull,
+$$
+H(t)=(\beta t)^\alpha\qquad\Rightarrow\qquad \log [H(t)]=\alpha\log(\beta)+\alpha\log(t),
+$$
+so for Weibull data, we would expect $\log {\hat H}(t)$ to be linear in $\log(t)$, with gradient $\alpha$.
+
+<div style="margin-top: 40pt;"></div>
+
+:::{.fragment}
+If $d'_i/r_i$ is small (typical for smaller values of $t$) then the Kaplan-Meier and Fleming-Harrington estimators of $S(t)$ will be close, as
+$$
+\begin{eqnarray*}
+exp\left(-\frac{d'_j}{r_j}\right)&=&1-\frac{d'_j}{r_j}+\frac{1}{2}\left(\frac{d'_j}{r_j}\right)^2 -\cdots\\
+&\approx& 1-\frac{d'_j}{r_j}.
+\end{eqnarray*}
+$$
+:::
 :::

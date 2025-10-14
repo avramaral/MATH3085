@@ -10,7 +10,6 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="André Victor Ribeiro Amaral">
-  <meta name="dcterms.date" content="2025-09-10">
   <title>Survival Models (MATH3085/6143)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -211,7 +210,7 @@
     </div>
 </div>
 
-  <p class="date">09/10/2025</p>
+  <p class="date">13/10/2025</p>
 </section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
@@ -600,8 +599,67 @@ L(\theta)=\prod_{i=1}^m f_i^{d'_i} \prod_{i=0}^m s_i^{c_i}
 </section>
 <section id="standard-errors-and-cis-gap-on-page-55" class="slide level2">
 <h2>Standard Errors and CIs <span class="alert"><strong>(Gap on page 55)</strong></span></h2>
-<div class="justify small-text fragment">
-<p>To be completed.</p>
+<div class="justify fragment">
+<p>The standard error of the Kaplan-Meier estimator is given by <a href="https://en.wikipedia.org/wiki/Kaplan%E2%80%93Meier_estimator#Statistical_considerations" target="_blank"><span class="alert"><strong>Greenwood’s formula</strong></span> (i.e., a formula used to approximate the variance of the Kaplan-Meier estimator)</a> <span class="math display">\[
+\text{se}[\hat{S}(t)]^2=\hat{S}(t)^2
+\sum_{j=1}^i {{d'_j}\over{r_j(r_j-d'_j)}}\qquad t\in[t'_i,t'_{i+1}), \quad i=0,\cdots ,m
+\]</span></p>
+<p>Using a normal approximation for the sampling distribution of <span class="math inline">\(\hat{S}(t)\)</span>, we can obtain endpoints of an approximate <span class="math inline">\((1-\alpha)\%\)</span> confidence interval for <span class="math inline">\(S(t)\)</span> as <span class="math display">\[
+\hat{S}(t)\pm z_{\left(1-\frac{\alpha}{2}\right)} \cdot \text{se}[\hat{S}(t)].
+\]</span></p>
+</div>
+</section>
+<section id="standard-errors-and-cis-gap-on-page-55-1" class="slide level2">
+<h2>Standard Errors and CIs <span class="alert"><strong>(Gap on page 55)</strong></span></h2>
+<div class="justify">
+<p>Better confidence intervals are often obtained on the log scale, using <span class="math display">\[
+\text{se}[\log\hat{S}(t)]^2=
+\sum_{j=1}^i {{d'_j}\over{r_j(r_j-d'_j)}}\qquad t\in[t'_i,t'_{i+1}), \quad i=0,\cdots ,m
+\]</span> to give endpoints of an alternative <span class="math inline">\((1-\alpha)\%\)</span> confidence interval as <span class="math display">\[
+\hat{S}(t)\cdot \exp\left\{\pm z_{\left(1-\frac{\alpha}{2}\right)}\cdot \text{se}[\log\hat{S}(t)]\right\}.
+\]</span></p>
+</div>
+</section>
+<section id="the-nelson-aalen-estimator-gap-on-page-56" class="slide level2">
+<h2>The Nelson-Aalen estimator <span class="alert"><strong>(Gap on page 56)</strong></span></h2>
+<div class="justify fragment">
+<p>The <span class="alert"><strong>Nelson-Aalen estimator</strong></span> estimates the cumulative hazard function <span class="math inline">\(H(t)\)</span> by integrating (summing) the discrete hazard estimators <span class="math inline">\(\hat{h}_i=d'_i/r_i\)</span>, and is given by</p>
+<div class="small-text">
+<p><span class="math display">\[
+\hat{H}(t)=\sum_{j=1}^i \hat{h}_j=\sum_{j=1}^i \frac{d'_j}{r_j}\qquad t\in[t'_i,t'_{i+1}), \quad i=0,\cdots ,m.
+\]</span></p>
+</div>
+<div style="margin-top: 20pt;">
+
+</div>
+<div class="fragment">
+<p>As <span class="math inline">\(S(t)=\exp \{-H(t)\}\)</span>, <span class="alert">the Nelson-Aalen estimator provides an estimator of <span class="math inline">\(S(t)\)</span></span> as</p>
+<div class="small-text">
+<p><span class="math display">\[
+\hat{S}(t)= \exp\left(-\sum_{j=1}^i\frac{d'_j}{r_j}\right)= \prod_{j=1}^i\exp\left(-\frac{d'_j}{r_j}\right)\qquad t\in[t'_i,t'_{i+1}), \quad i=0,\cdots,m
+\]</span></p>
+</div>
+<p>which is sometimes called the <span class="alert"><strong>Fleming-Harrington estimator</strong></span>.</p>
+</div>
+</div>
+</section>
+<section id="notes-on-nelson-aalen-estimator-gap-on-page-57" class="slide level2">
+<h2>Notes on Nelson-Aalen estimator <span class="alert"><strong>(Gap on page 57)</strong></span></h2>
+<div class="justify fragment small-text">
+<p>Plotting <span class="math inline">\(\log[{\hat H}(t)]\)</span> against <span class="math inline">\(\log(t)\)</span> checks whether a Weibull model might fit the data, as for the Weibull, <span class="math display">\[
+H(t)=(\beta t)^\alpha\qquad\Rightarrow\qquad \log [H(t)]=\alpha\log(\beta)+\alpha\log(t),
+\]</span> so for Weibull data, we would expect <span class="math inline">\(\log {\hat H}(t)\)</span> to be linear in <span class="math inline">\(\log(t)\)</span>, with gradient <span class="math inline">\(\alpha\)</span>.</p>
+<div style="margin-top: 40pt;">
+
+</div>
+<div class="fragment">
+<p>If <span class="math inline">\(d'_i/r_i\)</span> is small (typical for smaller values of <span class="math inline">\(t\)</span>) then the Kaplan-Meier and Fleming-Harrington estimators of <span class="math inline">\(S(t)\)</span> will be close, as <span class="math display">\[
+\begin{eqnarray*}
+exp\left(-\frac{d'_j}{r_j}\right)&amp;=&amp;1-\frac{d'_j}{r_j}+\frac{1}{2}\left(\frac{d'_j}{r_j}\right)^2 -\cdots\\
+&amp;\approx&amp; 1-\frac{d'_j}{r_j}.
+\end{eqnarray*}
+\]</span></p>
+</div>
 </div>
 
 </section></section>
