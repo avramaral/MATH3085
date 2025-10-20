@@ -27,8 +27,46 @@ options(digits = 4)
 library("tidyverse")
 ```
 
+## Recap
+
+:::{.justify}
+
+In the last chapter, we
+
+- [**Defined the non-parametric MLE:**]{.alert} we resolved the problem of the unbounded likelihood by constructing a the Non-Parametric Maximum Likelihood Estimator of the survival distribution based on a discrete distribution with mass only at the observed failure times.
+
+- Derived the [**Kaplan-Meier estimator**]{.alert} for the survival function $\hat{S}(t)$.
+
+- Learned how to calculate the variance using Greenwood's formula and how to use the [Nelson-Aalen estimator $\hat{H}(t)$]{.alert} and its resulting [Fleming-Harrington survival curve]{.alert} as alternatives to Kaplan-Meier.
+
+:::
+
+# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 7:**]{.secondary} Survival Regression Models</span>
+
+
 ## Introduction
 
-TBC
+:::{.justify .small-text}
 
+Commonly, when we observe (possibly censored) survival times $t_1, \cdots ,t_n$, we also observe the values of $k$ other variables, $x_1, \cdots ,x_k$, for each of the $n$ units of observation. 
 
+<div style="margin-top: 20pt;"></div>
+
+:::{.fragment}
+
+Then, we drop the assumption that the survival time variables $T_1, \cdots ,T_n$ are identically distributed, and investigate how their distribution  depends on  the [**explanatory variables**]{.alert} (or [**covariates**]{.alert}) $x_1, \cdots, x_k$.
+
+<div style="margin-top: 20pt;"></div>
+
+:::
+
+:::{.fragment}
+
+In a [**regression model**]{.alert}, we assume that the dependence of the distribution of $T_i$ on the values of $x_1, \cdots, x_k$ is through a regression function, which is typically assumed to have linear structure, as
+$$
+\eta_i=\beta_1 x_{i1}+\beta_2 x_{i2}+ \cdots +\beta_k x_{ik}=\sum_{j=1}^k x_{ij}\beta_j=\mathbf{x}_i^{\top}\boldsymbol{\beta}
+$$
+where $\mathbf{x}_i=(x_{i1},x_{i2},\ldots ,x_{ik})^{\top}$ is the $k$-vector containing the values of $x_1,\cdots,x_k$ for unit $i$ and $\boldsymbol{\beta}=(\beta_{1},\beta_{2},\ldots ,\beta_{k})^{\top}$ is a $k$-vector of regression parameters.
+
+:::
+:::

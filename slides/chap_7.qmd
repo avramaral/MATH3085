@@ -25,10 +25,201 @@ date-format: "DD/MM/YYYY"
 knitr::opts_chunk$set(include = TRUE)
 options(digits = 4)
 library("tidyverse")
+library("MASS")
 ```
+
+## Recap
+
+:::{.justify}
+
+In the last chapter, we
+
+- [**Defined the non-parametric MLE:**]{.alert} we resolved the problem of the unbounded likelihood by constructing a the Non-Parametric Maximum Likelihood Estimator of the survival distribution based on a discrete distribution with mass only at the observed failure times.
+
+- Derived the [**Kaplan-Meier estimator**]{.alert} for the survival function $\hat{S}(t)$.
+
+- Learned how to calculate the variance using Greenwood's formula and how to use the [Nelson-Aalen estimator $\hat{H}(t)$]{.alert} and its resulting [Fleming-Harrington survival curve]{.alert} as alternatives to Kaplan-Meier.
+
+:::
+
+# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 7:**]{.secondary} Survival Regression Models</span>
+
 
 ## Introduction
 
-TBC
+:::{.justify .small-text}
 
+Commonly, when we observe (possibly censored) survival times $t_1, \cdots ,t_n$, we also observe the values of $k$ other variables, $x_1, \cdots ,x_k$, for each of the $n$ units of observation. 
+
+<div style="margin-top: 20pt;"></div>
+
+:::{.fragment}
+
+Then, we drop the assumption that the survival time variables $T_1, \cdots ,T_n$ are identically distributed, and investigate how their distribution  depends on  the [**explanatory variables**]{.alert} (or [**covariates**]{.alert}) $x_1, \cdots, x_k$.
+
+<div style="margin-top: 20pt;"></div>
+
+:::
+
+:::{.fragment}
+
+In a [**regression model**]{.alert}, we assume that the dependence of the distribution of $T_i$ on the values of $x_1, \cdots, x_k$ is through a regression function, which is typically assumed to have linear structure, as
+$$
+\eta_i=\beta_1 x_{i1}+\beta_2 x_{i2}+ \cdots +\beta_k x_{ik}=\sum_{j=1}^k x_{ij}\beta_j=\mathbf{x}_i^{\top}\boldsymbol{\beta}
+$$
+where $\mathbf{x}_i=(x_{i1},x_{i2},\ldots ,x_{ik})^{\top}$ is the $k$-vector containing the values of $x_1,\cdots,x_k$ for unit $i$ and $\boldsymbol{\beta}=(\beta_{1},\beta_{2},\ldots ,\beta_{k})^{\top}$ is a $k$-vector of regression parameters.
+
+:::
+:::
+
+
+## Example: Leukaemia (as in [Chapter 2]{.secondary})
+
+:::{.justify}
+
+survival times are given for 33 patients who died from [acute myelogenous leukaemia]{.alert}. In `R`, this can be found in the `leuk` object in the `MASS` package.
+
+```{r, echo = TRUE, fig.width = 5, fig.height = 3.75, fig.align = "center"}
+as_tibble(leuk)
+```
+
+`leuk` is a data frame with columns: `wbc` (white blood count), `ag` (a test result, "present" or "absent"), and `time` (survival time in weeks).
+
+:::
+
+## Example: Leukaemia (as in [Chapter 2]{.secondary})
+
+:::{.justify .small-text}
+
+Here, we have two potential explanatory variables, `wbc` and `ag`. As `ag` is a factor (a non-numerical variable) we transform it in the regression function to an indicator (dummy) variable or variables, for example
+$$
+1(\texttt{ag}~~\text{is present}) = 
+\left\{ \begin{array}{ll}
+1 & \text{if}~~\texttt{ag}~~\text{is present}\\
+0 & \text{if}~~\texttt{ag}~~\text{is absent}
+\end{array} 
+\right.
+$$
+
+<div style="margin-top: 40pt;"></div>
+
+:::{.fragment}
+
+Similarly [**further explanatory variables may be created**]{.alert} from the numeric covariate `wbc`, e.g. $\texttt{wbc}^2$ to investigate possible quadratic dependence.
+
+:::
+:::
+
+## Proportional hazards [**(Gap on page 59)**]{.alert}
+
+:::{.justify .small-text}
+
+As was the case with homogeneous survival models in [**Chapter 6**]{.secondary}, we frequently want to investigate the dependence of $T_i$ on $x_1, \cdots, x_k$, [**without**]{.alert} assuming a particular parametric family for $f_{T_i}$.
+
+:::{.fragment}
+
+<div style="margin-top: 60pt;"></div>
+
+A [**proportional hazards**]{.alert} model (or Cox regression model) assumes that the hazard function for the survival variable corresponding to the $i$-th unit is
+$$
+h_{T_i}(t)=\exp\left\{\mathbf{x}_i^{\top}\boldsymbol{\beta}\right\}\cdot h_0(t)
+$$
+where $h_0$ is called the [**baseline hazard function**]{.alert} and is not assumed to have a particular mathematical form.
+
+:::
+
+:::{.fragment}
+
+<div style="margin-top: 60pt;"></div>
+
+Hence, we model the effect of the explanatory variables on the distribution of $T_i$ as multiplying the baseline hazard by the exponentiated regression function, $\exp\{\eta_i\}$.
+
+:::
+:::
+
+## Proportional hazards [**(Gap on page 60)**]{.alert}
+
+:::{.justify .small-text}
+
+Equivalently, 
+$$
+\begin{eqnarray*}
+S_{T_i}(t) & = & \exp\left[ - \int_0^t h_{T_i}(s) \mathrm{d}s \right]\\
+& = & \exp\left[ - \int_0^t \exp\left(\mathbf{x}_i^T\boldsymbol{\beta}\right) \cdot h_0(s)\mathrm{d}s \right]\\
+& = & \exp\left[ - \int_0^t h_0(s)\mathrm{d}s \right]^{\exp\left(\mathbf{x}_i^{\top}\boldsymbol{\beta}\right)}\\
+& = & S_0(t)^{\exp\left(\mathbf{x}_i^T\boldsymbol{\beta}\right)}
+\end{eqnarray*}
+$$
+where
+$$S_0(t) = \exp\left[ - \int_0^t h_0(s)\mathrm{d}s \right]$$
+is the baseline survivor function.
+:::
+
+## Partial likelihood [**(Gap on page 61)**]{.alert}
+
+:::{.justify .small-text .fragment}
+
+We require to estimate the regression parameters $\boldsymbol{\beta}$ without specifying (or even estimating) the baseline hazard $h_0$ (so we cannot write down a likelihood, as $f_{T_i}$ and $S_{T_i}$ are not fully specified).
+
+The [**partial likelihood function**]{.alert} is the joint probability of the observed data [**conditional on the observed failure times $\{t_i: d_i=1\}$**]{.secondary}.
+
+Conditioning on $\{t_i: d_i=1\}$, the partial likelihood reduces to the probability of the failures occurring in the order in which they were observed.
+
+Let $R_i$ be the [**risk set**]{.alert} at $t_i$, that is
+$$
+R_i=\{j:t_j\ge t_i\}
+$$
+the units with failure or censoring times at, or after, $t_i$. Then, 
+$$
+\mathbb{P}(T_j\in[t_i,t_i+\delta t]\,|\,j\in R_i)=h_{T_j}(t_i)\delta t=\exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)h_0(t_i)\delta t
+$$
+for some (infinitesimally small) $\delta t$.
+:::
+
+## Partial likelihood [**(Gap on page 61)**]{.alert}
+
+:::{.justify .small-text}
+
+Therefore
+$$
+\mathbb{P}(\mbox{some } j\in R_i \mbox{ fails in } [t_i,t_i+\delta t])=\sum_{j\in R_i} \exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)h_0(t_i)\delta t+O(\delta t^2).
+$$
+
+Hence,
+$$
+\begin{eqnarray*}
+\mathbb{P}(T_i\in [t_i,t_i+\delta t] \,|\, \mbox{some } j\in R_i \mbox{ fails in } [t_i,t_i+\delta t])&& = \\[3pt]
+&&\hspace{-12cm}=\;\frac
+{\exp\left(\mathbf{x}_i^T\boldsymbol{\beta}\right)h_0(t_i)\delta t}
+{\sum_{j\in R_i} \exp\left(\mathbf{x}_j^T\boldsymbol{\beta}\right)h_0(t_i)\delta t+O(\delta t^2)}=\frac
+{\exp\left(\mathbf{x}_i^T\boldsymbol{\beta}\right)}
+{\sum_{j\in R_i} \exp\left(\mathbf{x}_j^T\boldsymbol{\beta}\right)+O(\delta t)}\\
+\end{eqnarray*}
+$$
+and in the limit $\delta t\to 0$,
+$$
+\mathbb{P}(i \mbox{ fails at } t_i \,|\, \mbox{some } j\in R_i \mbox{ fails at } t_i)
+=\frac
+{\exp\left(\mathbf{x}_i^{\top}\boldsymbol{\beta}\right)}
+{\sum_{j\in R_i} \exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)}.
+$$
+:::
+
+## Partial likelihood [**(Gap on page 61)**]{.alert}
+
+:::{.justify .small-text}
+
+The [**partial likelihood**]{.alert} is therefore given by
+$$
+\begin{eqnarray*}
+L(\boldsymbol{\beta})&=&\mathbb{P}(\mbox{failures occurred in observed order})\\[3pt]
+&=&\prod_{i:d_i=1}
+\mathbb{P}(i \mbox{ fails at } t_i \,|\, \mbox{some } j\in R_i \mbox{ fails at } t_i)\\[3pt]
+&=&\prod_{i:d_i=1}\frac
+{\exp\left(\mathbf{x}_i^{\top}\boldsymbol{\beta}\right)}
+{\sum_{j\in R_i} \exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)},
+\end{eqnarray*}
+$$
+which does not depend on the baseline hazard $h_0$.
+:::
 

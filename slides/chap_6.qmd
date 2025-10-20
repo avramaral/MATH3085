@@ -45,7 +45,7 @@ In the last chapter, we
 
 :::
 
-# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 6:**]{.secondary} Non-parametric Survival Estimationn</span>
+# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 6:**]{.secondary} Non-parametric Survival Estimation</span>
 
 
 ## Introduction

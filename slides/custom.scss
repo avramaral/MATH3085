@@ -350,6 +350,12 @@ $selection-bg: #26351c !default;
   text-align: justify !important;
 }
 
+.justify ul, 
+.justify ol, 
+.justify li {
+  text-align: justify !important;
+}
+
 .secondary {
   color: $accent !important;
 }
