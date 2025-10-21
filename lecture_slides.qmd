@@ -66,7 +66,7 @@ This chapter introduces non-parametric methods for estimating the survival distr
 
 This chapter introduces survival regression to analyze the effect of explanatory variables, focusing on the semi-parametric Cox Proportional Hazards (PH) model and the parametric Accelerated Failure Time (AFT) model.
 
-- :page_facing_up: [Chapter 7](/slides/_output/chap_7.html) (last updated on 20/10/2025)
+- :page_facing_up: [Chapter 7](/slides/_output/chap_7.html) (last updated on 21/10/2025)
 
 <div style="margin-top: 25pt;"></div>
 

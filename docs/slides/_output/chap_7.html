@@ -28,6 +28,72 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="chap_7_files/libs/revealjs/dist/theme/quarto-e436bd4c930d147ec8018015d5404e9a.css">
   <link href="chap_7_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -144,7 +210,7 @@
     </div>
 </div>
 
-  <p class="date">20/10/2025</p>
+  <p class="date">21/10/2025</p>
 </section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
@@ -179,6 +245,470 @@
 <p>In a <span class="alert"><strong>regression model</strong></span>, we assume that the dependence of the distribution of <span class="math inline">\(T_i\)</span> on the values of <span class="math inline">\(x_1, \cdots, x_k\)</span> is through a regression function, which is typically assumed to have linear structure, as <span class="math display">\[
 \eta_i=\beta_1 x_{i1}+\beta_2 x_{i2}+ \cdots +\beta_k x_{ik}=\sum_{j=1}^k x_{ij}\beta_j=\mathbf{x}_i^{\top}\boldsymbol{\beta}
 \]</span> where <span class="math inline">\(\mathbf{x}_i=(x_{i1},x_{i2},\ldots ,x_{ik})^{\top}\)</span> is the <span class="math inline">\(k\)</span>-vector containing the values of <span class="math inline">\(x_1,\cdots,x_k\)</span> for unit <span class="math inline">\(i\)</span> and <span class="math inline">\(\boldsymbol{\beta}=(\beta_{1},\beta_{2},\ldots ,\beta_{k})^{\top}\)</span> is a <span class="math inline">\(k\)</span>-vector of regression parameters.</p>
+</div>
+</div>
+</section>
+<section id="example-leukaemia-as-in-chapter-2" class="slide level2">
+<h2>Example: Leukaemia (as in <span class="secondary">Chapter 2</span>)</h2>
+<div class="justify">
+<p>Survival times are given for 33 patients who died from <span class="alert">acute myelogenous leukaemia</span>. In <code>R</code>, this can be found in the <code>leuk</code> object in the <code>MASS</code> package.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">as_tibble</span>(leuk)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 33 × 3
+     wbc ag       time
+   &lt;int&gt; &lt;fct&gt;   &lt;int&gt;
+ 1  2300 present    65
+ 2   750 present   156
+ 3  4300 present   100
+ 4  2600 present   134
+ 5  6000 present    16
+ 6 10500 present   108
+ 7 10000 present   121
+ 8 17000 present     4
+ 9  5400 present    39
+10  7000 present   143
+# ℹ 23 more rows</code></pre>
+</div>
+</div>
+<p><code>leuk</code> is a data frame with columns: <code>wbc</code> (white blood count), <code>ag</code> (a test result, “present” or “absent”), and <code>time</code> (survival time in weeks).</p>
+</div>
+</section>
+<section id="example-leukaemia-as-in-chapter-2-1" class="slide level2">
+<h2>Example: Leukaemia (as in <span class="secondary">Chapter 2</span>)</h2>
+<div class="justify small-text">
+<p>Here, we have two potential explanatory variables, <code>wbc</code> and <code>ag</code>. As <code>ag</code> is a factor (a non-numerical variable) we transform it in the regression function to an indicator (dummy) variable or variables, for example <span class="math display">\[
+1(\texttt{ag}~~\text{is present}) =
+\left\{ \begin{array}{ll}
+1 &amp; \text{if}~~\texttt{ag}~~\text{is present}\\
+0 &amp; \text{if}~~\texttt{ag}~~\text{is absent}
+\end{array}
+\right.
+\]</span></p>
+<div style="margin-top: 40pt;">
+
+</div>
+<div class="fragment">
+<p>Similarly <span class="alert"><strong>further explanatory variables may be created</strong></span> from the numeric covariate <code>wbc</code>, e.g.&nbsp;<span class="math inline">\(\texttt{wbc}^2\)</span> to investigate possible quadratic dependence.</p>
+</div>
+</div>
+</section>
+<section id="proportional-hazards-gap-on-page-59" class="slide level2">
+<h2>Proportional hazards <span class="alert"><strong>(Gap on page 59)</strong></span></h2>
+<div class="justify small-text">
+<p>As was the case with homogeneous survival models in <span class="secondary"><strong>Chapter 6</strong></span>, we frequently want to investigate the dependence of <span class="math inline">\(T_i\)</span> on <span class="math inline">\(x_1, \cdots, x_k\)</span>, <span class="alert"><strong>without</strong></span> assuming a particular parametric family for <span class="math inline">\(f_{T_i}\)</span>.</p>
+<div class="fragment">
+<div style="margin-top: 60pt;">
+
+</div>
+<p>A <span class="alert"><strong>proportional hazards</strong></span> model (or Cox regression model) assumes that the hazard function for the survival variable corresponding to the <span class="math inline">\(i\)</span>-th unit is <span class="math display">\[
+h_{T_i}(t)=\exp\left\{\mathbf{x}_i^{\top}\boldsymbol{\beta}\right\}\cdot h_0(t)
+\]</span> where <span class="math inline">\(h_0\)</span> is called the <span class="alert"><strong>baseline hazard function</strong></span> and is not assumed to have a particular mathematical form.</p>
+</div>
+<div class="fragment">
+<div style="margin-top: 60pt;">
+
+</div>
+<p>Hence, we model the effect of the explanatory variables on the distribution of <span class="math inline">\(T_i\)</span> as multiplying the baseline hazard by the exponentiated regression function, <span class="math inline">\(\exp\{\eta_i\}\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="proportional-hazards-gap-on-page-60" class="slide level2">
+<h2>Proportional hazards <span class="alert"><strong>(Gap on page 60)</strong></span></h2>
+<div class="justify small-text">
+<p>Equivalently, <span class="math display">\[
+\begin{eqnarray*}
+S_{T_i}(t) &amp; = &amp; \exp\left[ - \int_0^t h_{T_i}(s) \mathrm{d}s \right]\\
+&amp; = &amp; \exp\left[ - \int_0^t \exp\left(\mathbf{x}_i^T\boldsymbol{\beta}\right) \cdot h_0(s)\mathrm{d}s \right]\\
+&amp; = &amp; \exp\left[ - \int_0^t h_0(s)\mathrm{d}s \right]^{\exp\left(\mathbf{x}_i^{\top}\boldsymbol{\beta}\right)}\\
+&amp; = &amp; S_0(t)^{\exp\left(\mathbf{x}_i^T\boldsymbol{\beta}\right)}
+\end{eqnarray*}
+\]</span> where <span class="math display">\[S_0(t) = \exp\left[ - \int_0^t h_0(s)\mathrm{d}s \right]\]</span> is the baseline survivor function.</p>
+</div>
+</section>
+<section id="partial-likelihood-gap-on-page-61" class="slide level2">
+<h2>Partial likelihood <span class="alert"><strong>(Gap on page 61)</strong></span></h2>
+<div class="justify small-text fragment">
+<p>We require to estimate the regression parameters <span class="math inline">\(\boldsymbol{\beta}\)</span> without specifying (or even estimating) the baseline hazard <span class="math inline">\(h_0\)</span> (so we cannot write down a likelihood, as <span class="math inline">\(f_{T_i}\)</span> and <span class="math inline">\(S_{T_i}\)</span> are not fully specified).</p>
+<p>The <span class="alert"><strong>partial likelihood function</strong></span> is the joint probability of the observed data <span class="secondary"><strong>conditional on the observed failure times <span class="math inline">\(\{t_i: d_i=1\}\)</span></strong></span>.</p>
+<p>Conditioning on <span class="math inline">\(\{t_i: d_i=1\}\)</span>, the partial likelihood reduces to the probability of the failures occurring in the order in which they were observed.</p>
+<p>Let <span class="math inline">\(R_i\)</span> be the <span class="alert"><strong>risk set</strong></span> at <span class="math inline">\(t_i\)</span>, that is <span class="math display">\[
+R_i=\{j:t_j\ge t_i\}
+\]</span> the units with failure or censoring times at, or after, <span class="math inline">\(t_i\)</span>. Then, <span class="math display">\[
+\mathbb{P}(T_j\in[t_i,t_i+\delta t]\,|\,j\in R_i)=h_{T_j}(t_i)\delta t=\exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)h_0(t_i)\delta t
+\]</span> for some (infinitesimally small) <span class="math inline">\(\delta t\)</span>.</p>
+</div>
+</section>
+<section id="partial-likelihood-gap-on-page-61-1" class="slide level2">
+<h2>Partial likelihood <span class="alert"><strong>(Gap on page 61)</strong></span></h2>
+<div class="justify small-text">
+<p>Therefore <span class="math display">\[
+\mathbb{P}(\mbox{some } j\in R_i \mbox{ fails in } [t_i,t_i+\delta t])=\sum_{j\in R_i} \exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)h_0(t_i)\delta t+O(\delta t^2).
+\]</span></p>
+<p>Hence, <span class="math display">\[
+\begin{eqnarray*}
+\mathbb{P}(T_i\in [t_i,t_i+\delta t] \,|\, \mbox{some } j\in R_i \mbox{ fails in } [t_i,t_i+\delta t])&amp;&amp; = \\[3pt]
+&amp;&amp;\hspace{-12cm}=\;\frac
+{\exp\left(\mathbf{x}_i^T\boldsymbol{\beta}\right)h_0(t_i)\delta t}
+{\sum_{j\in R_i} \exp\left(\mathbf{x}_j^T\boldsymbol{\beta}\right)h_0(t_i)\delta t+O(\delta t^2)}=\frac
+{\exp\left(\mathbf{x}_i^T\boldsymbol{\beta}\right)}
+{\sum_{j\in R_i} \exp\left(\mathbf{x}_j^T\boldsymbol{\beta}\right)+O(\delta t)}\\
+\end{eqnarray*}
+\]</span> and in the limit <span class="math inline">\(\delta t\to 0\)</span>, <span class="math display">\[
+\mathbb{P}(i \mbox{ fails at } t_i \,|\, \mbox{some } j\in R_i \mbox{ fails at } t_i)
+=\frac
+{\exp\left(\mathbf{x}_i^{\top}\boldsymbol{\beta}\right)}
+{\sum_{j\in R_i} \exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)}.
+\]</span></p>
+</div>
+</section>
+<section id="partial-likelihood-gap-on-page-61-2" class="slide level2">
+<h2>Partial likelihood <span class="alert"><strong>(Gap on page 61)</strong></span></h2>
+<div class="justify small-text">
+<p>The <span class="alert"><strong>partial likelihood</strong></span> is therefore given by <span class="math display">\[
+\begin{eqnarray*}
+L(\boldsymbol{\beta})&amp;=&amp;\mathbb{P}(\mbox{failures occurred in observed order})\\[3pt]
+&amp;=&amp;\prod_{i:d_i=1}
+\mathbb{P}(i \mbox{ fails at } t_i \,|\, \mbox{some } j\in R_i \mbox{ fails at } t_i)\\[3pt]
+&amp;=&amp;\prod_{i:d_i=1}\frac
+{\exp\left(\mathbf{x}_i^{\top}\boldsymbol{\beta}\right)}
+{\sum_{j\in R_i} \exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)},
+\end{eqnarray*}
+\]</span> which does not depend on the baseline hazard <span class="math inline">\(h_0\)</span>.</p>
+</div>
+</section>
+<section id="tied-failure-times-gap-on-page-63" class="slide level2">
+<h2>Tied failure times <span class="alert"><strong>(Gap on page 63)</strong></span></h2>
+<div class="justify small-text fragment">
+<p>Suppose two observations (for example <span class="math inline">\(i=1\)</span> and <span class="math inline">\(i=2\)</span>) have the same recorded failure time. Our definition of <span class="math inline">\(R_i=\{j:t_j\ge t_i\}\)</span> includes <span class="math inline">\(1\in R_2\)</span> and <span class="math inline">\(2\in R_1\)</span>, <span class="alert"><strong>both of which cannot be true</strong></span>.</p>
+<div class="fragment">
+<p>Different partial likelihoods arise from assuming</p>
+<ul>
+<li><span class="math inline">\(1\)</span> failed just before <span class="math inline">\(2\)</span> (so <span class="math inline">\(2\in R_1\)</span> but <span class="math inline">\(1\not\in R_2\)</span>).</li>
+<li><span class="math inline">\(2\)</span> failed just before <span class="math inline">\(1\)</span> (so <span class="math inline">\(2\not\in R_1\)</span> but <span class="math inline">\(1\in R_2\)</span>).</li>
+</ul>
+<div style="margin-top: -15pt;">
+
+</div>
+</div>
+<div class="fragment">
+<p>The correct action is to <span class="alert"><strong>average over these two assumptions</strong></span>, so we replace the contributions of units <span class="math inline">\(i=1\)</span> and <span class="math inline">\(i=2\)</span> to the partial likelihood with <span class="math display">\[
+\frac
+{\exp\left(\mathbf{x}_1^{\top}\boldsymbol{\beta}\right)}
+{\sum_{j\in R_1} \exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)}
+\frac
+{\exp\left(\mathbf{x}_2^{\top}\boldsymbol{\beta}\right)}
+{\sum_{j\in R_2'} \exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)}
++
+\frac
+{\exp\left(\mathbf{x}_2^{\top}\boldsymbol{\beta}\right)}
+{\sum_{j\in R_2} \exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)}
+\frac
+{\exp\left(\mathbf{x}_1^{\top}\boldsymbol{\beta}\right)}
+{\sum_{j\in R_1'} \exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)}
+\]</span> where <span class="math inline">\(R_1'=R_1\setminus\{2\}\)</span> and <span class="math inline">\(R_2'=R_2\setminus\{1\}\)</span>.</p>
+</div>
+<div class="fragment">
+<p>The exact partial likelihood for tied failures times can be complicated if we have <span class="math inline">\(m&gt;2\)</span> tied failure times (<span class="math inline">\(m!\)</span> terms in the average). <span class="alert">There exist approximations to the likelihood (e.g.&nbsp;Breslow and Efron) in the case of tied failure times.</span></p>
+</div>
+</div>
+</section>
+<section id="estimation" class="slide level2">
+<h2>Estimation</h2>
+<div class="justify small-text">
+<p>We estimate the regression parameters <span class="math inline">\(\boldsymbol{\beta}\)</span> using the values <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> which <span class="alert">maximise the partial likelihood <span class="math inline">\(L(\boldsymbol{\beta})\)</span>, or <strong>partial log-likelihood</strong></span> <span class="math display">\[
+\ell(\boldsymbol{\beta})=\sum_{i:d_i=1} \mathbf{x}_i^{\top}\boldsymbol{\beta}-
+\sum_{i:d_i=1}\log\left[\sum_{j\in R_i} \exp\left(\mathbf{x}_j^{\top}\boldsymbol{\beta}\right)\right]
+\]</span></p>
+<div class="fragment">
+<p>Maximisation is performed by solving (numerically) the simultaneous equations <span class="math display">\[
+\frac{\partial}{\partial\beta_i} \ell(\boldsymbol{\beta})=0,\qquad i=1,\ldots ,k.
+\]</span></p>
+</div>
+<div class="fragment">
+<p>We also obtain <span class="math display">\[
+\text{Var}(\hat\beta_i)\approx [I(\boldsymbol{\beta})^{-1}]_{ii}
+\]</span> where <span class="math inline">\(I(\boldsymbol{\beta})\)</span> is the <span class="alert"><strong>observed information matrix</strong></span> defined by <span class="math display">\[
+I(\boldsymbol{\beta})_{ij}=-\frac{\partial^2}{\partial\beta_i\partial\beta_j} \ell(\boldsymbol{\beta}).
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="confidence-intervals-gap-on-page-64" class="slide level2">
+<h2>Confidence intervals <span class="alert"><strong>(Gap on page 64)</strong></span></h2>
+<div class="justify small-text fragment">
+<p>As with maximum likelihood, <span class="alert">maximum partial likelihood estimators have an asymptotic (<span class="math inline">\(n\to\infty\)</span>) Normal distribution</span>, so <span class="math display">\[
+\frac{\hat\beta_i-\beta_i}{\text{se}(\hat\beta_i)}\sim \text{Normal}(0,1)
+\]</span> can be used as an approximation in moderately large samples, where <span class="math display">\[
+\text{se}(\hat\beta_i)^2= [I(\hat{\boldsymbol{\beta}})^{-1}]_{ii}
+\]</span> is an estimate of the <span class="alert"><strong>(asymptotic) standard deviation of <span class="math inline">\(\hat{\beta_i}\)</span></strong></span>.</p>
+<div style="margin-top: 10pt;">
+
+</div>
+<div class="fragment">
+<p>Hence, a <span class="alert"><strong><span class="math inline">\((1-\alpha)\%\)</span> confidence interval</strong></span> for <span class="math inline">\(\beta_i\)</span> is <span class="math display">\[
+[\hat\beta_i- z_{\left(1 - \frac{\alpha}{2}\right)} \cdot \text{se}(\hat\beta_i),~\hat\beta_i+z_{\left(1 - \frac{\alpha}{2}\right)} \cdot \text{se}(\hat\beta_i)]
+\]</span></p>
+<div style="margin-top: 30pt;">
+
+</div>
+</div>
+<div class="fragment">
+<p>In practice, <span class="alert">we rely on computer packages to compute standard errors.</span></p>
+</div>
+</div>
+</section>
+<section id="hypothesis-testing-gap-on-page-65" class="slide level2">
+<h2>Hypothesis testing <span class="alert"><strong>(Gap on page 65)</strong></span></h2>
+<div class="justify small-text fragment">
+<p>In regression models, the hypothesis <span class="math inline">\(H_0:\beta_j=0\)</span> is equivalent to a model where the explanatory variable <span class="math inline">\(x_j\)</span> has no effect on survival (as its values are omitted from the regression function <span class="math inline">\(\mathbf{x}_i^{\top}\boldsymbol{\beta}\)</span>).</p>
+<div style="margin-top: -10pt;">
+
+</div>
+<div class="fragment">
+<p>We test this hypothesis, by noting that, under <span class="math inline">\(H_0:\beta_j=0\)</span>, we have the approximation <span class="math display">\[
+\frac{\hat\beta_j - 0}{\text{se}(\hat\beta_j)} = \frac{\hat\beta_j}{\text{se}(\hat\beta_j)}\sim \text{Normal}(0,1).
+\]</span></p>
+<div style="margin-top: -10pt;">
+
+</div>
+</div>
+<div class="fragment">
+<p>So <span class="math inline">\(\hat\beta_j/\text{se}(\hat\beta_j)\)</span> is a test statistic whose values can be calibrated against a standard normal distribution. <span class="alert">For a <span class="math inline">\(\alpha\%\)</span> significance level, we reject <span class="math inline">\(H_0\)</span></span> when <span class="math display">\[
+\left|\frac{\hat\beta_j}{\text{se}(\hat\beta_j)}\right|&gt;z_{\left(1 - \frac{\alpha}{2}\right)}.
+\]</span></p>
+<div style="margin-top: -10pt;">
+
+</div>
+</div>
+<div class="fragment">
+<p>We can also calculate a <span class="alert"><strong>p-value</strong></span> using (this is known as <span class="alert"><strong>Wald test</strong></span>) <span class="math display">\[
+\text{p-value} = 2\cdot \left(1 - \mathbb{P}\left(Z \le \left|\frac{\hat\beta_j}{\text{se}(\hat\beta_j)}\right|\right)\right).
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="estimating-the-baseline-h_0t-h_0t-and-s_0t" class="slide level2">
+<h2>Estimating the baseline <span class="math inline">\(h_0(t)\)</span>, <span class="math inline">\(H_0(t)\)</span> and <span class="math inline">\(S_0(t)\)</span></h2>
+<div class="justify small-text">
+<p>It is not necessary to estimate <span class="math inline">\(h_0\)</span> to answer interesting questions about which covariates affect survival time, and how they do so.</p>
+<div class="fragment">
+<p>However, as in the homogeneous model, <span class="alert">we can estimate the complete survival distribution nonparametrically</span>, by estimating the hazard function as if the underlying process was discrete.</p>
+</div>
+<div class="fragment">
+<p>The <span class="alert"><strong>total failure probability</strong></span> (across the whole risk set) at failure time <span class="math inline">\(t_i\)</span> is <span class="math display">\[
+\sum_{j\in R_i} h_{T_j}(t_i) \quad=\quad\sum_{j\in R_i} \exp(\mathbf{x}_j^{\top}\boldsymbol{\beta}) \cdot h_0(t_i)
+\]</span> <!--
+A Poisson approximation to the distribution of the number of failures at this time produces the estimator
+$$
+\sum_{j\in R_i} \exp(\mathbf{x}_j^{\top}\hat{\boldsymbol{\beta}}) \cdot \hat h_0(t_i) =d'_i \qquad\Rightarrow\qquad \hat h_0(t_i) =\frac{d'_i}{\sum_{j\in R_i} \exp(\mathbf{x}_j^{\top}\hat{\boldsymbol{\beta}})}
+$$
+where $d'_i$ is the total number of failures observed at $t_i$.
+--></p>
+</div>
+<div class="fragment">
+<p>An <span class="alert"><strong>estimate of the baseline hazard</strong></span> is given by <span class="math display">\[
+\hat h_0(t_i) =\frac{d'_i}{\sum_{j\in R_i} \exp(\mathbf{x}_j^{\top}\hat{\boldsymbol{\beta}})},
+\]</span> where <span class="math inline">\(d'_i\)</span> is the total number of failures observed at <span class="math inline">\(t_i\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="estimating-the-baseline-h_0t-h_0t-and-s_0t-1" class="slide level2">
+<h2>Estimating the baseline <span class="math inline">\(h_0(t)\)</span>, <span class="math inline">\(H_0(t)\)</span> and <span class="math inline">\(S_0(t)\)</span></h2>
+<div class="justify small-text">
+<p>As in the homogeneous case in <span class="secondary"><strong>Chapter 6</strong></span>, the discrete hazard estimates can be transformed into an estimate of the cumulative hazard or survival functions.</p>
+<div class="fragment">
+<p>Again, we let <span class="math inline">\(t'_1,\cdots ,t'_m\)</span> be the <span class="math inline">\(m\)</span> ordered distinct failure times with corresponding numbers of failures <span class="math inline">\(d'_1,\cdots ,d'_m\)</span>. Then <span class="math display">\[
+\hat{H}_0(t)=\sum_{j=1}^i \hat h_0(t'_j)=\sum_{j=1}^i \frac{d'_j}{\sum_{k:t_k\ge t'_j} \exp(\mathbf{x}_k^{\top}\hat{\boldsymbol{\beta}})}\quad t\in[t'_i,t'_{i+1}), \quad i=0,\cdots ,m
+\]</span></p>
+</div>
+<div class="fragment">
+<p>(like the Nelson-Aalen estimator in the homogeneous case) and <span class="math display">\[
+\hat{S}_0(t)= \prod_{j=1}^i\exp\left(-\frac{d'_j}{\sum_{k:t_k\ge t'_j} \exp(\mathbf{x}_k^{\top}\hat{\boldsymbol{\beta}})}\right)\qquad t\in[t'_i,t'_{i+1}), \quad i=0,\cdots ,m.
+\]</span></p>
+</div>
+<div class="fragment">
+<p>which implies <span class="math display">\[
+\hat S_{T_i}(t)=\hat S_0(t)^{\exp\left(\mathbf{x}_i^{\top}{\hat{\boldsymbol{\beta}}}\right)}.
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="fitting-cox-models-using-r-gehan" class="slide level2">
+<h2>Fitting Cox models using <code>R</code> (<code>gehan</code>)</h2>
+<div class="justify small-text">
+<p><span class="alert"><strong>Gehan data</strong></span>: remission times (in weeks) from a clinical trial of 42 leukaemia patients. Patients matched in pairs and randomised to 6-mercaptopurine (drug) or control (from <code>MASS</code> package).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">as_tibble</span>(gehan)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 42 × 4
+    pair  time  cens treat  
+   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;fct&gt;  
+ 1     1     1     1 control
+ 2     1    10     1 6-MP   
+ 3     2    22     1 control
+ 4     2     7     1 6-MP   
+ 5     3     3     1 control
+ 6     3    32     0 6-MP   
+ 7     4    12     1 control
+ 8     4    23     1 6-MP   
+ 9     5     8     1 control
+10     5    22     1 6-MP   
+# ℹ 32 more rows</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="fitting-cox-models-using-r-gehan-1" class="slide level2">
+<h2>Fitting Cox models using <code>R</code> (<code>gehan</code>)</h2>
+<div class="justify small-text">
+<p>Using the <code>coxph()</code> and <code>Surv()</code> from the <code>survival</code> package, we can fit a Cox regression model for <code>gehan</code> as follows (using <code>treat</code> as covariate)</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>gehan.cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, <span class="at">event =</span> cens) <span class="sc">~</span> treat, <span class="at">data =</span> gehan)</span>
+<span id="cb5-2"><a href=""></a><span class="fu">summary</span>(gehan.cox)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(time, event = cens) ~ treat, data = gehan)
+
+  n= 42, number of events= 30 
+
+              coef exp(coef) se(coef)    z Pr(&gt;|z|)    
+treatcontrol 1.572     4.817    0.412 3.81  0.00014 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+             exp(coef) exp(-coef) lower .95 upper .95
+treatcontrol      4.82      0.208      2.15      10.8
+
+Concordance= 0.69  (se = 0.041 )
+Likelihood ratio test= 16.4  on 1 df,   p=5e-05
+Wald test            = 14.5  on 1 df,   p=1e-04
+Score (logrank) test = 17.2  on 1 df,   p=3e-05</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="fitting-cox-models-using-r-gehan-gap-on-page-68" class="slide level2">
+<h2>Fitting Cox models using <code>R</code> (<code>gehan</code>) <span class="alert"><strong>(Gap on page 68)</strong></span></h2>
+<div class="justify small-text fragment">
+<p>The p-value associated with the treatment dummy variable is <span class="alert"><span class="math inline">\(1.4 \times 10^{-4}\)</span></span>, i.e.&nbsp;the treatment significantly affects survival time.</p>
+<p>The estimated coefficient for treatment is <span class="alert"><span class="math inline">\(1.57213\)</span></span>. This means the control treatment is estimated to increase the hazard by a factor of <span class="alert"><span class="math display">\[
+\exp \left(1.57213\right) = 4.81687
+\]</span></span> relative to the 6-MP treatment. This estimate can be seen in the <code>R</code> output in the previous slide (along with a <span class="math inline">\(95\%\)</span> confidence interval).</p>
+</div>
+</section>
+<section id="fitting-cox-models-using-r-gehan-2" class="slide level2">
+<h2>Fitting Cox models using <code>R</code> (<code>gehan</code>)</h2>
+<div class="justify small-text">
+<p>The <code>R</code> code below create survival curves. The argument <code>newdata</code> allows us to specify values of the explanatory variables. In this case there is one explanatory variable which can take two values. So we compute two survival curves for those two values. For comparison, the <span class="alert">Kaplan Meier survival curves are also plotted</span> in grey.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">par</span>(<span class="at">family =</span> <span class="st">"Latin Modern Roman 10"</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">0.5</span>, <span class="fl">2.1</span>))</span>
+<span id="cb7-2"><a href=""></a></span>
+<span id="cb7-3"><a href=""></a>gehan.S  <span class="ot">&lt;-</span> <span class="fu">survfit</span>(gehan.cox, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">treat =</span> <span class="fu">c</span>(<span class="st">"control"</span>, <span class="st">"6-MP"</span>)))</span>
+<span id="cb7-4"><a href=""></a>gehan.km <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(time, cens) <span class="sc">~</span> treat, <span class="at">data =</span> gehan)</span>
+<span id="cb7-5"><a href=""></a></span>
+<span id="cb7-6"><a href=""></a><span class="fu">plot</span>(gehan.S, <span class="at">ylab =</span> <span class="st">"Survival function"</span>, <span class="at">xlab =</span> <span class="st">"Time"</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb7-7"><a href=""></a><span class="fu">lines</span>(gehan.km, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">col =</span> <span class="dv">8</span>)</span>
+<span id="cb7-8"><a href=""></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">8</span>), </span>
+<span id="cb7-9"><a href=""></a><span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"6-MP (Cox)"</span>,<span class="st">"Control (Cox)"</span>,<span class="st">"6-MP (KM)"</span>,<span class="st">"Control (KM)"</span>), <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_7_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="fitting-cox-models-using-r-leuk" class="slide level2">
+<h2>Fitting Cox models using <code>R</code> (<code>leuk</code>)</h2>
+<div class="justify small-text">
+<p><span class="alert"><strong>Leukaemia data</strong></span>: survival times are given for 33 patients who died from <span class="alert">acute myelogenous leukaemia</span>. In <code>R</code>, this can be found in the <code>leuk</code> object in the <code>MASS</code> package.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">as_tibble</span>(leuk)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 33 × 3
+     wbc ag       time
+   &lt;int&gt; &lt;fct&gt;   &lt;int&gt;
+ 1  2300 present    65
+ 2   750 present   156
+ 3  4300 present   100
+ 4  2600 present   134
+ 5  6000 present    16
+ 6 10500 present   108
+ 7 10000 present   121
+ 8 17000 present     4
+ 9  5400 present    39
+10  7000 present   143
+# ℹ 23 more rows</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="fitting-cox-models-using-r-leuk-1" class="slide level2">
+<h2>Fitting Cox models using <code>R</code> (<code>leuk</code>)</h2>
+<div class="justify small-text">
+<p>Using the <code>coxph()</code> and <code>Surv()</code> from the <code>survival</code> package, we can fit a Cox regression model for <code>leuk</code> as follows (using a dummy variable for <code>ag</code> and a natural logarithm of <code>wbc</code> as covariates)</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>leuk.cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time) <span class="sc">~</span> ag <span class="sc">+</span> <span class="fu">log</span>(wbc), <span class="at">data =</span> leuk)</span>
+<span id="cb10-2"><a href=""></a><span class="fu">summary</span>(leuk.cox)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(time) ~ ag + log(wbc), data = leuk)
+
+  n= 33, number of events= 33 
+
+            coef exp(coef) se(coef)     z Pr(&gt;|z|)   
+agpresent -1.069     0.343    0.429 -2.49   0.0128 * 
+log(wbc)   0.368     1.444    0.136  2.70   0.0069 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+          exp(coef) exp(-coef) lower .95 upper .95
+agpresent     0.343      2.913     0.148     0.796
+log(wbc)      1.444      0.692     1.106     1.886
+
+Concordance= 0.726  (se = 0.047 )
+Likelihood ratio test= 15.6  on 2 df,   p=4e-04
+Wald test            = 15.1  on 2 df,   p=5e-04
+Score (logrank) test = 16.5  on 2 df,   p=3e-04</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="fitting-cox-models-using-r-leuk-gap-on-page-70" class="slide level2">
+<h2>Fitting Cox models using <code>R</code> (<code>leuk</code>) <span class="alert"><strong>(Gap on page 70)</strong></span></h2>
+<div class="justify small-text fragment">
+<p>The significance of both explanatory variables is immediately obvious from the two p-values <span class="alert"><span class="math inline">\(0.01276\)</span></span> and <span class="alert"><span class="math inline">\(0.0068\)</span></span>. Strictly, we should formal model selection using either backwards or forwards selection, or using information criteria (see <code>MATH2010</code>).</p>
+<p>The estimated coefficient for <span class="alert"><code>ag</code> is <span class="math inline">\(-1.06905\)</span></span>. This means <code>ag</code> being present is estimated to increase the hazard by a factor of <span class="alert"><span class="math display">\[
+\exp \left(-1.06905\right) = 0.34333,
+\]</span></span> relative to <code>ag</code> being absent, i.e.&nbsp;<code>ag</code> being present reduces the hazard.</p>
+<p>The estimated coefficient for <span class="alert"><code>log(wbc)</code> is <span class="math inline">\(0.3677\)</span></span>. This <span class="math inline">\(\log(\text{wbc})\)</span> increasing by one unit is estimated to increase the hazard by a factor of <span class="alert"><span class="math display">\[
+\exp\left(0.3677\right) = 1.44441,
+\]</span></span> i.e.&nbsp;the higher the <code>wbc</code>, the higher the hazard.</p>
+</div>
+</section>
+<section id="fitting-cox-models-using-r-leuk-2" class="slide level2">
+<h2>Fitting Cox models using <code>R</code> (<code>leuk</code>)</h2>
+<div class="justify small-text">
+<p>Similarly to before, we can plot the estimated survival functions as follows.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">par</span>(<span class="at">family =</span> <span class="st">"Latin Modern Roman 10"</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">0.5</span>, <span class="fl">2.1</span>))</span>
+<span id="cb12-2"><a href=""></a></span>
+<span id="cb12-3"><a href=""></a>leuk.S <span class="ot">&lt;-</span> <span class="fu">survfit</span>(leuk.cox, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">ag  =</span> <span class="fu">c</span>(<span class="st">"present"</span>, <span class="st">"present"</span>, <span class="st">"absent"</span>, <span class="st">"absent"</span>), </span>
+<span id="cb12-4"><a href=""></a>                                                 <span class="at">wbc =</span> <span class="fu">c</span>(<span class="dv">750</span>, <span class="dv">100000</span>, <span class="dv">750</span>, <span class="dv">100000</span>)))</span>
+<span id="cb12-5"><a href=""></a></span>
+<span id="cb12-6"><a href=""></a><span class="fu">plot</span>(leuk.S, <span class="at">ylab=</span> <span class="st">"Survival function"</span>, <span class="at">xlab =</span> <span class="st">"Time"</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb12-7"><a href=""></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">8</span>), </span>
+<span id="cb12-8"><a href=""></a><span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Present (750)"</span>, <span class="st">"Present (100,000)"</span>,<span class="st">"Absent  (750)"</span>, <span class="st">"Absent  (100,000)"</span>), <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_7_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center" width="576"></p>
+</figure>
+</div>
+</div>
 </div>
 </div>
 
