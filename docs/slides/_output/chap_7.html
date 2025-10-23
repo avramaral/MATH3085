@@ -210,7 +210,7 @@
     </div>
 </div>
 
-  <p class="date">21/10/2025</p>
+  <p class="date">22/10/2025</p>
 </section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
@@ -708,6 +708,293 @@ Score (logrank) test = 16.5  on 2 df,   p=3e-04</code></pre>
 <p><img data-src="chap_7_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center" width="576"></p>
 </figure>
 </div>
+</div>
+</div>
+</div>
+</section>
+<section id="checking-proportional-hazards-gap-on-page-72" class="slide level2">
+<h2>Checking proportional hazards <span class="alert"><strong>(Gap on page 72)</strong></span></h2>
+<div class="justify small-text">
+<p>The assumption that covariates affect the response through proportional hazards is a strong one and <span class="alert"><strong>should be checked where possible</strong></span>.</p>
+<div class="fragment">
+<p>Recall that the survival function for <span class="math inline">\(T_i\)</span> can be written as <span class="math display">\[
+S_{T_i}(t) = S_0(t)^{\exp \left( \mathbf{x}_i^{\top} \boldsymbol{\beta} \right)}.
+\]</span> Taking the complementary log-log of both sides <span class="math display">\[
+\begin{eqnarray*}
+\log \left( - \log S_{T_i}(t) \right) &amp; = &amp; \log \left( - \exp \left( \mathbf{x}_i^{\top} \boldsymbol{\beta} \right) \log S_0(t) \right)\\
+&amp; = &amp; \mathbf{x}_i^{\top} \boldsymbol{\beta} + \log\left(- \log S_0(t) \right).
+\end{eqnarray*}
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="checking-proportional-hazards-gap-on-page-72-1" class="slide level2">
+<h2>Checking proportional hazards <span class="alert"><strong>(Gap on page 72)</strong></span></h2>
+<div class="justify small-text">
+<p>Consider units <span class="math inline">\(i=1\)</span> and <span class="math inline">\(i=2\)</span> who differ only in the <span class="math inline">\(j\)</span>-th covariate. Then, <span class="math display">\[
+\begin{eqnarray*}
+\mathbf{x}_1^{\top} \boldsymbol{\beta} &amp; = &amp; \sum_{l=1}^k x_{1l}\beta_l =  x_{1j} \beta_j + \sum_{l \ne j} x_{1l}\beta_l\\
+\mathbf{x}_2^{\top} \boldsymbol{\beta} &amp; = &amp; x_{2j} \beta_j+  \sum_{l \ne j} x_{2l}\beta_l
+\end{eqnarray*}
+\]</span> and <span class="math display">\[
+\begin{eqnarray*}
+\mathbf{x}_1^{\top} \boldsymbol{\beta} - \mathbf{x}_2^{\top} \boldsymbol{\beta} &amp;=&amp; x_{1j} \beta_j + \sum_{l \ne j} x_{1l}\beta_l - x_{2j} \beta_j-  \sum_{l \ne j} x_{2l}\beta_l\\
+&amp; = &amp; (x_{1j}-x_{2j}) \cdot \beta_j
+\end{eqnarray*}
+\]</span> since <span class="math inline">\(\sum_{l \ne j} x_{1l}\beta_l = \sum_{l \ne j} x_{2l}\beta_l\)</span>.</p>
+</div>
+</section>
+<section id="checking-proportional-hazards-gap-on-page-72-2" class="slide level2">
+<h2>Checking proportional hazards <span class="alert"><strong>(Gap on page 72)</strong></span></h2>
+<div class="justify small-text">
+<p>Now <span class="math display">\[
+\log \left( - \log S_{T_1}(t) \right) - \log \left( - \log S_{T_2}(t) \right) = (x_{1j}-x_{2j})\cdot \beta_j
+\]</span> which does not depend on <span class="math inline">\(t\)</span>.</p>
+<div class="fragment">
+<p>That means if we were to plot <span class="math inline">\(\log \left( - \log S_{T_1}(t) \right)\)</span> and <span class="math inline">\(\log \left( - \log S_{T_2}(t) \right)\)</span> against <span class="math inline">\(t\)</span> we should get two parallel lines (if the assumption of proportional hazards is correct).</p>
+</div>
+<div class="fragment">
+<p>Therefore, <span class="alert">a strategy for checking proportional hazards for covariate <span class="math inline">\(x_j\)</span> is</span></p>
+<ul>
+<li>Partition the data according to each distinct <span class="math inline">\(x_j\)</span> value observed</li>
+<li>Fit a separate proportional hazards model (including all other covariates) to each subset</li>
+<li>The estimates of <span class="math inline">\(\log \left( - \log S_{T}(t) \right)\)</span> for those separate models will be parallel if the proportional hazards assumption holds for <span class="math inline">\(x_j\)</span>.</li>
+</ul>
+</div>
+<div class="fragment">
+<p>Clearly this is only practical if <span class="math inline">\(x_j\)</span> has few distinct values (typically if <span class="math inline">\(x_j\)</span> is a factor).</p>
+</div>
+</div>
+</section>
+<section id="checking-proportional-hazards" class="slide level2">
+<h2>Checking proportional hazards</h2>
+<div class="justify small-text">
+<p>The following <code>R</code> code produces the plot for the <code>gehan</code> dataset, where <span class="math inline">\(x_j\)</span> corresponds to <code>treat</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>logmlog <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">log</span>(<span class="sc">-</span><span class="fu">log</span>(x)) }</span>
+<span id="cb13-2"><a href=""></a></span>
+<span id="cb13-3"><a href=""></a><span class="fu">par</span>(<span class="at">family =</span> <span class="st">"Latin Modern Roman 10"</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">0.5</span>, <span class="fl">2.1</span>))</span>
+<span id="cb13-4"><a href=""></a></span>
+<span id="cb13-5"><a href=""></a>gehan.cox1 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, <span class="at">event =</span> cens) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> gehan[gehan<span class="sc">$</span>treat<span class="sc">==</span><span class="st">"control"</span>, ])</span>
+<span id="cb13-6"><a href=""></a>gehan.cox2 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, <span class="at">event =</span> cens) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> gehan[gehan<span class="sc">$</span>treat<span class="sc">==</span><span class="st">"6-MP"</span>,    ])</span>
+<span id="cb13-7"><a href=""></a></span>
+<span id="cb13-8"><a href=""></a>gehan.S1<span class="ot">&lt;-</span> <span class="fu">survfit</span>(gehan.cox1)</span>
+<span id="cb13-9"><a href=""></a>gehan.S2<span class="ot">&lt;-</span> <span class="fu">survfit</span>(gehan.cox2)</span>
+<span id="cb13-10"><a href=""></a></span>
+<span id="cb13-11"><a href=""></a><span class="fu">plot</span>(gehan.S1, <span class="at">ylab=</span> <span class="st">"log(–log(S(t)))"</span>, <span class="at">xlab =</span> <span class="st">"Time"</span>, <span class="at">fun =</span> logmlog, <span class="at">conf.int =</span> <span class="cn">FALSE</span>, <span class="at">xlim =</span> <span class="fu">range</span>(gehan<span class="sc">$</span>time), <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb13-12"><a href=""></a><span class="fu">lines</span>(gehan.S2, <span class="at">fun =</span> logmlog, <span class="at">conf.int =</span> <span class="cn">FALSE</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb13-13"><a href=""></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>), <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"6-MP"</span>), <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_7_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="checking-proportional-hazards-1" class="slide level2">
+<h2>Checking proportional hazards</h2>
+<div class="justify small-text">
+<p>The following <code>R</code> code produces the plot for the <code>leuk</code> dataset, where <span class="math inline">\(x_j\)</span> corresponds to <code>ag</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>logmlog <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="fu">log</span>(<span class="sc">-</span><span class="fu">log</span>(x)) }</span>
+<span id="cb14-2"><a href=""></a></span>
+<span id="cb14-3"><a href=""></a><span class="fu">par</span>(<span class="at">family =</span> <span class="st">"Latin Modern Roman 10"</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">0.5</span>, <span class="fl">2.1</span>))</span>
+<span id="cb14-4"><a href=""></a></span>
+<span id="cb14-5"><a href=""></a>leuk.cox1 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time) <span class="sc">~</span> <span class="fu">log</span>(wbc), <span class="at">data =</span> leuk[leuk<span class="sc">$</span>ag <span class="sc">==</span> <span class="st">"absent"</span>,  ])</span>
+<span id="cb14-6"><a href=""></a>leuk.cox2 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time) <span class="sc">~</span> <span class="fu">log</span>(wbc), <span class="at">data =</span> leuk[leuk<span class="sc">$</span>ag <span class="sc">==</span> <span class="st">"present"</span>, ])</span>
+<span id="cb14-7"><a href=""></a></span>
+<span id="cb14-8"><a href=""></a>leuk.S1 <span class="ot">&lt;-</span> <span class="fu">survfit</span>(leuk.cox1, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">wbc =</span> <span class="fu">mean</span>(leuk<span class="sc">$</span>wbc)))</span>
+<span id="cb14-9"><a href=""></a>leuk.S2 <span class="ot">&lt;-</span> <span class="fu">survfit</span>(leuk.cox2, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">wbc =</span> <span class="fu">mean</span>(leuk<span class="sc">$</span>wbc)))</span>
+<span id="cb14-10"><a href=""></a></span>
+<span id="cb14-11"><a href=""></a><span class="fu">plot</span>(leuk.S1, <span class="at">ylab =</span> <span class="st">"log(–log(S(t)))"</span>, <span class="at">xlab =</span> <span class="st">"Time"</span>, <span class="at">fun =</span> logmlog, <span class="at">conf.int =</span> <span class="cn">FALSE</span>, <span class="at">xlim =</span> <span class="fu">range</span>(leuk<span class="sc">$</span>time), <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb14-12"><a href=""></a><span class="fu">lines</span>(leuk.S2, <span class="at">fun =</span> logmlog, <span class="at">conf.int =</span> <span class="cn">FALSE</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb14-13"><a href=""></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Absent"</span>,<span class="st">"Present"</span>), <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_7_files/figure-revealjs/unnamed-chunk-9-1.png" class="quarto-figure quarto-figure-center" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="af-and-parametric-models-gap-on-page-74" class="slide level2">
+<h2>AF and parametric models <span class="alert"><strong>(Gap on page 74)</strong></span></h2>
+<div class="justify small-text">
+<p>We have focused on <span class="alert"><strong>semiparametric models</strong></span>, where the parameters <span class="math inline">\(\boldsymbol{\beta}\)</span> do <span class="alert"><strong>not</strong></span> completely specify the survival distribution.</p>
+<div class="fragment">
+<p>Fully parametric survival regression models do exist.</p>
+<p>For example, consider a Weibull model, with <span class="math inline">\(T_i \sim \mathrm{Weibull}(\alpha, \theta_i)\)</span> (<span class="alert">we changed the scale parameter to <span class="math inline">\(\theta\)</span> to stop confusion with the <span class="math inline">\(\boldsymbol{\beta}\)</span> regression parameters</span>). The shape parameter <span class="math inline">\(\alpha\)</span> is the same for all units but the scale parameter <span class="math inline">\(\theta_i\)</span> is unit-specific depending on the explanatory variables as follows <span class="math display">\[
+\begin{eqnarray*}
+\theta_i &amp; = &amp; 1/\exp\left( \eta_i \right) = \exp\left( - \eta_i \right) = \exp\left( - \beta_0 - \mathbf{x}_i^{\top} \boldsymbol{\beta} \right) =  \exp\left( - \beta_0 - \sum_{j=1} x_{ij} \beta_j \right).
+\end{eqnarray*}
+\]</span> Now suppose <span class="math inline">\(T_{0i} \sim \mathrm{Weibull}(\alpha,1)\)</span>, then <span class="math display">\[
+T_i = \exp \left(\eta_i \right)\cdot T_{0i},
+\]</span> which can be shown using the properties in <span class="secondary"><strong>Section 4.2.1</strong></span>. The survival functions for <span class="math inline">\(T_{0i}\)</span> and <span class="math inline">\(T_i\)</span> are <span class="math display">\[
+S_{T_{0i}}(t) = \exp \left( -t^\alpha \right) ~~~~~\text{and}~~~~~ S_{T_{i}}(t) = \exp \left( - \left( \exp\left(-\eta_i\right) t \right)^\alpha \right).
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="af-and-parametric-models-gap-on-page-74-1" class="slide level2">
+<h2>AF and parametric models <span class="alert"><strong>(Gap on page 74)</strong></span></h2>
+<div class="justify small-text">
+<p>We see that the effect on the distribution of <span class="math inline">\(T_i\)</span> of the explanatory variables, through <span class="math inline">\(\eta_i\)</span> is to shrink (or stretch) the time axis, resulting in correspondingly longer (shorter) failure times.</p>
+<p>This is called an <span class="alert"><strong>accelerated failure time (AFT) model</strong></span> (or accelerated life model), and is generally expressed through the survival function <span class="math display">\[
+S_{T_i}(t)=S_0\left(t \cdot \exp (-\eta_i)\right)
+\]</span> for some baseline survival function <span class="math inline">\(S_0\)</span>.</p>
+<p>Although it is possible to consider semiparametric models (with <span class="math inline">\(S_0\)</span> not from a standard family) <span class="alert">it is more usual to use fully parametric accelerated failure models.</span></p>
+</div>
+</section>
+<section id="families-of-accelerated-failure-models" class="slide level2">
+<h2>Families of accelerated failure models</h2>
+<div class="justify small-text">
+<div style="margin-top: 40pt;">
+
+</div>
+<p><span class="math display">\[
+T_i=\exp(\eta_i)\cdot T_{0i}~~~\qquad\mbox{where}\qquad~~~ \eta_i=\beta_0+\mathbf{x}_i^{\top}{\boldsymbol{\beta}}.
+\]</span></p>
+<div style="margin-top: 40pt;">
+
+</div>
+<table class="caption-top">
+<colgroup>
+<col style="width: 56%">
+<col style="width: 6%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(T_{0i}\)</span></th>
+<th></th>
+<th><span class="math inline">\(T_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mathrm{Exp}(1)\)</span></td>
+<td></td>
+<td><span class="math inline">\(\mathrm{Exp}(\exp[-\eta_i])\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathrm{Weibull}(\alpha, 1)\)</span></td>
+<td></td>
+<td><span class="math inline">\(\mathrm{Weibull}(\alpha, \exp[-\eta_i])\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mathrm{Loglogistic}(\alpha, 1)\)</span></td>
+<td></td>
+<td><span class="math inline">\(\mathrm{Loglogistic}(\alpha, \exp[-\eta_i])\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathrm{Lognormal}(0, \sigma^2)\)</span></td>
+<td></td>
+<td><span class="math inline">\(\mathrm{Lognormal}(\eta_i, \sigma^2)\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="estimating-accelerated-failure-models" class="slide level2">
+<h2>Estimating accelerated failure models</h2>
+<div class="justify small-text">
+<p>For any parametric <span class="alert"><strong>AFT model</strong></span>, we know the form of <span class="math inline">\(S_{T_i}\)</span> and <span class="math inline">\(f_{T_i}\)</span>, so we can write down the likelihood <span class="math display">\[
+L(\theta)=\prod_{i:d_i=1} f_{T_i}(t_i;\theta)\prod_{i:d_i=0} S_{T_i}(t_i;\theta)
+\]</span> where <span class="math inline">\(\theta\)</span> comprises the regression parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\boldsymbol{\beta}\)</span> which enter into the computation of <span class="math inline">\(\eta_i\)</span> and any other parameters, such as <span class="math inline">\(\alpha\)</span>.</p>
+<div class="fragment">
+<p>Estimation is performed by maximum likelihood, to obtain <span class="math inline">\((\hat\beta_0,\,\hat{\boldsymbol{\beta}})\)</span> etc. with standard errors computed in the usual way.</p>
+<p><span class="alert">Maximisation must be done numerically</span> (e.g.&nbsp;using <code>R</code>).</p>
+</div>
+</div>
+</section>
+<section id="example-weibull-aft-model-gehan" class="slide level2">
+<h2>Example: Weibull AFT model (<code>gehan</code>)</h2>
+<div class="justify small-text">
+<p>The <code>R</code> code below fits a <span class="alert"><strong>Weibull AFT model</strong></span> with a dummy variable for treatment.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>gehan.wb <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(time, <span class="at">event =</span> cens) <span class="sc">~</span> treat, <span class="at">data =</span> gehan)</span>
+<span id="cb15-2"><a href=""></a><span class="fu">summary</span>(gehan.wb)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+survreg(formula = Surv(time, event = cens) ~ treat, data = gehan)
+              Value Std. Error     z       p
+(Intercept)   3.516      0.252 13.96 &lt; 2e-16
+treatcontrol -1.267      0.311 -4.08 4.5e-05
+Log(scale)   -0.312      0.147 -2.12   0.034
+
+Scale= 0.732 
+
+Weibull distribution
+Loglik(model)= -106.6   Loglik(intercept only)= -116.4
+    Chisq= 19.65 on 1 degrees of freedom, p= 9.3e-06 
+Number of Newton-Raphson Iterations: 5 
+n= 42 </code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>Confusingly, <code>R</code> uses the following parameterisation for the shape parameter <span class="math inline">\(\hat{\alpha} = \frac{1}{\mathtt{scale}}\)</span>.</p>
+<p>The estimates are <span class="math inline">\(\hat{\beta}_0 = 3.516\)</span>, <span class="math inline">\(\hat{\beta}_1 = -1.267\)</span>, and <span class="math inline">\(\hat{\alpha} = 1.366\)</span>.</p>
+<p>The estimate of <span class="math inline">\(\beta_1\)</span> is negative meaning the treatment control will increase the scale parameter <span class="math inline">\(\theta\)</span> and increase the hazard (all relative to the 6-MP treatment).</p>
+</div>
+</div>
+</section>
+<section id="example-weibull-aft-model-gehan-1" class="slide level2">
+<h2>Example: Weibull AFT model (<code>gehan</code>)</h2>
+<div class="justify small-text">
+<p>The following <code>R</code> code plots the estimated Kaplan-Meier and Cox survival curves. It then adds estimated survival curves from the Weibull model using the <code>curve</code> function.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">par</span>(<span class="at">family =</span> <span class="st">"Latin Modern Roman 10"</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">0.5</span>, <span class="fl">2.1</span>))</span>
+<span id="cb17-2"><a href=""></a>gehan.wb <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(time, <span class="at">event =</span> cens) <span class="sc">~</span> treat, <span class="at">data =</span> gehan)</span>
+<span id="cb17-3"><a href=""></a></span>
+<span id="cb17-4"><a href=""></a>alpha         <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">/</span> gehan.wb<span class="sc">$</span>scale)</span>
+<span id="cb17-5"><a href=""></a>theta.control <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>gehan.wb<span class="sc">$</span>coefficients[<span class="dv">1</span>] <span class="sc">-</span> gehan.wb<span class="sc">$</span>coefficients[<span class="dv">2</span>])</span>
+<span id="cb17-6"><a href=""></a>theta<span class="fl">.6</span>MP     <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>gehan.wb<span class="sc">$</span>coefficients[<span class="dv">1</span>])</span>
+<span id="cb17-7"><a href=""></a></span>
+<span id="cb17-8"><a href=""></a><span class="fu">plot</span>(gehan.S, <span class="at">ylab =</span> <span class="st">"Survival function"</span>, <span class="at">xlab =</span> <span class="st">"Time"</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb17-9"><a href=""></a><span class="fu">lines</span>(gehan.km, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>), <span class="at">col =</span> <span class="dv">8</span>)</span>
+<span id="cb17-10"><a href=""></a><span class="fu">curve</span>(<span class="at">expr =</span> <span class="fu">exp</span>(<span class="sc">-</span>(theta.control <span class="sc">*</span> x) <span class="sc">^</span> alpha), <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">35</span>, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">lty =</span> <span class="dv">4</span>)</span>
+<span id="cb17-11"><a href=""></a><span class="fu">curve</span>(<span class="at">expr =</span> <span class="fu">exp</span>(<span class="sc">-</span>(theta<span class="fl">.6</span>MP <span class="sc">*</span> x) <span class="sc">^</span> alpha),     <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">35</span>, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">lty =</span> <span class="dv">4</span>)</span>
+<span id="cb17-12"><a href=""></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">4</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Control (Cox)"</span>, <span class="st">"6-MP (Cox)"</span>, <span class="st">"Control (KM)"</span>, <span class="st">"6-MP (KM)"</span>, <span class="st">"Control (WB)"</span>, <span class="st">"6-MP (WB)"</span>), <span class="at">cex =</span> <span class="fl">0.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_7_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-weibull-aft-model-leuk" class="slide level2">
+<h2>Example: Weibull AFT model (<code>leuk</code>)</h2>
+<div class="justify small-text">
+<p>The <code>R</code> code below fits a <span class="alert"><strong>Weibull AFT model</strong></span> with a dummy variable for test result.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>leuk.wb <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(time) <span class="sc">~</span> ag <span class="sc">+</span> <span class="fu">log</span>(wbc), <span class="at">data =</span> leuk)</span>
+<span id="cb18-2"><a href=""></a><span class="fu">summary</span>(leuk.wb)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+survreg(formula = Surv(time) ~ ag + log(wbc), data = leuk)
+              Value Std. Error     z       p
+(Intercept)  5.8524     1.3227  4.42 9.7e-06
+agpresent    1.0206     0.3781  2.70  0.0069
+log(wbc)    -0.3103     0.1313 -2.36  0.0181
+Log(scale)   0.0399     0.1392  0.29  0.7745
+
+Scale= 1.04 
+
+Weibull distribution
+Loglik(model)= -146.5   Loglik(intercept only)= -153.6
+    Chisq= 14.18 on 2 degrees of freedom, p= 0.00084 
+Number of Newton-Raphson Iterations: 6 
+n= 33 </code></pre>
 </div>
 </div>
 </div>

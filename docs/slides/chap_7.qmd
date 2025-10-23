@@ -573,3 +573,271 @@ legend = c("Present (750)", "Present (100,000)","Absent  (750)", "Absent  (100,0
 
 :::
 
+## Checking proportional hazards [**(Gap on page 72)**]{.alert}
+
+:::{.justify .small-text}
+
+The assumption that covariates affect the response through proportional hazards is a strong one and [**should be checked where possible**]{.alert}.
+
+:::{.fragment}
+
+Recall that the survival function for $T_i$ can be written as 
+$$
+S_{T_i}(t) = S_0(t)^{\exp \left( \mathbf{x}_i^{\top} \boldsymbol{\beta} \right)}.
+$$
+Taking the complementary log-log of both sides
+$$
+\begin{eqnarray*}
+\log \left( - \log S_{T_i}(t) \right) & = & \log \left( - \exp \left( \mathbf{x}_i^{\top} \boldsymbol{\beta} \right) \log S_0(t) \right)\\
+& = & \mathbf{x}_i^{\top} \boldsymbol{\beta} + \log\left(- \log S_0(t) \right).
+\end{eqnarray*}
+$$
+:::
+
+:::
+
+## Checking proportional hazards [**(Gap on page 72)**]{.alert}
+
+:::{.justify .small-text}
+
+Consider units $i=1$ and $i=2$ who differ only in the $j$-th covariate. Then,
+$$
+\begin{eqnarray*}
+\mathbf{x}_1^{\top} \boldsymbol{\beta} & = & \sum_{l=1}^k x_{1l}\beta_l =  x_{1j} \beta_j + \sum_{l \ne j} x_{1l}\beta_l\\
+\mathbf{x}_2^{\top} \boldsymbol{\beta} & = & x_{2j} \beta_j+  \sum_{l \ne j} x_{2l}\beta_l
+\end{eqnarray*}
+$$
+and
+$$
+\begin{eqnarray*}
+\mathbf{x}_1^{\top} \boldsymbol{\beta} - \mathbf{x}_2^{\top} \boldsymbol{\beta} &=& x_{1j} \beta_j + \sum_{l \ne j} x_{1l}\beta_l - x_{2j} \beta_j-  \sum_{l \ne j} x_{2l}\beta_l\\
+& = & (x_{1j}-x_{2j}) \cdot \beta_j
+\end{eqnarray*}
+$$
+since $\sum_{l \ne j} x_{1l}\beta_l = \sum_{l \ne j} x_{2l}\beta_l$.
+
+:::
+
+## Checking proportional hazards [**(Gap on page 72)**]{.alert}
+
+:::{.justify .small-text}
+
+Now
+$$
+\log \left( - \log S_{T_1}(t) \right) - \log \left( - \log S_{T_2}(t) \right) = (x_{1j}-x_{2j})\cdot \beta_j
+$$
+which does not depend on $t$. 
+
+:::{.fragment}
+
+That means if we were to plot $\log \left( - \log S_{T_1}(t) \right)$ and $\log \left( - \log S_{T_2}(t) \right)$ against $t$ we should get two parallel lines (if the assumption of proportional hazards is correct).
+
+:::
+
+:::{.fragment}
+
+Therefore, [a strategy for checking proportional hazards for covariate $x_j$ is]{.alert}
+
+- Partition the data according to  each distinct $x_j$ value observed
+- Fit a separate proportional hazards model (including all other covariates) to each subset
+- The estimates of $\log \left( - \log S_{T}(t) \right)$ for those separate models will be parallel if the proportional hazards assumption holds for $x_j$.
+
+:::
+
+:::{.fragment}
+
+Clearly this is only practical if $x_j$ has few distinct values (typically if $x_j$ is a factor).
+
+:::
+:::
+
+## Checking proportional hazards 
+
+:::{.justify .small-text}
+
+The following `R` code produces the plot for the `gehan` dataset, where $x_j$ corresponds to `treat`.
+
+```{r, echo = TRUE, fig.width = 5, fig.height = 3.5, fig.align = "center"}
+logmlog <- function(x) { log(-log(x)) }
+
+par(family = "Latin Modern Roman 10", mar = c(5.1, 4.1, 0.5, 2.1))
+
+gehan.cox1 <- coxph(Surv(time, event = cens) ~ 1, data = gehan[gehan$treat=="control", ])
+gehan.cox2 <- coxph(Surv(time, event = cens) ~ 1, data = gehan[gehan$treat=="6-MP",    ])
+
+gehan.S1<- survfit(gehan.cox1)
+gehan.S2<- survfit(gehan.cox2)
+
+plot(gehan.S1, ylab= "log(–log(S(t)))", xlab = "Time", fun = logmlog, conf.int = FALSE, xlim = range(gehan$time), lty = 2)
+lines(gehan.S2, fun = logmlog, conf.int = FALSE, lty = 1)
+legend("bottomright", lty = c(2, 1), legend = c("Control", "6-MP"), cex = 0.8)
+```
+
+
+:::
+
+## Checking proportional hazards 
+
+:::{.justify .small-text}
+
+The following `R` code produces the plot for the `leuk` dataset, where $x_j$ corresponds to `ag`.
+
+```{r, echo = TRUE, fig.width = 5, fig.height = 3.5, fig.align = "center"}
+logmlog <- function(x) { log(-log(x)) }
+
+par(family = "Latin Modern Roman 10", mar = c(5.1, 4.1, 0.5, 2.1))
+
+leuk.cox1 <- coxph(Surv(time) ~ log(wbc), data = leuk[leuk$ag == "absent",  ])
+leuk.cox2 <- coxph(Surv(time) ~ log(wbc), data = leuk[leuk$ag == "present", ])
+
+leuk.S1 <- survfit(leuk.cox1, newdata = data.frame(wbc = mean(leuk$wbc)))
+leuk.S2 <- survfit(leuk.cox2, newdata = data.frame(wbc = mean(leuk$wbc)))
+
+plot(leuk.S1, ylab = "log(–log(S(t)))", xlab = "Time", fun = logmlog, conf.int = FALSE, xlim = range(leuk$time), lty = 1)
+lines(leuk.S2, fun = logmlog, conf.int = FALSE, lty = 2)
+legend("bottomright", lty = c(1,2), legend = c("Absent","Present"), cex = 0.8)
+```
+
+:::
+
+## AF and parametric models [**(Gap on page 74)**]{.alert}
+
+:::{.justify .small-text}
+
+We have focused on [**semiparametric models**]{.alert}, where the parameters $\boldsymbol{\beta}$ do [**not**]{.alert} completely specify the survival distribution.
+
+:::{.fragment}
+
+Fully parametric survival regression models do exist. 
+
+For example, consider a Weibull model, with $T_i \sim \mathrm{Weibull}(\alpha, \theta_i)$ ([we changed the scale parameter to $\theta$ to stop confusion with the $\boldsymbol{\beta}$ regression parameters]{.alert}). The shape parameter $\alpha$ is the same for all units but the scale parameter $\theta_i$ is unit-specific depending on the explanatory variables as follows
+$$
+\begin{eqnarray*}
+\theta_i & = & 1/\exp\left( \eta_i \right) = \exp\left( - \eta_i \right) = \exp\left( - \beta_0 - \mathbf{x}_i^{\top} \boldsymbol{\beta} \right) =  \exp\left( - \beta_0 - \sum_{j=1} x_{ij} \beta_j \right).
+\end{eqnarray*}
+$$
+Now suppose $T_{0i} \sim \mathrm{Weibull}(\alpha,1)$, then
+$$
+T_i = \exp \left(\eta_i \right)\cdot T_{0i},
+$$
+which can be shown using the properties in [**Section 4.2.1**]{.secondary}. The survival functions for $T_{0i}$ and $T_i$ are
+$$
+S_{T_{0i}}(t) = \exp \left( -t^\alpha \right) ~~~~~\text{and}~~~~~ S_{T_{i}}(t) = \exp \left( - \left( \exp\left(-\eta_i\right) t \right)^\alpha \right).
+$$
+
+:::
+:::
+
+## AF and parametric models [**(Gap on page 74)**]{.alert}
+
+:::{.justify .small-text}
+
+We see that the effect on the distribution of $T_i$ of the explanatory variables, through $\eta_i$ is to shrink (or stretch) the time axis, resulting in correspondingly longer (shorter) failure times. 
+
+This is called an [**accelerated failure time (AFT) model**]{.alert} (or accelerated life model), and is generally expressed through the survival function
+$$
+S_{T_i}(t)=S_0\left(t \cdot \exp (-\eta_i)\right)
+$$
+for some baseline survival function $S_0$. 
+
+Although it is possible to consider semiparametric models (with $S_0$ not from a standard family) [it is more usual to use fully parametric accelerated failure models.]{.alert}
+:::
+
+## Families of accelerated failure models
+
+:::{.justify .small-text}
+
+<div style="margin-top: 40pt;"></div>
+
+$$
+T_i=\exp(\eta_i)\cdot T_{0i}~~~\qquad\mbox{where}\qquad~~~ \eta_i=\beta_0+\mathbf{x}_i^{\top}{\boldsymbol{\beta}}.
+$$
+
+<div style="margin-top: 40pt;"></div>
+
+| $T_{0i}$ |   | $T_i$ |
+|---------|-|------|
+| $\mathrm{Exp}(1)$ |   | $\mathrm{Exp}(\exp[-\eta_i])$ |
+| $\mathrm{Weibull}(\alpha, 1)$ |   | $\mathrm{Weibull}(\alpha, \exp[-\eta_i])$ |
+| $\mathrm{Loglogistic}(\alpha, 1)$ |   | $\mathrm{Loglogistic}(\alpha, \exp[-\eta_i])$ |
+| $\mathrm{Lognormal}(0, \sigma^2)$ |   | $\mathrm{Lognormal}(\eta_i, \sigma^2)$ |
+
+
+:::
+
+## Estimating accelerated failure models
+
+:::{.justify .small-text}
+
+For any parametric [**AFT model**]{.alert}, we know the form of $S_{T_i}$ and $f_{T_i}$, so we can write down the likelihood
+$$
+L(\theta)=\prod_{i:d_i=1} f_{T_i}(t_i;\theta)\prod_{i:d_i=0} S_{T_i}(t_i;\theta)
+$$
+where $\theta$ comprises the regression parameters $\beta_0$ and $\boldsymbol{\beta}$ which enter into the computation of $\eta_i$ and any other parameters, such as $\alpha$.
+
+:::{.fragment}
+Estimation is performed by maximum likelihood, to obtain $(\hat\beta_0,\,\hat{\boldsymbol{\beta}})$ etc. with standard errors computed in the usual way. 
+
+[Maximisation must be done numerically]{.alert} (e.g. using `R`).
+:::
+
+:::
+
+## Example: Weibull AFT model (`gehan`)
+
+:::{.justify .small-text}
+
+The `R` code below fits a [**Weibull AFT model**]{.alert} with a dummy variable for treatment.
+
+```{r, echo = TRUE, fig.width = 5, fig.height = 3.5, fig.align = "center"}
+gehan.wb <- survreg(Surv(time, event = cens) ~ treat, data = gehan)
+summary(gehan.wb)
+```
+
+:::{.fragment}
+Confusingly, `R` uses the following parameterisation for the shape parameter $\hat{\alpha} = \frac{1}{\mathtt{scale}}$.
+
+The estimates are $\hat{\beta}_0 = 3.516$, $\hat{\beta}_1 = -1.267$, and $\hat{\alpha} = 1.366$.
+
+The estimate of $\beta_1$ is negative meaning the treatment control will increase the scale parameter $\theta$ and increase the hazard (all relative to the 6-MP treatment).
+
+:::
+
+:::
+
+## Example: Weibull AFT model (`gehan`)
+
+:::{.justify .small-text}
+
+The following `R` code plots the estimated Kaplan-Meier and Cox survival curves. It then adds estimated survival curves from the Weibull model using the `curve` function.
+
+```{r, echo = TRUE, fig.width = 5, fig.height = 3.5, fig.align = "center"}
+par(family = "Latin Modern Roman 10", mar = c(5.1, 4.1, 0.5, 2.1))
+gehan.wb <- survreg(Surv(time, event = cens) ~ treat, data = gehan)
+
+alpha         <- (1 / gehan.wb$scale)
+theta.control <- exp(-gehan.wb$coefficients[1] - gehan.wb$coefficients[2])
+theta.6MP     <- exp(-gehan.wb$coefficients[1])
+
+plot(gehan.S, ylab = "Survival function", xlab = "Time", lty = c(1,2))
+lines(gehan.km, lty = c(2, 1), col = 8)
+curve(expr = exp(-(theta.control * x) ^ alpha), from = 0, to = 35, add = TRUE, lty = 4)
+curve(expr = exp(-(theta.6MP * x) ^ alpha),     from = 0, to = 35, add = TRUE, lty = 4)
+legend("topright", lty = c(1, 2, 1, 2, 4, 4), col = c(1, 1, 8, 8, 1, 1), legend = c("Control (Cox)", "6-MP (Cox)", "Control (KM)", "6-MP (KM)", "Control (WB)", "6-MP (WB)"), cex = 0.6)
+```
+
+:::
+
+## Example: Weibull AFT model (`leuk`)
+
+:::{.justify .small-text}
+
+The `R` code below fits a [**Weibull AFT model**]{.alert} with a dummy variable for test result.
+
+```{r, echo = TRUE, fig.width = 5, fig.height = 3.5, fig.align = "center"}
+leuk.wb <- survreg(Surv(time) ~ ag + log(wbc), data = leuk)
+summary(leuk.wb)
+```
+
+:::
+
