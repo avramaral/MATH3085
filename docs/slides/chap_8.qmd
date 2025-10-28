@@ -27,7 +27,635 @@ options(digits = 4)
 library("tidyverse")
 ```
 
+## Recap
+
+:::{.justify}
+
+In the last chapter, we
+
+- Defined the semi-parametric [**Cox PH model**]{.alert}, where covariates multiply the baseline hazard $h_0(t)$
+
+- Established that the regression parameters $\boldsymbol{\beta}$ are estimated by maximising the [**partial likelihood**]{.alert}, which conditions out the unknown baseline hazard.
+
+- Introduced [**Accelerated Failure Time**]{.alert} (AFT) models as the fully parametric alternative where covariates shrink or stretch the time axis.
+
+:::
+
+# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 8:**]{.secondary} Multistate Survival Models</span>
+
 ## Introduction
 
-TBC
+:::{.justify .small-text}
 
+In [**Chapters 1 to 7**]{.secondary}, we have assumed that survival (time-to-failure) of each unit is an observation of a random variable $T$, and our survival models have been stochastic (probability) models describing the distribution of $T$.
+
+
+:::{.fragment}
+
+An alternative approach is to model the variable $Y_t$ representing the [**status (alive or dead)**]{.alert} of a unit at time $t$.
+
+:::
+
+:::
+
+## Introduction
+
+:::{.justify .small-text}
+
+A probability model for a time-indexed variable (one which changes over time) is  a [**stochastic process**]{.alert}. 
+
+`survival` is a simple stochastic process where, at time $t=0$, $Y_0=1$ (`alive`) and then the process remains in state $1$ unless at some value of $t$ a transition to $Y_t=2$ (`dead`) is made after which the process remains in state $2$.
+
+<div style="margin-top: 40pt;"></div>
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 3.75, fig.align = "center"}
+par(family = "Latin Modern Roman 10", mar = c(5.1, 4.1, 0.5, 2.1))
+
+diff<-1.78
+plot(0,0,type="n",xlab="Time",ylab="State",xlim=c(0,3),ylim=c(1,2),axes=FALSE)
+segments(x0=0,x1=diff,y0=1,y1=1,lwd=2)
+segments(x0=diff,x1=diff, y0=1,y1=2,lwd=2)
+arrows(x0=diff,x1=3,y0=2,y1=2,len=0.1,lwd=2)
+axis(side=2,at=c(1,2),labels=c("1","2"),las=2)
+axis(side=1,at=(0:6)/2)
+```
+
+:::
+
+## State space [**(Gap on page 82)**]{.alert}
+
+
+:::{.justify .small-text}
+
+The set of possible values that a stochastic process $Y_t$ can take over time $t$ is called its [**state space**]{.alert}, $S$.
+
+
+:::{.fragment}
+
+In the simple survival model $S=\{\mbox{alive},\mbox{dead}\}$ or $S=\{1,2\}$.
+
+This is an example of a [discrete state space]{.alert}, and in this module we will restrict consideration to discrete state spaces with a small number of possible states.
+
+The simple survival state space can be represented as
+
+<div style="margin-top: -20pt;"></div>
+
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 2, fig.align = "center"}
+par(family = "Latin Modern Roman 10", mar = c(0, 0, 0, 0))
+
+plot(0,0,xlim=c(0,100),ylim=c(0,40),type="n",axes=FALSE,xlab="",ylab="")
+
+polygon(x=c(20,20,40,40),y=c(10,30,30,10))
+polygon(x=c(20,20,40,40)+40,y=c(10,30,30,10))
+arrows(x0=40,x1=60,y0=20,y1=20,len=0.1)
+text(x=30,y=20,labels=c("Alive"),pos=3)
+text(x=30,y=20,labels=c("(Y=1)"),pos=1)
+text(x=30+40,y=20,labels=c("Dead"),pos=3)
+text(x=30+40,y=20,labels=c("(Y=2)"),pos=1)
+```
+
+<div style="margin-top: -50pt;"></div>
+
+The arrow indicates that transition is possible only in one direction.
+
+In this case the state $\mbox{dead}$ is called an [**absorbing**]{.secondary} state.
+
+:::
+
+:::
+
+## Multi-state models [**(Gap on page 83)**]{.alert}
+
+
+:::{.justify .small-text}
+
+Stochastic processes allow us to model richer survival time processes than simply two-state $\{\text{alive}, ~\text{dead}\}$ processes with an absorbing ($\text{dead}$) state.
+
+:::{.fragment}
+
+Two such examples are:
+
+**General two-state model (no absorbing states)**
+
+<div style="margin-top: -15pt;"></div>
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 2, fig.align = "center"}
+par(family = "Latin Modern Roman 10", mar = c(0, 0, 0, 0))
+
+plot(0,0,xlim=c(0,100),ylim=c(0,40),type="n",axes=FALSE,xlab="",ylab="")
+polygon(x=c(20,20,40,40),y=c(10,30,30,10))
+polygon(x=c(20,20,40,40)+40,y=c(10,30,30,10))
+arrows(x0=40,x1=60,y0=15,y1=15,len=0.1)
+arrows(x0=60,x1=40,y0=25,y1=25,len=0.1)
+text(x=30,y=20,labels=c("Alive"),pos=3)
+text(x=30,y=20,labels=c("(Y=1)"),pos=1)
+text(x=30+40,y=20,labels=c("Ill"),pos=3)
+text(x=30+40,y=20,labels=c("(Y=2)"),pos=1)
+```
+
+<div style="margin-top: -50pt;"></div>
+
+:::
+
+:::{.fragment}
+
+**Multiple decrement (absorbing state) model**
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 2, fig.align = "center"}
+par(family = "Latin Modern Roman 10", mar = c(0, 0, 0, 0))
+
+plot(0,0,xlim=c(0,100),ylim=c(0,70),type="n",axes=FALSE,xlab="",ylab="")
+polygon(x=c(20,20,40,40),y=c(25,45,45,25))
+polygon(x=c(60,60,80,80),y=c(0,20,20,0))
+polygon(x=c(60,60,80,80),y=c(0,20,20,0)+25)
+polygon(x=c(60,60,80,80),y=c(0,20,20,0)+50)
+arrows(x0=40,x1=60,y0=30,y1=10,len=0.1)
+arrows(x0=40,x1=60,y0=35,y1=35,len=0.1)
+arrows(x0=40,x1=60,y0=45,y1=60,len=0.1)
+text(x=30,y=35,labels=c("Alive"),pos=3)
+text(x=30,y=35,labels=c("(Y=1)"),pos=1)
+text(x=70,y=63.66,labels=c("Dead"),pos=3,cex=0.8,offset=0.25)
+text(x=70,y=63.66,labels=c("Cancer"),pos=1,cex=0.8,offset=0.25)
+text(x=70,y=56.66,labels=c("(Y=3)"),pos=1,cex=0.8,offset=0.25)
+text(x=70,y=63.66-25,labels=c("Dead"),pos=3,cex=0.8,offset=0.25)
+text(x=70,y=63.66-25,labels=c("Coronary Heart Disease"),pos=1,cex=0.8,offset=0.25)
+text(x=70,y=56.66-25,labels=c("(Y=2)"),pos=1,cex=0.8,offset=0.25)
+text(x=70,y=63.66-50,labels=c("Dead"),pos=3,cex=0.8,offset=0.25)
+text(x=70,y=63.66-50,labels=c("Other"),pos=1,cex=0.8,offset=0.25)
+text(x=70,y=56.66-50,labels=c("(Y=4)"),pos=1,cex=0.8,offset=0.25)
+```
+
+:::
+
+:::
+
+## Markov processes
+
+:::{.justify .small-text}
+
+A [**Markov process**]{.alert} model for $Y_t$ is one where the future is [conditionally independent of the history of the process given the current state.]{.secondary} For example, tomorrow's weather only depends on today's weather, and is independent on all weather before today. 
+
+<div style="margin-top: 35pt;"></div>
+
+:::{.fragment}
+
+Hence, a Markov process can be specified by [**transition probabilities**]{.alert}
+$$
+\mathbb{P}(Y_{x+t}=j\,|\,Y_x=i)\;\equiv\;p_{ij}(x,t),\quad j\in S
+$$
+for any present time $x$, future time $x+t$ and present state $i$. This makes explicit that the probability, at time $x$, of future realisations of the process depends only on the current state $Y_x$, and not on the [**history**]{.secondary} of $Y$ (its values in the period $[0,t)$).
+
+:::
+
+<div style="margin-top: 35pt;"></div>
+
+:::{.fragment}
+
+For a [**time-homogeneous**]{.alert} Markov process, the transition probabilities do not depend on the value of $x$, so we can write
+$$
+P(Y_{x+t}=j\,|\,Y_x=i)\;=\;p_{ij}(t).
+$$
+
+:::
+
+:::
+
+
+## Transition intensity [**(Gap on page 84)**]{.alert}
+
+:::{.justify .small-text .fragment}
+
+The [**transition intensity function $\mu_{ij}(x)$**]{.alert} is defined as
+
+$$
+\mu_{ij}(x)=\lim_{\delta t\to 0} \frac{p_{ij}(x,\delta t)}{\delta t}, \qquad i\ne j.
+$$
+<div style="margin-top: -5pt;"></div>
+
+It follows that
+
+$$
+p_{ij}(x,\delta t)=\mu_{ij}(x)\delta t +o(\delta t), \qquad i\ne j.
+$$
+<div style="margin-top: -5pt;"></div>
+
+We define
+
+$$
+\mu_{ii}(x)=-\sum_{j\ne i} \mu_{ij}(x),
+$$
+<div style="margin-top: -5pt;"></div>
+
+so that 
+
+$$
+p_{ii}(x,\delta t)=1+\mu_{ii}(x) \cdot \delta t +o(\delta t), \qquad i\ne j.
+$$
+<!--
+In Markov process theory, we often use $q$ to denote transition intensity, but $\mu$ is more common in survival applications.
+-->
+
+:::{.fragment}
+
+For any transition $i \to j$ which is prohibited (e.g. $\mbox{dead}\to\mbox{alive}$), we have $\mu_{ij}=0$.
+
+For a [**homogenous process**]{.secondary}, transition intensity $\mu_{ij}(x)$ does not depend on $x$, i.e. it is written $\mu_{ij}$.
+
+:::
+
+::::
+
+
+## Chapman-Kolmogorov equations: solving a Markov process for $p_{ij}(x,t)$
+
+:::{.justify .small-text}
+
+The transition intensity function $\mu_{ij}(x)$ (or just $\mu_{ij}$ for a time-homogeneous process) provides an efficient representation of the process.
+
+<div style="margin-top: 30pt;"></div>
+
+:::{.fragment}
+[How are the transition probabilities $p_{ij}(x,t)$ obtained from the transition intensities $\mu_{ij}(x)$?]{.secondary}
+
+:::
+
+<div style="margin-top: 30pt;"></div>
+
+:::{.fragment}
+
+We need to derive the [**Kolmogorov forward equations**]{.alert}, the solution to which are the required transition probabilities $p_{ij}(x,t)$.
+
+:::
+
+:::
+
+## Chapman-Kolmogorov equations: solving a Markov process for $p_{ij}(x,t)$ [**(Gap on page 85)**]{.alert}
+
+:::{.justify .small-text}
+
+For any times $x,s,t\ge 0$ and states $i,j,k\in S$, we have
+
+<div style="margin-top: -10pt;"></div>
+
+$$
+\begin{eqnarray*}
+\mathbb{P}(Y_{x+s+t}=j,Y_{x+s}=k\,|\,Y_x=i)&&\\
+&&\hspace{-50mm}=\mathbb{P}(Y_{x+s+t}=j\,|\,Y_{x+s}=k,Y_x=i) \cdot \mathbb{P}(Y_{x+s}=k\,|\,Y_x=i)\\
+&&\hspace{-50mm}=\mathbb{P}(Y_{x+s+t}=j\,|\,Y_{x+s}=k) \cdot \mathbb{P}(Y_{x+s}=k\,|\,Y_x=i), \\
+\end{eqnarray*}
+$$
+
+<div style="margin-top: -10pt;"></div>
+
+Hence
+
+<div style="margin-top: -10pt;"></div>
+
+$$
+\begin{eqnarray*}
+\mathbb{P}(Y_{x+s+t}=j\,|\,Y_x=i)&&\\
+&&\hspace{-20mm}=\sum_{k\in S} \mathbb{P}(Y_{x+s+t}=j,Y_{x+s}=k\,|\,Y_x=i)\\
+&&\hspace{-20mm}=\sum_{k\in S} \mathbb{P}(Y_{x+s+t}=j\,|\,Y_{x+s}=k) \cdot \mathbb{P}(Y_{x+s}=k\,|\,Y_x=i), \\
+\end{eqnarray*}
+$$
+
+<div style="margin-top: -10pt;"></div>
+
+or
+
+<div style="margin-top: -10pt;"></div>
+
+
+$$
+p_{ij}(x,s+t)=\sum_{k\in S} p_{ik}(x,s)p_{kj}(x+s,t), \qquad i,j\in S.
+$$
+
+<div style="margin-top: -10pt;"></div>
+
+These are the [**Chapman-Kolmogorov equation**]{.alert}.
+
+
+:::
+
+## Chapman-Kolmogorov equations: solving a Markov process for $p_{ij}(x,t)$ [**(Gap on page 86)**]{.alert}
+
+:::{.justify .small-text}
+
+Suppose that there are $m$ states in $S$, labelled $1,\cdots ,m$.
+
+For a Markov process, we define the [transition matrix between times $x$ and $x+t$]{.alert} to be the matrix
+$$
+\mathbb{P}(x,t)=\left(
+\begin{array} {cccc}
+p_{11}(x,t)&p_{12}(x,t)&\cdots&p_{1m}(x,t)\\
+p_{21}(x,t)&p_{22}(x,t)&\cdots&p_{2m}(x,t)\\
+\vdots&\vdots&&\vdots\\
+p_{m1}(x,t)&p_{m2}(x,t)&\cdots&p_{mm}(x,t)
+\end{array}
+\right)
+$$
+
+<div style="margin-top: 20pt;"></div>
+
+The Chapman-Kolmogorov equations can be written as
+$$
+\mathbb{P}(x,s+t)=\mathbb{P}(x,s)\cdot \mathbb{P}(x+s,t)
+$$
+
+<div style="margin-top: 20pt;"></div>
+
+For a time-homogeneous process, we can drop the first argument $x$ in the above.
+
+:::
+
+## Chapman-Kolmogorov equations: solving a Markov process for $p_{ij}(x,t)$ [**(Gap on page 87)**]{.alert}
+
+:::{.justify .small-text}
+
+The Chapman-Kolmogorov equations give
+$$
+p_{ij}(x,t+\delta t)=\sum_{k\in S} p_{ik}(x,t)p_{kj}(x+t,\delta t)\qquad i,j\in S
+$$
+which implies that 
+$$
+\begin{eqnarray*}
+\frac{p_{ij}(x,t+\delta t)-p_{ij}(x,t)}{\delta t}&&\\
+&&\hspace{-20mm}=\sum_{k\in S} p_{ik}(x,t) \cdot \frac{p_{kj}(x+t,\delta t)}{\delta t}-\frac{p_{ij}(x,t)}{\delta t}
+\\
+&&\hspace{-20mm}=\sum_{k\ne j} p_{ik}(x,t) \cdot \frac{p_{kj}(x+t,\delta t)}{\delta t}-p_{ij}(x,t) \cdot \frac{1-p_{jj}(x+t,
+\delta t)}{\delta t}.
+\\
+\end{eqnarray*}
+$$
+
+
+
+:::
+
+
+## Chapman-Kolmogorov equations: solving a Markov process for $p_{ij}(x,t)$ [**(Gap on page 88)**]{.alert}
+
+:::{.justify .small-text}
+
+In the limit $\delta t\to 0$, we have
+$$
+\begin{eqnarray*}
+\frac{d}{dt} p_{ij}(x,t)&=&
+\sum_{k\ne j} p_{ik}(x,t)\mu_{kj}(x+t)+p_{ij}(x,t) \cdot \mu_{jj}(x+t) \\
+&=& \sum_{k\in S} p_{ik}(x,t) \cdot \mu_{kj}(x+t), \qquad i,j\in S\\
+\end{eqnarray*}
+$$
+These are the [**Kolmogorov forward equations**]{.alert}, which are a set of differential equations for $p_{ij}(x,t)$
+
+They can be written in matrix form as $\frac{d}{dt} \mathbb{P}(x,t)=\mathbb{P}(x,t) \cdot \mathbb{M}(x+t)$,
+where $\mathbb{M}(x)$ is the transition intensity matrix
+$$
+\mathbb{M}(x)=\left(
+\begin{array} {cccc}
+\mu_{11}(x)&\mu_{12}(x)&\cdots&\mu_{1m}(x)\\
+\mu_{21}(x)&\mu_{22}(x)&\cdots&\mu_{2m}(x)\\
+\vdots&\vdots&&\vdots\\
+\mu_{m1}(x)&\mu_{m2}(x)&\cdots&\mu_{mm}(x)
+\end{array}
+\right).
+$$
+
+
+
+:::
+
+## The holding time distribution [**(Gap on page 89)**]{.alert}
+
+:::{.justify .small-text .fragment}
+
+Consider a unit in state $i$ at time $x$. The holding time $T_{xi}$ is the random variable indicating the length of the time interval between $x$ and the next transition to any other state. 
+
+We have
+$$
+\begin{eqnarray*}
+\mathbb{P}(T_{xi}\le t+\delta t\,|\,T_{xi}\ge t)&=& \mathbb{P}(Y_{x+t+\delta t}\ne i \,|\,Y_{[x,x+t]}=i)\\
+&=&1-\mathbb{P}(Y_{x+t+\delta t}= i \,|\,Y_{x+t}=i)
+\end{eqnarray*}
+$$
+and, therefore,
+$$
+\frac{\mathbb{P}(T_{xi}\le t+\delta t\,|\,T_{xi}\ge t)}{\delta t}=
+\frac{1-\mathbb{P}(Y_{x+t+\delta t}= i \,|\,Y_{x+t}=i)}{\delta t}
+$$
+Taking the limit as $\delta t\to 0$, we have
+$$
+h_{xi}(t)=-\mu_{ii}(x+t)=\sum_{i\ne j} \mu_{ij}(x+t),
+$$
+where $h_{xi}$ is the hazard function for the holding time variable $T_{xi}$.
+
+:::
+
+## The holding time distribution [**(Gap on page 89)**]{.alert}
+
+:::{.justify .small-text}
+
+The hazard function $h_{xi}(t)$ can be transformed to a survival function in the usual way, so we have
+$$
+\begin{eqnarray*}
+S_{xi}(t)=\exp\left( -\int_0^t h_{xi}(t) \mathrm{d}t \right) &=& \exp\left( \int_0^t \mu_{ii}(x+t)\mathrm{d}t \right) \\
+&=& \exp\left( -\int_0^t \sum_{i\ne j} \mu_{ij}(x+t)\mathrm{d}t \right)
+\end{eqnarray*}
+$$
+
+<div style="margin-top: 40pt;"></div>
+
+For a time-homogeneous Markov process,  all $\mu_{ij}(x)$ are constant (independent of $x$) so we have $h_{xi}(t)=-\mu_{ii}=\sum_{j\ne i} \mu_{ij}$, a constant hazard. Hence,
+$$
+S_{xi}(t)= \exp\left(  \mu_{ii} t \right)= \exp\left(  -t \sum_{j\ne i} \mu_{ij}\right)
+$$
+and the holding time distribution is exponential, with rate
+$\sum_{i\ne j} \mu_{ij}$.
+
+:::
+
+## Conditional transition probability [**(Gap on page 90)**]{.alert}
+
+:::{.justify .small-text}
+
+[Conditional on a transition being made from state $i$ at time $x+t$, what is the probability that transition is made to state $j$ for each $j\ne i$?]{.secondary}
+
+:::{.fragment}
+$$
+\begin{eqnarray*}
+&&\mathbb{P}(\mbox{transition from $i$ to $j$ at $x+t$}\;|\;\mbox{transition from $i$ at $x+t$})\\[3pt]
+&&\qquad= \lim_{\delta t\to 0}  \mathbb{P}(Y_{x+t+\delta t}=j\;|\;Y_{x+t+\delta t}\ne i \mbox{ and } Y_{x+t}=i)\\[3pt]
+&&\qquad= \lim_{\delta t\to 0}  \frac{\mathbb{P}(Y_{x+t+\delta t}=j\;|\;Y_{x+t}= i )}
+{\mathbb{P}(Y_{x+t+\delta t}\ne i\;|\; Y_{x+t}=i)}\\[3pt]
+&&\qquad= \lim_{\delta t\to 0}  \frac{\mu_{ij}(x+t)\delta t+o(\delta t)}
+{\sum_{k\ne i}\mu_{ik}(x+t)\delta t+o(\delta t)}\\[3pt]
+&&\qquad=   \frac{\mu_{ij}(x+t)}
+{\sum_{k\ne i}\mu_{ik}(x+t)}
+\end{eqnarray*}
+$$
+
+:::{.fragment}
+
+For a time-homogeneous Markov process, all $\mu_{ij}(x)$ are constant (independent of $x$) so this becomes
+$\frac{\mu_{ij}}{\sum_{k\ne i}\mu_{ik}}$.
+:::
+
+:::
+:::
+
+## Two-state model (absorbing state) [**(Gap on page 91)**]{.alert}
+
+:::{.justify .small-text}
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 2, fig.align = "center"}
+par(family = "Latin Modern Roman 10", mar = c(0, 0, 0, 0))
+
+plot(0,0,xlim=c(0,100),ylim=c(0,40),type="n",axes=FALSE,xlab="",ylab="")
+polygon(x=c(20,20,40,40),y=c(10,30,30,10))
+polygon(x=c(20,20,40,40)+40,y=c(10,30,30,10))
+arrows(x0=40,x1=60,y0=20,y1=20,len=0.1)
+text(x=30,y=20,labels=c("Alive"),pos=3)
+text(x=30,y=20,labels=c("(Y=1)"),pos=1)
+text(x=30+40,y=20,labels=c("Dead"),pos=3)
+text(x=30+40,y=20,labels=c("(Y=2)"),pos=1)
+```
+
+<div style="margin-top: -30pt;"></div>
+
+:::{.fragment}
+Any two-state process is determined by the transition intensities between the two states, $\mu_{12}(x)$ and $\mu_{21}(x)$.
+
+As `state 2` is absorbing,
+$$
+p_{21}(x,t)=0, \quad \mbox{for all }x,t\qquad\Rightarrow\qquad \mu_{21}(x)=0, \quad \mbox{for all }x.
+$$
+
+Hence the transition intensity matrix is given by
+$$
+\mathbb{M}(x)=\left(
+\begin{array}{cc}
+-\mu_{12}(x)&\mu_{12}(x)\\
+0&0
+\end{array}
+\right).
+$$
+
+:::
+
+:::
+
+## Two-state model (absorbing state) [**(Gap on page 91)**]{.alert}
+
+:::{.justify .small-text}
+
+We have 
+$$
+p_{21}(x,t)=0, \quad \mbox{for all }x,t\qquad\Rightarrow\qquad p_{22}(x,t)=1, \quad \mbox{for all }x,t.
+$$
+
+To completely determine the transition structure for the process, all that remains is to solve the Kolmogorov forward equation for either $p_{11}(x,t)$ or $p_{12}(x,t)$, and then obtain the other using
+$$
+p_{11}(x,t)+p_{12}(x,t)=1
+$$
+For completeness, we shall solve both and show that they give equivalent results.
+
+
+:::
+
+## Two-state model (absorbing state) [**(Gap on page 91)**]{.alert}
+
+:::{.justify .small-text}
+
+The Kolmogorov forward equation for $p_{11}(x,t)$ is
+$$
+\begin{eqnarray*}
+\frac{d}{dt} p_{11}(x,t) &=& p_{11}(x,t)\mu_{11}(x+t)+p_{12}(x,t)\mu_{21}(x+t)\\
+&=& -p_{11}(x,t)\mu_{12}(x+t).
+\end{eqnarray*}
+$$
+So,
+$$
+\begin{eqnarray*}
+&&\int\frac{\mathrm{d} p_{11}(x,t)}{p_{11}(x,t)} = -\int_0^t\mu_{12}(x+t) \mathrm{d}t\\
+\Rightarrow&& \log p_{11}(x,t)= -\int_0^t\mu_{12}(x+t) \mathrm{d}t + C\\
+\Rightarrow&& p_{11}(x,t)= A \cdot \exp\left(-\int_0^t\mu_{12}(x+t) \mathrm{d}t \right)\\
+\Rightarrow&& p_{11}(x,t)= \exp\left(-\int_0^t\mu_{12}(x+t) \mathrm{d}t \right),
+\end{eqnarray*}
+$$
+because we have the boundary condition $p_{11}(x,0)=1$.
+
+:::
+
+## Two-state model (absorbing state) [**(Gap on page 91)**]{.alert}
+
+:::{.justify .small-text}
+
+The Kolmogorov forward equation for $p_{12}(x,t)$ is
+$$
+\begin{eqnarray*}
+\frac{d}{dt} p_{12}(x,t) &=& p_{11}(x,t)\mu_{12}(x+t)+p_{12}(x,t)\mu_{22}(x+t)\\
+&=& p_{11}(x,t)\mu_{12}(x+t) =  [1-p_{12}(x,t)]\cdot \mu_{12}(x+t).\\
+\end{eqnarray*}
+$$
+
+
+So,
+$$
+\begin{eqnarray*}
+&&\int\frac{\mathrm{d} p_{12}(x,t)}{1-p_{12}(x,t)} = \int_0^t\mu_{12}(x+t) \mathrm{d}t\\
+\Rightarrow&& -\log [1-p_{12}(x,t)]= \int_0^t\mu_{12}(x+t) \mathrm{d}t + C\\
+\Rightarrow&& 1-p_{12}(x,t)= A \cdot \exp\left(-\int_0^t\mu_{12}(x+t) \mathrm{d}t \right)\\
+\Rightarrow&& p_{12}(x,t)= 1-\exp\left(-\int_0^t\mu_{12}(x+t) \mathrm{d}t \right)
+\end{eqnarray*}
+$$
+because we have the boundary condition $p_{12}(x,0)=0$.
+:::
+
+## Two-state model (absorbing state) [**(Gap on page 91)**]{.alert}
+
+:::{.justify .small-text}
+
+Clearly, the two solutions are equivalent, as we have
+$$
+p_{11}(x,t)= \exp\left(-\int_0^t\mu_{12}(x+t) \mathrm{d}t \right)=1-p_{12}(x,t).
+$$
+We also note that if we define $T_x$ to be the random variable representing the time (from $x$) in the alive (`state 1`) before death (transition to `state 2`), then
+$$
+S_{T_x}(t)=p_{11}(x,t)
+$$ 
+because for this state space, being in `state 1` at time $x+t$ is equivalent to holding in `state 1` throughout the interval $[x,x+t]$.
+\medskip
+
+It follows from the solution for $p_{11}(x,t)$ above that
+$$
+h_{T_x}(t)=- \frac{d}{dt} \log S_{T_x}(t) = -\frac{d}{dt} \log p_{11}(x,t) = \mu_{12}(x+t)
+$$ 
+so the transition intensity plays the role of the hazard function for the variable representing the time spent in the alive (`state 1`).
+
+:::
+
+## Two-state model (no absorb. state) [**(Gap on page 95)**]{.alert}
+
+:::{.justify .small-text}
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 2, fig.align = "center"}
+par(family = "Latin Modern Roman 10", mar = c(0, 0, 0, 0))
+
+plot(0,0,xlim=c(0,100),ylim=c(0,40),type="n",axes=FALSE,xlab="",ylab="")
+polygon(x=c(20,20,40,40),y=c(10,30,30,10))
+polygon(x=c(20,20,40,40)+40,y=c(10,30,30,10))
+arrows(x0=40,x1=60,y0=15,y1=15,len=0.1)
+arrows(x0=60,x1=40,y0=25,y1=25,len=0.1)
+text(x=30,y=20,labels=c("Alive"),pos=3)
+text(x=30,y=20,labels=c("(Y=1)"),pos=1)
+text(x=30+40,y=20,labels=c("Ill"),pos=3)
+text(x=30+40,y=20,labels=c("(Y=2)"),pos=1)
+```
+
+:::{.fragment}
+
+TBD.
+
+:::
+
+:::

@@ -6,11 +6,10 @@
 <script src="chap_8_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="chap_8_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="chap_8_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="chap_8_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.6.42">
+<link href="chap_8_files/libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="André Victor Ribeiro Amaral">
-  <meta name="dcterms.date" content="2025-09-09">
   <title>Survival Models (MATH3085/6143)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -30,7 +29,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="chap_8_files/libs/revealjs/dist/theme/quarto-67d53b9b7b61439be1d289babd27e316.css">
+  <link rel="stylesheet" href="chap_8_files/libs/revealjs/dist/theme/quarto-e436bd4c930d147ec8018015d5404e9a.css">
   <link href="chap_8_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="chap_8_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="chap_8_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -145,13 +144,469 @@
     </div>
 </div>
 
-  <p class="date">09/09/2025</p>
+  <p class="date">28/10/2025</p>
+</section>
+<section id="recap" class="slide level2">
+<h2>Recap</h2>
+<div class="justify">
+<p>In the last chapter, we</p>
+<ul>
+<li><p>Defined the semi-parametric <span class="alert"><strong>Cox PH model</strong></span>, where covariates multiply the baseline hazard <span class="math inline">\(h_0(t)\)</span></p></li>
+<li><p>Established that the regression parameters <span class="math inline">\(\boldsymbol{\beta}\)</span> are estimated by maximising the <span class="alert"><strong>partial likelihood</strong></span>, which conditions out the unknown baseline hazard.</p></li>
+<li><p>Introduced <span class="alert"><strong>Accelerated Failure Time</strong></span> (AFT) models as the fully parametric alternative where covariates shrink or stretch the time axis.</p></li>
+</ul>
+</div>
+</section>
+<section>
+<section id="chapter-8-multistate-survival-models" class="title-slide slide level1 center">
+<h1><span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px"><span class="secondary"><strong>Chapter 8:</strong></span> Multistate Survival Models</span></h1>
+
 </section>
 <section id="introduction" class="slide level2">
 <h2>Introduction</h2>
-<p>TBC</p>
-
+<div class="justify small-text">
+<p>In <span class="secondary"><strong>Chapters 1 to 7</strong></span>, we have assumed that survival (time-to-failure) of each unit is an observation of a random variable <span class="math inline">\(T\)</span>, and our survival models have been stochastic (probability) models describing the distribution of <span class="math inline">\(T\)</span>.</p>
+<div class="fragment">
+<p>An alternative approach is to model the variable <span class="math inline">\(Y_t\)</span> representing the <span class="alert"><strong>status (alive or dead)</strong></span> of a unit at time <span class="math inline">\(t\)</span>.</p>
+</div>
+</div>
 </section>
+<section id="introduction-1" class="slide level2">
+<h2>Introduction</h2>
+<div class="justify small-text">
+<p>A probability model for a time-indexed variable (one which changes over time) is a <span class="alert"><strong>stochastic process</strong></span>.</p>
+<p><code>survival</code> is a simple stochastic process where, at time <span class="math inline">\(t=0\)</span>, <span class="math inline">\(Y_0=1\)</span> (<code>alive</code>) and then the process remains in state <span class="math inline">\(1\)</span> unless at some value of <span class="math inline">\(t\)</span> a transition to <span class="math inline">\(Y_t=2\)</span> (<code>dead</code>) is made after which the process remains in state <span class="math inline">\(2\)</span>.</p>
+<div style="margin-top: 40pt;">
+
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_8_files/figure-revealjs/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="state-space-gap-on-page-82" class="slide level2">
+<h2>State space <span class="alert"><strong>(Gap on page 82)</strong></span></h2>
+<div class="justify small-text">
+<p>The set of possible values that a stochastic process <span class="math inline">\(Y_t\)</span> can take over time <span class="math inline">\(t\)</span> is called its <span class="alert"><strong>state space</strong></span>, <span class="math inline">\(S\)</span>.</p>
+<div class="fragment">
+<p>In the simple survival model <span class="math inline">\(S=\{\mbox{alive},\mbox{dead}\}\)</span> or <span class="math inline">\(S=\{1,2\}\)</span>.</p>
+<p>This is an example of a <span class="alert">discrete state space</span>, and in this module we will restrict consideration to discrete state spaces with a small number of possible states.</p>
+<p>The simple survival state space can be represented as</p>
+<div style="margin-top: -20pt;">
+
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_8_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<div style="margin-top: -50pt;">
+
+</div>
+<p>The arrow indicates that transition is possible only in one direction.</p>
+<p>In this case the state <span class="math inline">\(\mbox{dead}\)</span> is called an <span class="secondary"><strong>absorbing</strong></span> state.</p>
+</div>
+</div>
+</section>
+<section id="multi-state-models-gap-on-page-83" class="slide level2">
+<h2>Multi-state models <span class="alert"><strong>(Gap on page 83)</strong></span></h2>
+<div class="justify small-text">
+<p>Stochastic processes allow us to model richer survival time processes than simply two-state <span class="math inline">\(\{\text{alive}, ~\text{dead}\}\)</span> processes with an absorbing (<span class="math inline">\(\text{dead}\)</span>) state.</p>
+<div class="fragment">
+<p>Two such examples are:</p>
+<p><strong>General two-state model (no absorbing states)</strong></p>
+<div style="margin-top: -15pt;">
+
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_8_files/figure-revealjs/unnamed-chunk-3-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<div style="margin-top: -50pt;">
+
+</div>
+</div>
+<div class="fragment">
+<p><strong>Multiple decrement (absorbing state) model</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_8_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="markov-processes" class="slide level2">
+<h2>Markov processes</h2>
+<div class="justify small-text">
+<p>A <span class="alert"><strong>Markov process</strong></span> model for <span class="math inline">\(Y_t\)</span> is one where the future is <span class="secondary">conditionally independent of the history of the process given the current state.</span> For example, tomorrow’s weather only depends on today’s weather, and is independent on all weather before today.</p>
+<div style="margin-top: 35pt;">
+
+</div>
+<div class="fragment">
+<p>Hence, a Markov process can be specified by <span class="alert"><strong>transition probabilities</strong></span> <span class="math display">\[
+\mathbb{P}(Y_{x+t}=j\,|\,Y_x=i)\;\equiv\;p_{ij}(x,t),\quad j\in S
+\]</span> for any present time <span class="math inline">\(x\)</span>, future time <span class="math inline">\(x+t\)</span> and present state <span class="math inline">\(i\)</span>. This makes explicit that the probability, at time <span class="math inline">\(x\)</span>, of future realisations of the process depends only on the current state <span class="math inline">\(Y_x\)</span>, and not on the <span class="secondary"><strong>history</strong></span> of <span class="math inline">\(Y\)</span> (its values in the period <span class="math inline">\([0,t)\)</span>).</p>
+</div>
+<div style="margin-top: 35pt;">
+
+</div>
+<div class="fragment">
+<p>For a <span class="alert"><strong>time-homogeneous</strong></span> Markov process, the transition probabilities do not depend on the value of <span class="math inline">\(x\)</span>, so we can write <span class="math display">\[
+P(Y_{x+t}=j\,|\,Y_x=i)\;=\;p_{ij}(t).
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="transition-intensity-gap-on-page-84" class="slide level2">
+<h2>Transition intensity <span class="alert"><strong>(Gap on page 84)</strong></span></h2>
+<div class="justify small-text fragment">
+<p>The <span class="alert"><strong>transition intensity function <span class="math inline">\(\mu_{ij}(x)\)</span></strong></span> is defined as</p>
+<span class="math display">\[
+\mu_{ij}(x)=\lim_{\delta t\to 0} \frac{p_{ij}(x,\delta t)}{\delta t}, \qquad i\ne j.
+\]</span>
+<div style="margin-top: -5pt;">
+
+</div>
+<p>It follows that</p>
+<span class="math display">\[
+p_{ij}(x,\delta t)=\mu_{ij}(x)\delta t +o(\delta t), \qquad i\ne j.
+\]</span>
+<div style="margin-top: -5pt;">
+
+</div>
+<p>We define</p>
+<span class="math display">\[
+\mu_{ii}(x)=-\sum_{j\ne i} \mu_{ij}(x),
+\]</span>
+<div style="margin-top: -5pt;">
+
+</div>
+<p>so that</p>
+<p><span class="math display">\[
+p_{ii}(x,\delta t)=1+\mu_{ii}(x) \cdot \delta t +o(\delta t), \qquad i\ne j.
+\]</span> <!--
+In Markov process theory, we often use $q$ to denote transition intensity, but $\mu$ is more common in survival applications.
+--></p>
+<div class="fragment">
+<p>For any transition <span class="math inline">\(i \to j\)</span> which is prohibited (e.g.&nbsp;<span class="math inline">\(\mbox{dead}\to\mbox{alive}\)</span>), we have <span class="math inline">\(\mu_{ij}=0\)</span>.</p>
+<p>For a <span class="secondary"><strong>homogenous process</strong></span>, transition intensity <span class="math inline">\(\mu_{ij}(x)\)</span> does not depend on <span class="math inline">\(x\)</span>, i.e.&nbsp;it is written <span class="math inline">\(\mu_{ij}\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="chapman-kolmogorov-equations-solving-a-markov-process-for-p_ijxt" class="slide level2">
+<h2>Chapman-Kolmogorov equations: solving a Markov process for <span class="math inline">\(p_{ij}(x,t)\)</span></h2>
+<div class="justify small-text">
+<p>The transition intensity function <span class="math inline">\(\mu_{ij}(x)\)</span> (or just <span class="math inline">\(\mu_{ij}\)</span> for a time-homogeneous process) provides an efficient representation of the process.</p>
+<div style="margin-top: 30pt;">
+
+</div>
+<div class="fragment">
+<p><span class="secondary">How are the transition probabilities <span class="math inline">\(p_{ij}(x,t)\)</span> obtained from the transition intensities <span class="math inline">\(\mu_{ij}(x)\)</span>?</span></p>
+</div>
+<div style="margin-top: 30pt;">
+
+</div>
+<div class="fragment">
+<p>We need to derive the <span class="alert"><strong>Kolmogorov forward equations</strong></span>, the solution to which are the required transition probabilities <span class="math inline">\(p_{ij}(x,t)\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="chapman-kolmogorov-equations-solving-a-markov-process-for-p_ijxt-gap-on-page-85" class="slide level2">
+<h2>Chapman-Kolmogorov equations: solving a Markov process for <span class="math inline">\(p_{ij}(x,t)\)</span> <span class="alert"><strong>(Gap on page 85)</strong></span></h2>
+<div class="justify small-text">
+<p>For any times <span class="math inline">\(x,s,t\ge 0\)</span> and states <span class="math inline">\(i,j,k\in S\)</span>, we have</p>
+<div style="margin-top: -10pt;">
+
+</div>
+<p><span class="math display">\[
+\begin{eqnarray*}
+\mathbb{P}(Y_{x+s+t}=j,Y_{x+s}=k\,|\,Y_x=i)&amp;&amp;\\
+&amp;&amp;\hspace{-50mm}=\mathbb{P}(Y_{x+s+t}=j\,|\,Y_{x+s}=k,Y_x=i) \cdot \mathbb{P}(Y_{x+s}=k\,|\,Y_x=i)\\
+&amp;&amp;\hspace{-50mm}=\mathbb{P}(Y_{x+s+t}=j\,|\,Y_{x+s}=k) \cdot \mathbb{P}(Y_{x+s}=k\,|\,Y_x=i), \\
+\end{eqnarray*}
+\]</span></p>
+<div style="margin-top: -10pt;">
+
+</div>
+<p>Hence</p>
+<div style="margin-top: -10pt;">
+
+</div>
+<p><span class="math display">\[
+\begin{eqnarray*}
+\mathbb{P}(Y_{x+s+t}=j\,|\,Y_x=i)&amp;&amp;\\
+&amp;&amp;\hspace{-20mm}=\sum_{k\in S} \mathbb{P}(Y_{x+s+t}=j,Y_{x+s}=k\,|\,Y_x=i)\\
+&amp;&amp;\hspace{-20mm}=\sum_{k\in S} \mathbb{P}(Y_{x+s+t}=j\,|\,Y_{x+s}=k) \cdot \mathbb{P}(Y_{x+s}=k\,|\,Y_x=i), \\
+\end{eqnarray*}
+\]</span></p>
+<div style="margin-top: -10pt;">
+
+</div>
+<p>or</p>
+<div style="margin-top: -10pt;">
+
+</div>
+<p><span class="math display">\[
+p_{ij}(x,s+t)=\sum_{k\in S} p_{ik}(x,s)p_{kj}(x+s,t), \qquad i,j\in S.
+\]</span></p>
+<div style="margin-top: -10pt;">
+
+</div>
+<p>These are the <span class="alert"><strong>Chapman-Kolmogorov equation</strong></span>.</p>
+</div>
+</section>
+<section id="chapman-kolmogorov-equations-solving-a-markov-process-for-p_ijxt-gap-on-page-86" class="slide level2">
+<h2>Chapman-Kolmogorov equations: solving a Markov process for <span class="math inline">\(p_{ij}(x,t)\)</span> <span class="alert"><strong>(Gap on page 86)</strong></span></h2>
+<div class="justify small-text">
+<p>Suppose that there are <span class="math inline">\(m\)</span> states in <span class="math inline">\(S\)</span>, labelled <span class="math inline">\(1,\cdots ,m\)</span>.</p>
+<p>For a Markov process, we define the <span class="alert">transition matrix between times <span class="math inline">\(x\)</span> and <span class="math inline">\(x+t\)</span></span> to be the matrix <span class="math display">\[
+\mathbb{P}(x,t)=\left(
+\begin{array} {cccc}
+p_{11}(x,t)&amp;p_{12}(x,t)&amp;\cdots&amp;p_{1m}(x,t)\\
+p_{21}(x,t)&amp;p_{22}(x,t)&amp;\cdots&amp;p_{2m}(x,t)\\
+\vdots&amp;\vdots&amp;&amp;\vdots\\
+p_{m1}(x,t)&amp;p_{m2}(x,t)&amp;\cdots&amp;p_{mm}(x,t)
+\end{array}
+\right)
+\]</span></p>
+<div style="margin-top: 20pt;">
+
+</div>
+<p>The Chapman-Kolmogorov equations can be written as <span class="math display">\[
+\mathbb{P}(x,s+t)=\mathbb{P}(x,s)\cdot \mathbb{P}(x+s,t)
+\]</span></p>
+<div style="margin-top: 20pt;">
+
+</div>
+<p>For a time-homogeneous process, we can drop the first argument <span class="math inline">\(x\)</span> in the above.</p>
+</div>
+</section>
+<section id="chapman-kolmogorov-equations-solving-a-markov-process-for-p_ijxt-gap-on-page-87" class="slide level2">
+<h2>Chapman-Kolmogorov equations: solving a Markov process for <span class="math inline">\(p_{ij}(x,t)\)</span> <span class="alert"><strong>(Gap on page 87)</strong></span></h2>
+<div class="justify small-text">
+<p>The Chapman-Kolmogorov equations give <span class="math display">\[
+p_{ij}(x,t+\delta t)=\sum_{k\in S} p_{ik}(x,t)p_{kj}(x+t,\delta t)\qquad i,j\in S
+\]</span> which implies that <span class="math display">\[
+\begin{eqnarray*}
+\frac{p_{ij}(x,t+\delta t)-p_{ij}(x,t)}{\delta t}&amp;&amp;\\
+&amp;&amp;\hspace{-20mm}=\sum_{k\in S} p_{ik}(x,t) \cdot \frac{p_{kj}(x+t,\delta t)}{\delta t}-\frac{p_{ij}(x,t)}{\delta t}
+\\
+&amp;&amp;\hspace{-20mm}=\sum_{k\ne j} p_{ik}(x,t) \cdot \frac{p_{kj}(x+t,\delta t)}{\delta t}-p_{ij}(x,t) \cdot \frac{1-p_{jj}(x+t,
+\delta t)}{\delta t}.
+\\
+\end{eqnarray*}
+\]</span></p>
+</div>
+</section>
+<section id="chapman-kolmogorov-equations-solving-a-markov-process-for-p_ijxt-gap-on-page-88" class="slide level2">
+<h2>Chapman-Kolmogorov equations: solving a Markov process for <span class="math inline">\(p_{ij}(x,t)\)</span> <span class="alert"><strong>(Gap on page 88)</strong></span></h2>
+<div class="justify small-text">
+<p>In the limit <span class="math inline">\(\delta t\to 0\)</span>, we have <span class="math display">\[
+\begin{eqnarray*}
+\frac{d}{dt} p_{ij}(x,t)&amp;=&amp;
+\sum_{k\ne j} p_{ik}(x,t)\mu_{kj}(x+t)+p_{ij}(x,t) \cdot \mu_{jj}(x+t) \\
+&amp;=&amp; \sum_{k\in S} p_{ik}(x,t) \cdot \mu_{kj}(x+t), \qquad i,j\in S\\
+\end{eqnarray*}
+\]</span> These are the <span class="alert"><strong>Kolmogorov forward equations</strong></span>, which are a set of differential equations for <span class="math inline">\(p_{ij}(x,t)\)</span></p>
+<p>They can be written in matrix form as <span class="math inline">\(\frac{d}{dt} \mathbb{P}(x,t)=\mathbb{P}(x,t) \cdot \mathbb{M}(x+t)\)</span>, where <span class="math inline">\(\mathbb{M}(x)\)</span> is the transition intensity matrix <span class="math display">\[
+\mathbb{M}(x)=\left(
+\begin{array} {cccc}
+\mu_{11}(x)&amp;\mu_{12}(x)&amp;\cdots&amp;\mu_{1m}(x)\\
+\mu_{21}(x)&amp;\mu_{22}(x)&amp;\cdots&amp;\mu_{2m}(x)\\
+\vdots&amp;\vdots&amp;&amp;\vdots\\
+\mu_{m1}(x)&amp;\mu_{m2}(x)&amp;\cdots&amp;\mu_{mm}(x)
+\end{array}
+\right).
+\]</span></p>
+</div>
+</section>
+<section id="the-holding-time-distribution-gap-on-page-89" class="slide level2">
+<h2>The holding time distribution <span class="alert"><strong>(Gap on page 89)</strong></span></h2>
+<div class="justify small-text fragment">
+<p>Consider a unit in state <span class="math inline">\(i\)</span> at time <span class="math inline">\(x\)</span>. The holding time <span class="math inline">\(T_{xi}\)</span> is the random variable indicating the length of the time interval between <span class="math inline">\(x\)</span> and the next transition to any other state.</p>
+<p>We have <span class="math display">\[
+\begin{eqnarray*}
+\mathbb{P}(T_{xi}\le t+\delta t\,|\,T_{xi}\ge t)&amp;=&amp; \mathbb{P}(Y_{x+t+\delta t}\ne i \,|\,Y_{[x,x+t]}=i)\\
+&amp;=&amp;1-\mathbb{P}(Y_{x+t+\delta t}= i \,|\,Y_{x+t}=i)
+\end{eqnarray*}
+\]</span> and, therefore, <span class="math display">\[
+\frac{\mathbb{P}(T_{xi}\le t+\delta t\,|\,T_{xi}\ge t)}{\delta t}=
+\frac{1-\mathbb{P}(Y_{x+t+\delta t}= i \,|\,Y_{x+t}=i)}{\delta t}
+\]</span> Taking the limit as <span class="math inline">\(\delta t\to 0\)</span>, we have <span class="math display">\[
+h_{xi}(t)=-\mu_{ii}(x+t)=\sum_{i\ne j} \mu_{ij}(x+t),
+\]</span> where <span class="math inline">\(h_{xi}\)</span> is the hazard function for the holding time variable <span class="math inline">\(T_{xi}\)</span>.</p>
+</div>
+</section>
+<section id="the-holding-time-distribution-gap-on-page-89-1" class="slide level2">
+<h2>The holding time distribution <span class="alert"><strong>(Gap on page 89)</strong></span></h2>
+<div class="justify small-text">
+<p>The hazard function <span class="math inline">\(h_{xi}(t)\)</span> can be transformed to a survival function in the usual way, so we have <span class="math display">\[
+\begin{eqnarray*}
+S_{xi}(t)=\exp\left( -\int_0^t h_{xi}(t) \mathrm{d}t \right) &amp;=&amp; \exp\left( \int_0^t \mu_{ii}(x+t)\mathrm{d}t \right) \\
+&amp;=&amp; \exp\left( -\int_0^t \sum_{i\ne j} \mu_{ij}(x+t)\mathrm{d}t \right)
+\end{eqnarray*}
+\]</span></p>
+<div style="margin-top: 40pt;">
+
+</div>
+<p>For a time-homogeneous Markov process, all <span class="math inline">\(\mu_{ij}(x)\)</span> are constant (independent of <span class="math inline">\(x\)</span>) so we have <span class="math inline">\(h_{xi}(t)=-\mu_{ii}=\sum_{j\ne i} \mu_{ij}\)</span>, a constant hazard. Hence, <span class="math display">\[
+S_{xi}(t)= \exp\left(  \mu_{ii} t \right)= \exp\left(  -t \sum_{j\ne i} \mu_{ij}\right)
+\]</span> and the holding time distribution is exponential, with rate <span class="math inline">\(\sum_{i\ne j} \mu_{ij}\)</span>.</p>
+</div>
+</section>
+<section id="conditional-transition-probability-gap-on-page-90" class="slide level2">
+<h2>Conditional transition probability <span class="alert"><strong>(Gap on page 90)</strong></span></h2>
+<div class="justify small-text">
+<p><span class="secondary">Conditional on a transition being made from state <span class="math inline">\(i\)</span> at time <span class="math inline">\(x+t\)</span>, what is the probability that transition is made to state <span class="math inline">\(j\)</span> for each <span class="math inline">\(j\ne i\)</span>?</span></p>
+<div class="fragment">
+<p><span class="math display">\[
+\begin{eqnarray*}
+&amp;&amp;\mathbb{P}(\mbox{transition from $i$ to $j$ at $x+t$}\;|\;\mbox{transition from $i$ at $x+t$})\\[3pt]
+&amp;&amp;\qquad= \lim_{\delta t\to 0}  \mathbb{P}(Y_{x+t+\delta t}=j\;|\;Y_{x+t+\delta t}\ne i \mbox{ and } Y_{x+t}=i)\\[3pt]
+&amp;&amp;\qquad= \lim_{\delta t\to 0}  \frac{\mathbb{P}(Y_{x+t+\delta t}=j\;|\;Y_{x+t}= i )}
+{\mathbb{P}(Y_{x+t+\delta t}\ne i\;|\; Y_{x+t}=i)}\\[3pt]
+&amp;&amp;\qquad= \lim_{\delta t\to 0}  \frac{\mu_{ij}(x+t)\delta t+o(\delta t)}
+{\sum_{k\ne i}\mu_{ik}(x+t)\delta t+o(\delta t)}\\[3pt]
+&amp;&amp;\qquad=   \frac{\mu_{ij}(x+t)}
+{\sum_{k\ne i}\mu_{ik}(x+t)}
+\end{eqnarray*}
+\]</span></p>
+<div class="fragment">
+<p>For a time-homogeneous Markov process, all <span class="math inline">\(\mu_{ij}(x)\)</span> are constant (independent of <span class="math inline">\(x\)</span>) so this becomes <span class="math inline">\(\frac{\mu_{ij}}{\sum_{k\ne i}\mu_{ik}}\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="two-state-model-absorbing-state-gap-on-page-91" class="slide level2">
+<h2>Two-state model (absorbing state) <span class="alert"><strong>(Gap on page 91)</strong></span></h2>
+<div class="justify small-text">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_8_files/figure-revealjs/unnamed-chunk-5-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<div style="margin-top: -30pt;">
+
+</div>
+<div class="fragment">
+<p>Any two-state process is determined by the transition intensities between the two states, <span class="math inline">\(\mu_{12}(x)\)</span> and <span class="math inline">\(\mu_{21}(x)\)</span>.</p>
+<p>As <code>state 2</code> is absorbing, <span class="math display">\[
+p_{21}(x,t)=0, \quad \mbox{for all }x,t\qquad\Rightarrow\qquad \mu_{21}(x)=0, \quad \mbox{for all }x.
+\]</span></p>
+<p>Hence the transition intensity matrix is given by <span class="math display">\[
+\mathbb{M}(x)=\left(
+\begin{array}{cc}
+-\mu_{12}(x)&amp;\mu_{12}(x)\\
+0&amp;0
+\end{array}
+\right).
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="two-state-model-absorbing-state-gap-on-page-91-1" class="slide level2">
+<h2>Two-state model (absorbing state) <span class="alert"><strong>(Gap on page 91)</strong></span></h2>
+<div class="justify small-text">
+<p>We have <span class="math display">\[
+p_{21}(x,t)=0, \quad \mbox{for all }x,t\qquad\Rightarrow\qquad p_{22}(x,t)=1, \quad \mbox{for all }x,t.
+\]</span></p>
+<p>To completely determine the transition structure for the process, all that remains is to solve the Kolmogorov forward equation for either <span class="math inline">\(p_{11}(x,t)\)</span> or <span class="math inline">\(p_{12}(x,t)\)</span>, and then obtain the other using <span class="math display">\[
+p_{11}(x,t)+p_{12}(x,t)=1
+\]</span> For completeness, we shall solve both and show that they give equivalent results.</p>
+</div>
+</section>
+<section id="two-state-model-absorbing-state-gap-on-page-91-2" class="slide level2">
+<h2>Two-state model (absorbing state) <span class="alert"><strong>(Gap on page 91)</strong></span></h2>
+<div class="justify small-text">
+<p>The Kolmogorov forward equation for <span class="math inline">\(p_{11}(x,t)\)</span> is <span class="math display">\[
+\begin{eqnarray*}
+\frac{d}{dt} p_{11}(x,t) &amp;=&amp; p_{11}(x,t)\mu_{11}(x+t)+p_{12}(x,t)\mu_{21}(x+t)\\
+&amp;=&amp; -p_{11}(x,t)\mu_{12}(x+t).
+\end{eqnarray*}
+\]</span> So, <span class="math display">\[
+\begin{eqnarray*}
+&amp;&amp;\int\frac{\mathrm{d} p_{11}(x,t)}{p_{11}(x,t)} = -\int_0^t\mu_{12}(x+t) \mathrm{d}t\\
+\Rightarrow&amp;&amp; \log p_{11}(x,t)= -\int_0^t\mu_{12}(x+t) \mathrm{d}t + C\\
+\Rightarrow&amp;&amp; p_{11}(x,t)= A \cdot \exp\left(-\int_0^t\mu_{12}(x+t) \mathrm{d}t \right)\\
+\Rightarrow&amp;&amp; p_{11}(x,t)= \exp\left(-\int_0^t\mu_{12}(x+t) \mathrm{d}t \right),
+\end{eqnarray*}
+\]</span> because we have the boundary condition <span class="math inline">\(p_{11}(x,0)=1\)</span>.</p>
+</div>
+</section>
+<section id="two-state-model-absorbing-state-gap-on-page-91-3" class="slide level2">
+<h2>Two-state model (absorbing state) <span class="alert"><strong>(Gap on page 91)</strong></span></h2>
+<div class="justify small-text">
+<p>The Kolmogorov forward equation for <span class="math inline">\(p_{12}(x,t)\)</span> is <span class="math display">\[
+\begin{eqnarray*}
+\frac{d}{dt} p_{12}(x,t) &amp;=&amp; p_{11}(x,t)\mu_{12}(x+t)+p_{12}(x,t)\mu_{22}(x+t)\\
+&amp;=&amp; p_{11}(x,t)\mu_{12}(x+t) =  [1-p_{12}(x,t)]\cdot \mu_{12}(x+t).\\
+\end{eqnarray*}
+\]</span></p>
+<p>So, <span class="math display">\[
+\begin{eqnarray*}
+&amp;&amp;\int\frac{\mathrm{d} p_{12}(x,t)}{1-p_{12}(x,t)} = \int_0^t\mu_{12}(x+t) \mathrm{d}t\\
+\Rightarrow&amp;&amp; -\log [1-p_{12}(x,t)]= \int_0^t\mu_{12}(x+t) \mathrm{d}t + C\\
+\Rightarrow&amp;&amp; 1-p_{12}(x,t)= A \cdot \exp\left(-\int_0^t\mu_{12}(x+t) \mathrm{d}t \right)\\
+\Rightarrow&amp;&amp; p_{12}(x,t)= 1-\exp\left(-\int_0^t\mu_{12}(x+t) \mathrm{d}t \right)
+\end{eqnarray*}
+\]</span> because we have the boundary condition <span class="math inline">\(p_{12}(x,0)=0\)</span>.</p>
+</div>
+</section>
+<section id="two-state-model-absorbing-state-gap-on-page-91-4" class="slide level2">
+<h2>Two-state model (absorbing state) <span class="alert"><strong>(Gap on page 91)</strong></span></h2>
+<div class="justify small-text">
+<p>Clearly, the two solutions are equivalent, as we have <span class="math display">\[
+p_{11}(x,t)= \exp\left(-\int_0^t\mu_{12}(x+t) \mathrm{d}t \right)=1-p_{12}(x,t).
+\]</span> We also note that if we define <span class="math inline">\(T_x\)</span> to be the random variable representing the time (from <span class="math inline">\(x\)</span>) in the alive (<code>state 1</code>) before death (transition to <code>state 2</code>), then <span class="math display">\[
+S_{T_x}(t)=p_{11}(x,t)
+\]</span> because for this state space, being in <code>state 1</code> at time <span class="math inline">\(x+t\)</span> is equivalent to holding in <code>state 1</code> throughout the interval <span class="math inline">\([x,x+t]\)</span>. </p>
+<p>It follows from the solution for <span class="math inline">\(p_{11}(x,t)\)</span> above that <span class="math display">\[
+h_{T_x}(t)=- \frac{d}{dt} \log S_{T_x}(t) = -\frac{d}{dt} \log p_{11}(x,t) = \mu_{12}(x+t)
+\]</span> so the transition intensity plays the role of the hazard function for the variable representing the time spent in the alive (<code>state 1</code>).</p>
+</div>
+</section>
+<section id="two-state-model-no-absorb.-state-gap-on-page-95" class="slide level2">
+<h2>Two-state model (no absorb. state) <span class="alert"><strong>(Gap on page 95)</strong></span></h2>
+<div class="justify small-text">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_8_files/figure-revealjs/unnamed-chunk-6-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>TBD.</p>
+</div>
+</div>
+
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
@@ -406,190 +861,173 @@
     </script>
 
     <script id="quarto-html-after-body" type="application/javascript">
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-      const toggleBodyColorMode = (bsSheetEl) => {
-        const mode = bsSheetEl.getAttribute("data-mode");
-        const bodyEl = window.document.querySelector("body");
-        if (mode === "dark") {
-          bodyEl.classList.add("quarto-dark");
-          bodyEl.classList.remove("quarto-light");
-        } else {
-          bodyEl.classList.add("quarto-light");
-          bodyEl.classList.remove("quarto-dark");
-        }
-      }
-      const toggleBodyColorPrimary = () => {
-        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-        if (bsSheetEl) {
-          toggleBodyColorMode(bsSheetEl);
-        }
-      }
-      toggleBodyColorPrimary();  
-      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
-      tabsets.forEach(function(tabset) {
-        const tabby = new Tabby('#' + tabset.id);
-      });
-      const isCodeAnnotation = (el) => {
-        for (const clz of el.classList) {
-          if (clz.startsWith('code-annotation-')) {                     
-            return true;
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
           }
+          return false;
         }
-        return false;
-      }
-      const onCopySuccess = function(e) {
-        // button target
-        const button = e.trigger;
-        // don't keep focus
-        button.blur();
-        // flash "checked"
-        button.classList.add('code-copy-button-checked');
-        var currentTitle = button.getAttribute("title");
-        button.setAttribute("title", "Copied!");
-        let tooltip;
-        if (window.bootstrap) {
-          button.setAttribute("data-bs-toggle", "tooltip");
-          button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Copied!");
-          tooltip = new bootstrap.Tooltip(button, 
-            { trigger: "manual", 
-              customClass: "code-copy-button-tooltip",
-              offset: [0, -8]});
-          tooltip.show();    
-        }
-        setTimeout(function() {
-          if (tooltip) {
-            tooltip.hide();
-            button.removeAttribute("data-bs-title");
-            button.removeAttribute("data-bs-toggle");
-            button.removeAttribute("data-bs-placement");
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
           }
-          button.setAttribute("title", currentTitle);
-          button.classList.remove('code-copy-button-checked');
-        }, 1000);
-        // clear code selection
-        e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
           for (const childEl of codeEl.children) {
             if (isCodeAnnotation(childEl)) {
               childEl.remove();
             }
           }
           return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
-      });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp('/' + window.location.host + '/');
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
             }
           }
-        }
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-        const config = {
-          allowHTML: true,
-          maxWidth: 500,
-          delay: 100,
-          arrow: false,
-          appendTo: function(el) {
-              return el.closest('section.slide') || el.parentElement;
-          },
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start',
-        };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
-          config['offset'] = [0,0];
-          config['maxWidth'] = 700;
-        window.tippy(el, config); 
-      }
-      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-      for (var i=0; i<noterefs.length; i++) {
-        const ref = noterefs[i];
-        tippyHover(ref, function() {
-          // use id or data attribute instead here
-          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-          try { href = new URL(href).hash; } catch {}
-          const id = href.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
           }
-        });
-      }
-      const findCites = (el) => {
-        const parentEl = el.parentElement;
-        if (parentEl) {
-          const cites = parentEl.dataset.cites;
-          if (cites) {
-            return {
-              el,
-              cites: cites.split(' ')
-            };
-          } else {
-            return findCites(el.parentElement)
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
           }
-        } else {
-          return undefined;
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
         }
-      };
-      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-      for (var i=0; i<bibliorefs.length; i++) {
-        const ref = bibliorefs[i];
-        const citeInfo = findCites(ref);
-        if (citeInfo) {
-          tippyHover(citeInfo.el, function() {
-            var popup = window.document.createElement('div');
-            citeInfo.cites.forEach(function(cite) {
-              var citeDiv = window.document.createElement('div');
-              citeDiv.classList.add('hanging-indent');
-              citeDiv.classList.add('csl-entry');
-              var biblioDiv = window.document.getElementById('ref-' + cite);
-              if (biblioDiv) {
-                citeDiv.innerHTML = biblioDiv.innerHTML;
-              }
-              popup.appendChild(citeDiv);
-            });
-            return popup.innerHTML;
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
           });
         }
-      }
-    });
-    </script>
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
     
 
 </body></html>
