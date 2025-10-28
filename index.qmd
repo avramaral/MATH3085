@@ -61,7 +61,7 @@ The module content is structured into 16 chapters (with the corresponding slides
 5.  [Survival models: parameter estimation](/slides/_output/chap_5.html)
 6.  [Non-parametric Survival Estimation](/slides/_output/chap_6.html)
 7.  [Survival Regression Models](/slides/_output/chap_7.html)
-8.  Multistate Survival Models <!--(/slides/_output/chap_8.html)-->
+8.  [Multistate Survival Models](/slides/_output/chap_8.html)
 9.  Inference for Multistate Models <!--(/slides/_output/chap_9.html)-->
 10. Modelling Human Lifetime
 11. The Life Table and Life Expectancy
