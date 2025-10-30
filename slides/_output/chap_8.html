@@ -144,7 +144,7 @@
     </div>
 </div>
 
-  <p class="date">28/10/2025</p>
+  <p class="date">30/10/2025</p>
 </section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
@@ -380,7 +380,7 @@ p_{ij}(x,s+t)=\sum_{k\in S} p_{ik}(x,s)p_{kj}(x+s,t), \qquad i,j\in S.
 <div class="justify small-text">
 <p>Suppose that there are <span class="math inline">\(m\)</span> states in <span class="math inline">\(S\)</span>, labelled <span class="math inline">\(1,\cdots ,m\)</span>.</p>
 <p>For a Markov process, we define the <span class="alert">transition matrix between times <span class="math inline">\(x\)</span> and <span class="math inline">\(x+t\)</span></span> to be the matrix <span class="math display">\[
-\mathbb{P}(x,t)=\left(
+\text{P}(x,t)=\left(
 \begin{array} {cccc}
 p_{11}(x,t)&amp;p_{12}(x,t)&amp;\cdots&amp;p_{1m}(x,t)\\
 p_{21}(x,t)&amp;p_{22}(x,t)&amp;\cdots&amp;p_{2m}(x,t)\\
@@ -428,8 +428,8 @@ p_{ij}(x,t+\delta t)=\sum_{k\in S} p_{ik}(x,t)p_{kj}(x+t,\delta t)\qquad i,j\in 
 &amp;=&amp; \sum_{k\in S} p_{ik}(x,t) \cdot \mu_{kj}(x+t), \qquad i,j\in S\\
 \end{eqnarray*}
 \]</span> These are the <span class="alert"><strong>Kolmogorov forward equations</strong></span>, which are a set of differential equations for <span class="math inline">\(p_{ij}(x,t)\)</span></p>
-<p>They can be written in matrix form as <span class="math inline">\(\frac{d}{dt} \mathbb{P}(x,t)=\mathbb{P}(x,t) \cdot \mathbb{M}(x+t)\)</span>, where <span class="math inline">\(\mathbb{M}(x)\)</span> is the transition intensity matrix <span class="math display">\[
-\mathbb{M}(x)=\left(
+<p>They can be written in matrix form as <span class="math inline">\(\frac{d}{dt} \text{P}(x,t)= \text{P}(x,t) \cdot \text{M}(x+t)\)</span>, where <span class="math inline">\(\text{M}(x)\)</span> is the transition intensity matrix <span class="math display">\[
+\text{M}(x)=\left(
 \begin{array} {cccc}
 \mu_{11}(x)&amp;\mu_{12}(x)&amp;\cdots&amp;\mu_{1m}(x)\\
 \mu_{21}(x)&amp;\mu_{22}(x)&amp;\cdots&amp;\mu_{2m}(x)\\
@@ -442,8 +442,9 @@ p_{ij}(x,t+\delta t)=\sum_{k\in S} p_{ik}(x,t)p_{kj}(x+t,\delta t)\qquad i,j\in 
 </section>
 <section id="the-holding-time-distribution-gap-on-page-89" class="slide level2">
 <h2>The holding time distribution <span class="alert"><strong>(Gap on page 89)</strong></span></h2>
-<div class="justify small-text fragment">
+<div class="justify small-text">
 <p>Consider a unit in state <span class="math inline">\(i\)</span> at time <span class="math inline">\(x\)</span>. The holding time <span class="math inline">\(T_{xi}\)</span> is the random variable indicating the length of the time interval between <span class="math inline">\(x\)</span> and the next transition to any other state.</p>
+<div class="fragment">
 <p>We have <span class="math display">\[
 \begin{eqnarray*}
 \mathbb{P}(T_{xi}\le t+\delta t\,|\,T_{xi}\ge t)&amp;=&amp; \mathbb{P}(Y_{x+t+\delta t}\ne i \,|\,Y_{[x,x+t]}=i)\\
@@ -455,6 +456,7 @@ p_{ij}(x,t+\delta t)=\sum_{k\in S} p_{ik}(x,t)p_{kj}(x+t,\delta t)\qquad i,j\in 
 \]</span> Taking the limit as <span class="math inline">\(\delta t\to 0\)</span>, we have <span class="math display">\[
 h_{xi}(t)=-\mu_{ii}(x+t)=\sum_{i\ne j} \mu_{ij}(x+t),
 \]</span> where <span class="math inline">\(h_{xi}\)</span> is the hazard function for the holding time variable <span class="math inline">\(T_{xi}\)</span>.</p>
+</div>
 </div>
 </section>
 <section id="the-holding-time-distribution-gap-on-page-89-1" class="slide level2">
@@ -518,7 +520,7 @@ S_{xi}(t)= \exp\left(  \mu_{ii} t \right)= \exp\left(  -t \sum_{j\ne i} \mu_{ij}
 p_{21}(x,t)=0, \quad \mbox{for all }x,t\qquad\Rightarrow\qquad \mu_{21}(x)=0, \quad \mbox{for all }x.
 \]</span></p>
 <p>Hence the transition intensity matrix is given by <span class="math display">\[
-\mathbb{M}(x)=\left(
+\text{M}(x)=\left(
 \begin{array}{cc}
 -\mu_{12}(x)&amp;\mu_{12}(x)\\
 0&amp;0
