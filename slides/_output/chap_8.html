@@ -10,6 +10,7 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="André Victor Ribeiro Amaral">
+  <meta name="dcterms.date" content="2025-03-11">
   <title>Survival Models (MATH3085/6143)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -144,7 +145,7 @@
     </div>
 </div>
 
-  <p class="date">30/10/2025</p>
+  <p class="date">03/11/2025</p>
 </section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
@@ -604,8 +605,221 @@ h_{T_x}(t)=- \frac{d}{dt} \log S_{T_x}(t) = -\frac{d}{dt} \log p_{11}(x,t) = \mu
 </div>
 </div>
 <div class="fragment">
-<p>TBD.</p>
+<p>As in the first example, this is a two-state process, so is determined by the transition intensities between the two states, <span class="math inline">\(\mu_{12}(x)\)</span> and <span class="math inline">\(\mu_{21}(x)\)</span>.</p>
+<p>However, neither state is absorbing, so the transition intensity matrix is given by <span class="math display">\[
+\text{M}(x)=\left(
+\begin{array}{rr}
+-\mu_{12}(x)&amp;\mu_{12}(x)\\
+\mu_{21}(x)&amp;-\mu_{21}(x)
+\end{array}
+\right)
+\]</span> To completely determine the transition structure for the process, we need to solve for <span class="math inline">\(p_{11}(x,t)\)</span> <span class="math inline">\((\)</span>or <span class="math inline">\(p_{12}(x,t))\)</span> and <span class="math inline">\(p_{21}(x,t)\)</span> <span class="math inline">\((\)</span>or <span class="math inline">\(p_{22}(x,t))\)</span>.</p>
 </div>
+</div>
+</section>
+<section id="two-state-model-no-absorb.-state-gap-on-page-95-1" class="slide level2">
+<h2>Two-state model (no absorb. state) <span class="alert"><strong>(Gap on page 95)</strong></span></h2>
+<div class="justify small-text">
+<p>The Kolmogorov forward equation for <span class="math inline">\(p_{11}(x,t)\)</span> is <span class="math display">\[
+\begin{eqnarray*}
+\frac{d}{dt} p_{11}(x,t) &amp;=&amp; p_{11}(x,t)\mu_{11}(x+t)+p_{12}(x,t)\mu_{21}(x+t)\\
+&amp;=&amp; -p_{11}(x,t)\mu_{12}(x+t)+[1-p_{11}(x,t)]\mu_{21}(x+t)\\
+&amp;=&amp; -p_{11}(x,t)[\mu_{12}(x+t)+\mu_{21}(x+t)]+\mu_{21}(x+t)
+\end{eqnarray*}
+\]</span></p>
+<div class="fragment">
+<p>Similarly, the Kolmogorov forward equation for <span class="math inline">\(p_{22}(x,t)\)</span> is <span class="math display">\[
+\frac{d}{dt} p_{22}(x,t) = -p_{22}(x,t)[\mu_{12}(x+t)+\mu_{21}(x+t)]+\mu_{12}(x+t)
+\]</span></p>
+</div>
+<div class="fragment">
+<p>The existence of an analytic solution to these equations depends on the form of the transition intensity functions <span class="math inline">\(\mu_{12}(x)\)</span> and <span class="math inline">\(\mu_{21}(x)\)</span>.</p>
+</div>
+<div class="fragment">
+<p>We restrict attention to the time-homogeneous case where <span class="math display">\[
+\mu_{12}(x)=\mu_{12}\qquad\mbox{and}\qquad \mu_{21}(x)=\mu_{21},
+\]</span> independent of <span class="math inline">\(x\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="two-state-model-no-absorb.-state-gap-on-page-95-2" class="slide level2">
+<h2>Two-state model (no absorb. state) <span class="alert"><strong>(Gap on page 95)</strong></span></h2>
+<div class="justify small-text">
+<p>The Kolmogorov forward equation for <span class="math inline">\(p_{11}(x,t)\)</span> is now <span class="math display">\[
+\begin{eqnarray*}
+&amp;&amp;\frac{d}{dt} p_{11}(x,t) =  -p_{11}(x,t)[\mu_{12}+\mu_{21}]+\mu_{21}\\[3pt]
+\Rightarrow&amp;&amp;\int\frac{\mathrm{d} p_{11}(x,t)}{p_{11}(x,t)[\mu_{12}+\mu_{21}]-\mu_{21}} = -\int \mathrm{d}t\\[3pt]
+\Rightarrow&amp;&amp; \frac{\log (p_{11}(x,t)[\mu_{12}+\mu_{21}]-\mu_{21})}{\mu_{12}+\mu_{21}}= -t+C\\[3pt]
+\Rightarrow&amp;&amp; p_{11}(x,t)[\mu_{12}+\mu_{21}]-\mu_{21}= A\exp\left(-[\mu_{12}+\mu_{21}]t \right)\\[3pt]
+\Rightarrow&amp;&amp; p_{11}(x,t)= \frac{A\exp\left(-[\mu_{12}+\mu_{21}]t \right)+\mu_{21}}{\mu_{12}+\mu_{21}}\\[3pt]
+\Rightarrow&amp;&amp; p_{11}(x,t)= \frac{\mu_{12}\exp\left(-[\mu_{12}+\mu_{21}]t \right)+\mu_{21}}{\mu_{12}+\mu_{21}},\\
+\end{eqnarray*}
+\]</span> as we have the boundary condition <span class="math inline">\(p_{11}(x,0)=1\)</span>.</p>
+</div>
+</section>
+<section id="two-state-model-no-absorb.-state-gap-on-page-95-3" class="slide level2">
+<h2>Two-state model (no absorb. state) <span class="alert"><strong>(Gap on page 95)</strong></span></h2>
+<div class="justify small-text">
+<p>Similarly, the Kolmogorov forward equation for <span class="math inline">\(p_{22}(x,t)\)</span> is solved by <span class="math display">\[
+p_{22}(x,t)= \frac{\mu_{21}\exp\left(-[\mu_{12}+\mu_{21}]t \right)+\mu_{12}}{\mu_{21}+\mu_{12}}
+\]</span> and we also obtain, using the identities <span class="math inline">\(p_{11}(x,t)+p_{12}(x,t)=1\)</span> and <span class="math inline">\(p_{21}(x,t)+p_{22}(x,t)=1\)</span>, <span class="math display">\[
+p_{12}(x,t)= \frac{\mu_{12}(1-\exp\left(-[\mu_{12}+\mu_{21}]t \right))}{\mu_{12}+\mu_{21}}
+\]</span> and</p>
+<div style="margin-top: -10pt;">
+
+</div>
+<span class="math display">\[
+p_{21}(x,t)= \frac{\mu_{21}(1-\exp\left(-[\mu_{12}+\mu_{21}]t \right))}{\mu_{21}+\mu_{12}}
+\]</span>
+<div style="margin-top: -10pt;">
+
+</div>
+<p>Note that, as <span class="math inline">\(t\to\infty\)</span>, <span class="math display">\[
+p_{i1}(x,t)\to \frac{\mu_{21}}{\mu_{21}+\mu_{12}}
+\qquad\mbox{and}\qquad
+p_{i2}(x,t)\to \frac{\mu_{12}}{\mu_{12}+\mu_{21}}
+\]</span> for <span class="math inline">\(i=1,~2\)</span>, so the final state becomes independent of the initial state.</p>
+</div>
+</section>
+<section id="two-state-model-no-absorb.-state-gap-on-page-95-4" class="slide level2">
+<h2>Two-state model (no absorb. state) <span class="alert"><strong>(Gap on page 95)</strong></span></h2>
+<div class="justify small-text">
+<p>Note that, in this model, the survivor function for the holding time random variables <span class="math inline">\(T_{x1}\)</span> (<code>state 1</code>) and <span class="math inline">\(T_{x2}\)</span> (<code>state 2</code>) are <span class="math display">\[
+S_{x1}(t)=\exp(-\mu_{12}t) \qquad\mbox{and}\qquad S_{x2}(t)=\exp(-\mu_{21}t)
+\]</span> and that <span class="math display">\[
+S_{x1}(t)\ne p_{11}(x,t) \qquad\mbox{and}\qquad S_{x2}(t)\ne p_{22}(x,t),
+\]</span> as this model allows transition out of a state and then return at a later time.</p>
+</div>
+</section>
+<section id="four-state-process-gap-on-page-99" class="slide level2">
+<h2>Four-state process <span class="alert"><strong>(Gap on page 99)</strong></span></h2>
+<div class="justify small-text">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="chap_8_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>This four-state process is determined by the transition intensities, <span class="math inline">\(\mu_{ij}(x)\)</span> <span class="math inline">\(i\ne j\)</span>.</p>
+<p>As <code>states 2</code>, <code>3</code>, <code>4</code> are absorbing, <span class="math display">\[
+p_{ij}(x,t)=0\; \mbox{for all }x,t, i&gt;1,j\ne i\quad\Rightarrow\quad \mu_{ij}(x)=0\; \mbox{for all }x, i&gt;1,j\ne i.
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="four-state-process-gap-on-page-99-1" class="slide level2">
+<h2>Four-state process <span class="alert"><strong>(Gap on page 99)</strong></span></h2>
+<div class="justify small-text">
+<p>The transition intensity matrix is given by <span class="math display">\[
+\text{M}(x)=\left(
+\begin{array}{ccccc}
+-\mu_{12}(x)-\mu_{13}(x)-\mu_{14}(x)&amp;\quad&amp;\mu_{12}(x)&amp;\mu_{13}(x)&amp;\mu_{14}(x)\\
+0&amp;&amp;0&amp;0&amp;0\\
+0&amp;&amp;0&amp;0&amp;0\\
+0&amp;&amp;0&amp;0&amp;0
+\end{array}
+\right)
+\]</span></p>
+<div style="margin-top: 15pt;">
+
+</div>
+<p>To completely determine the transition structure for the process, we need to solve the <span class="alert">Kolmogorov forward equation</span> for three of <span class="math inline">\(\{p_{11}(x,t),p_{12}(x,t),\)</span> <span class="math inline">\(p_{13}(x,t),p_{14}(x,t)\}\)</span>, and then obtain the other using</p>
+<div style="margin-top: 15pt;">
+
+</div>
+<p><span class="math display">\[
+p_{11}(x,t)+p_{12}(x,t)+p_{13}(x,t)+p_{14}(x,t)=1.
+\]</span></p>
+</div>
+</section>
+<section id="four-state-process-gap-on-page-99-2" class="slide level2">
+<h2>Four-state process <span class="alert"><strong>(Gap on page 99)</strong></span></h2>
+<div class="justify small-text">
+<p>The Kolmogorov forward equation for <span class="math inline">\(p_{11}(x,t)\)</span> is</p>
+<div style="margin-top: -5pt;">
+
+</div>
+<span class="math display">\[
+\begin{eqnarray*}
+\frac{d}{dt} p_{11}(x,t) &amp;=&amp; p_{11}(x,t)\mu_{11}(x+t)+p_{12}(x,t)\mu_{21}(x+t)\\
+&amp;&amp;\qquad\qquad+p_{13}(x,t)\mu_{31}(x+t)+p_{14}(x,t)\mu_{41}(x+t)\\
+&amp;=&amp; p_{11}(x,t)\mu_{11}(x+t).
+\end{eqnarray*}
+\]</span>
+<div style="margin-top: -5pt;">
+
+</div>
+<p>So, <span class="math display">\[
+\begin{eqnarray*}
+&amp;&amp;\int\frac{\mathrm{d} p_{11}(x,t)}{p_{11}(x,t)} = -\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)]
+\mathrm{d}t\\
+\Rightarrow&amp;&amp; \log p_{11}(x,t)= -\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)] \mathrm{d}t + C\\
+\Rightarrow&amp;&amp; p_{11}(x,t)= A\exp\left(-\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)]
+\mathrm{d}t \right)\\
+\Rightarrow&amp;&amp; p_{11}(x,t)= \exp\left(-\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)]
+\mathrm{d}t \right),
+\end{eqnarray*}
+\]</span></p>
+<div style="margin-top: -5pt;">
+
+</div>
+<p>because we have the boundary condition <span class="math inline">\(p_{11}(x,0)=1\)</span>.</p>
+</div>
+</section>
+<section id="four-state-process-gap-on-page-99-3" class="slide level2">
+<h2>Four-state process <span class="alert"><strong>(Gap on page 99)</strong></span></h2>
+<div class="justify small-text">
+<p>The Kolmogorov forward equation for <span class="math inline">\(p_{12}(x,t)\)</span> is <span class="math display">\[
+\begin{eqnarray*}
+\frac{d}{dt} p_{12}(x,t) &amp;=&amp; p_{11}(x,t)\mu_{12}(x+t)+p_{12}(x,t)\mu_{22}(x+t)\\
+&amp;&amp;\qquad\qquad+p_{13}(x,t)\mu_{32}(x+t)+p_{14}(x,t)\mu_{42}(x+t)\\
+&amp;=&amp; p_{11}(x,t)\mu_{12}(x+t)\\
+&amp;=&amp; \mu_{12}(x+t)\cdot \exp\left(-\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)]
+\mathrm{d}t \right).
+\end{eqnarray*}
+\]</span></p>
+<p>Similarly, for <span class="math inline">\(j=2,3,4\)</span>, we have <span class="math display">\[
+\begin{eqnarray*}
+\frac{d}{dt} p_{1j}(x,t) &amp;=&amp;  \mu_{1j}(x+t) \cdot \exp\left(-\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)]
+\mathrm{d}t \right).
+\end{eqnarray*}
+\]</span> The existence of an analytic solution to the differential equations for <span class="math inline">\(p_{2j}(x,t)\)</span>, <span class="math inline">\(p_{3j}(x,t)\)</span> and <span class="math inline">\(p_{4j}(x,t)\)</span>, depends on the form of the intensity functions <span class="math inline">\(\mu_{12}(x)\)</span> and <span class="math inline">\(\mu_{13}(x)\)</span> and <span class="math inline">\(\mu_{14}(x)\)</span>.</p>
+</div>
+</section>
+<section id="four-state-process-gap-on-page-99-4" class="slide level2">
+<h2>Four-state process <span class="alert"><strong>(Gap on page 99)</strong></span></h2>
+<div class="justify small-text">
+<p>We restrict attention to the time-homogeneous case, where <span class="math display">\[
+\mu_{12}(x)=\mu_{12}\qquad \mu_{13}(x)=\mu_{13}\qquad \mu_{14}(x)=\mu_{14},
+\]</span> independent of <span class="math inline">\(x\)</span>.</p>
+<p>It immediately follows that <span class="math display">\[
+\begin{eqnarray*}
+p_{11}(x,t)&amp;=&amp; \exp\left(-\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)]
+\mathrm{d}t \right)\\
+&amp;=&amp; \exp\left(-t[\mu_{12}+\mu_{13}+\mu_{14}]\right).
+\end{eqnarray*}
+\]</span></p>
+</div>
+</section>
+<section id="four-state-process-gap-on-page-99-5" class="slide level2">
+<h2>Four-state process <span class="alert"><strong>(Gap on page 99)</strong></span></h2>
+<div class="justify small-text">
+<p>Then, for <span class="math inline">\(j&gt;1\)</span>, <span class="math display">\[
+\begin{eqnarray*}
+&amp;&amp;\frac{d}{dt} p_{1j}(x,t) =  \mu_{1j} \cdot \exp\left(-t[\mu_{12}+\mu_{13}+\mu_{14}]\right)\\
+\Rightarrow&amp;&amp; p_{1j}(x,t) =C-\frac{\mu_{1j}}{\mu_{12}+\mu_{13}+\mu_{14}}
+\cdot \exp\left(-t[\mu_{12}+\mu_{13}+\mu_{14}]\right)\\
+\Rightarrow&amp;&amp; p_{1j}(x,t) =\frac{\mu_{1j}}{\mu_{12}+\mu_{13}+\mu_{14}}
+\cdot \left(1-\exp\left(-t[\mu_{12}+\mu_{13}+\mu_{14}]\right)\right),
+\end{eqnarray*}
+\]</span> because we have the boundary condition <span class="math inline">\(p_{1j}(x,0)=0\)</span>, <span class="math inline">\(j&gt;1\)</span>.</p>
+<p>It is easy to verify that <span class="math display">\[
+p_{11}(x,t)+p_{12}(x,t)+p_{13}(x,t)+p_{14}(x,t)=1.
+\]</span></p>
 </div>
 
 </section></section>

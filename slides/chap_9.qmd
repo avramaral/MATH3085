@@ -27,7 +27,379 @@ options(digits = 4)
 library("tidyverse")
 ```
 
+## Recap
+
+:::{.justify}
+
+In the last chapter, we
+
+- We moved from modelling the time-to-event variable $T$ to modelling the state variable $Y_t$, representing a unit's status over time, using the framework of a [**stochastic process**]{.alert}.
+
+- Defined the [**transition intensity function $\mu_{ij}(x)$**]{.alert} as the multi-state equivalent of the hazard function. This instantaneous rate is the core parameter used to define movement from state $i$ to state $j$.
+
+- Derived the [**Kolmogorov Forward Equations**]{.alert} to obtain the [transition probabilities $p_{ij}(x,t)$]{.secondary} from the transition intensity function $\mu_{ij}(x)$.
+
+:::
+
+# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 9:**]{.secondary} Inference for Multistate Models</span>
+
 ## Introduction
 
-TBC
+:::{.justify .small-text}
+
+
+In [**Chapter 8**]{.secondary}, we have introduced multistate models and their properties, and presented several examples of models with possible applications to survival data analysis.
+
+:::{.fragment}
+
+A key part of the statistical analysis process is [**making inference about the parameters of the model**]{.alert}, on the basis of observed data.
+
+:::
+
+:::{.fragment}
+
+For a multistate model, with states $1,\cdots ,m$ the parameters are the transition intensity functions
+$$
+\mu_{k\ell}(x),\quad i,j=1,\cdots , m,\quad k\ne\ell.
+$$
+
+:::
+
+:::{.fragment}
+
+[We will only consider time-homogenous models]{.alert}, so the parameters to be estimated are the 
+transition intensities
+$$
+\mu_{k\ell},\quad i,j=1,\cdots , m,\quad k\ne\ell.
+$$
+
+:::
+:::
+
+
+## Data
+
+:::{.justify .small-text}
+
+For a multistate model, the data will be the transition histories of a set of individuals $i=1,\cdots ,n$. 
+
+:::{.fragment}
+
+We start by considering the case $n=1$.
+
+<div style="margin-top: 10pt;"></div>
+
+In this case, [**we might observe something like**]{.secondary}
+
+| [Transition]{.alert} | Start | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | End |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Time** | 0.3 | 0.32 | 0.41 | 0.56 | 0.82 | 0.84 | 1.31 | 1.41 | 1.55 | 1.79 | 2.04 | 2.24 | 2.80 |
+| **State** | 2 | 1 | 3 | 4 | 1 | 2 | 1 | 3 | 2 | 3 | 1 | 2 | 2 |
+
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 3.5, fig.align = "center"}
+par(family = "Latin Modern Roman 10", mar = c(5, 5, 3, 3))
+
+trans<-0:12
+state<-c(2,1,3,4,1,2,1,3,2,3,1,2,2)
+time<-c(0.3,0.32,0.41,0.56,0.82,0.84,1.31, 1.41,1.55,1.79,2.04,2.24,2.80)
+
+plot(0,0,xlab="Time",ylab="State",axes = FALSE, type="n", xlim=c(0,3), ylim=c(0.5,4.5))
+axis(side=2,at=1:4,labels=c("1","2","3","4"),las=2)
+axis(side=1,at=(0:6)/2)
+for(i in 1:12){
+  segments(x0=time[i],x1=time[i+1],y0=state[i],lwd=2, col = "red")
+}
+```
+
+:::
+
+:::
+
+## Data structure [**(Gap on page 105)**]{.alert}
+
+:::{.justify .small-text}
+
+
+We will denote the data observations using
+
+<div style="margin-top: 5pt;"></div>
+
+| Transition ($j$) | 0 | 1 | 2 | $\cdots$ | $j$ | $\cdots$ | $J$ | $J+1$ (end) |
+| :----- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Time ($t_j$)** | $t_0$ | $t_1$ | $t_2$ | $\cdots$ | $t_j$ | $\cdots$ | $t_J$ | $t_{J+1}$ |
+| **State ($y_j$)** | $y_0$ | $y_1$ | $y_2$ | $\cdots$ | $y_j$ | $\cdots$ | $y_J$ | |
+
+
+<div style="margin-top: 35pt;"></div>
+
+:::{.fragment}
+
+The [**likelihood**]{.alert} for the transition intensity parameters $\boldsymbol{\mu}=\{\mu_{k\ell},k\ne\ell\}$ is the probability of the observed sequence of holding times and transitions, given $\boldsymbol{\mu}$, that is
+
+$$
+\begin{eqnarray*}
+L(\boldsymbol{\mu})&=&f_{y_0}(t_1-t_0)p(y_1|y_0)\;\times\;
+f_{y_1}(t_2-t_1)p(y_2|y_1)\; \times\;\cdots\\ &&\qquad \times\;
+f_{y_{J-1}}(t_{J}-t_{J-1})p(y_J|y_{J-1})\;\times\; S_{y_{J}}(t_{J+1}-t_{J}),
+\end{eqnarray*}
+$$
+
+where 
+
+- $f_k(t)$ is the exponential probability density function of the holding time $t$ in state $k$ and 
+- $p(\ell|k)$ is the conditional probability of transition from state $k$ to state $\ell$ given that a transition has happened.
+
+:::
+
+:::
+
+## Likelihood [**(Gap on page 106)**]{.alert}
+
+:::{.justify .small-text}
+
+To compute the [**likelihood**]{.alert}, we have
+
+
+:::{.fragment}
+$$
+\begin{eqnarray*}
+L(\boldsymbol{\mu})&=&f_{y_0}(t_1-t_0)p(y_1|y_0)\;\times\;
+f_{y_1}(t_2-t_1)p(y_2|y_1)\; \times\;\cdots\\ &&\qquad \times\;
+f_{y_{J-1}}(t_{J}-t_{J-1})p(y_J|y_{J-1})\;\times\; S_{y_{J}}(t_{J+1}-t_{J})\\
+&=&
+S_{y_{J}}(t_{J+1}-t_{J}) \prod_{j=1}^J f_{y_{j-1}}(t_{j}-t_{j-1}) \cdot p(y_j|y_{j-1}),
+\end{eqnarray*}
+$$
+where 
+$$
+f_k(t)=\sum_{\ell\ne k} \mu_{k\ell}\exp\left(-t \sum_{\ell\ne k} \mu_{k\ell}\right),
+$$
+$$
+S_k(t)=\exp\left(-t \sum_{\ell\ne k} \mu_{k\ell}\right), ~~~~\text{and}
+$$
+$$
+p(\ell|k)=\frac{\mu_{k\ell}}{\sum_{\ell\ne k} \mu_{k\ell}}.
+$$
+
+
+:::
+
+:::
+
+
+## Likelihood [**(Gap on page 106)**]{.alert}
+
+:::{.justify .small-text}
+
+Hence,
+$$
+\begin{eqnarray*}
+L(\boldsymbol{\mu})&=&S_{y_{J}}(t_{J+1}-t_{J}) \prod_{j=1}^J f_{y_{j-1}}(t_{j}-t_{j-1})p(y_j|y_{j-1})\\
+&=&\exp\left(-(t_{J+1}-t_{J})\sum_{\ell\ne y_J} \mu_{y_J\ell}\right)\\ 
+&&\qquad\times \prod_{j=1}^J \exp\left(-(t_{j}-t_{j-1})
+ \sum_{\ell\ne y_{j-1}} \mu_{y_{j-1}\ell}\right)  \mu_{y_{j-1}y_j}\\
+ &=&\prod_{j=1}^{J+1} \exp\left(-(t_{j}-t_{j-1})
+ \sum_{\ell\ne y_{j-1}} \mu_{y_{j-1}\ell}\right)  \prod_{j=1}^J \mu_{y_{j-1}y_j}\\
+&=&\prod_{j=1}^{J+1} \prod_{\ell\ne y_{j-1}} \exp\left\{-(t_{j}-t_{j-1})
+  \mu_{y_{j-1}\ell}\right\}  \prod_{j=1}^J \mu_{y_{j-1}y_j}.
+\end{eqnarray*}
+$$
+
+So the likelihood factorises into a series of terms, each containing a single transition intensity $\mu_{k\ell}$.
+
+:::
+
+
+## Likelihood [**(Gap on page 106)**]{.alert}
+
+:::{.justify .small-text}
+
+Gathering together all the terms containing a particular $\mu_{k\ell}$, we obtain
+$$
+\begin{eqnarray*}
+L(\mu_{k\ell})&=&\mu_{k\ell}^{n_{k\ell}}
+\prod_{j:y_{j-1}=k}^{J+1} \exp\left\{-(t_{j}-t_{j-1})\mu_{k\ell}\right\}  \\
+&=&\mu_{k\ell}^{n_{k\ell}}\exp\left(-t^+_k \mu_{k\ell}\right) 
+\end{eqnarray*}
+$$
+where 
+
+- $t^+_k$ is the total observed holding time in state $k$
+- $n_{k\ell}$ is the total observed number of transitions from state $k$ to state $\ell$
+
+are called [**sufficient statistics**]{.secondary}.
+
+:::{.fragment}
+
+Therefore the  likelihood for the full set of transition intensity parameters $\boldsymbol{\mu}=\{\mu_{k\ell},k\ne\ell\}$ for a single individual transition history is
+$$
+L(\boldsymbol{\mu})=\prod_{k,\ell:k\ne \ell}\mu_{k\ell}^{n_{k\ell}} \cdot \exp\left(-t^+_k \mu_{k\ell}\right).
+$$
+
+:::
+
+:::
+
+## MLE for $\mu$ [**(Gap on page 109)**]{.alert}
+
+:::{.justify .small-text .fragment}
+
+The log likelihood is
+$$
+\ell(\boldsymbol{\mu})=\sum_{k,\ell:k\ne \ell}{n_{k\ell}}\log \mu_{k\ell} -\sum_{k,\ell:k\ne \ell}t^+_k \mu_{k\ell} 
+$$
+and therefore
+$$
+\frac{\partial}{\partial\mu_{k\ell}} \ell(\boldsymbol{\mu}) 
+=\frac{n_{k\ell}}{\mu_{k\ell}} -t^+_k 
+$$
+so the MLE solves 
+
+$$
+\frac{n_{k\ell}}{\hat\mu_{k\ell}} -t^+_k = 0 \qquad\Rightarrow\qquad \hat\mu_{k\ell}=\frac{n_{k\ell}}{t^+_k}.
+$$
+
+:::
+
+## Standard errors for $\hat{\mu}$ [**(Gap on page 109)**]{.alert}
+
+:::{.justify .small-text .fragment}
+
+The second derivatives of the log likelihood are
+$$
+\frac{\partial^2}{\partial\mu_{k\ell}^2} \ell(\boldsymbol{\mu}) 
+=-\frac{n_{k\ell}}{\mu_{k\ell}^2}  
+$$
+and all other second derivatives, namely $\frac{\partial^2}{\partial\mu_{k\ell}\partial\mu_{ij}} \ell(\boldsymbol{\mu})$, are zero.
+
+<div style="margin-top: 30pt;"></div>
+
+:::{.fragment}
+Therefore, we have that the MLEs are approximately independent (in large samples) and
+$$
+\text{Var}\left(\hat\mu_{k\ell}\right)=\frac{\mu_{k\ell}^2}{n_{k\ell}}
+\qquad\Rightarrow\qquad
+\text{se}\left(\hat\mu_{k\ell}\right)=\frac{\hat\mu_{k\ell}}{n_{k\ell}^{1/2}}
+$$
+so [**confidence intervals**]{.secondary} for the transition intensities can be easily constructed, based on the large sample [**normal distribution of the MLE**]{.alert}.
+
+:::
+:::
+
+## Example [**(Gap on page 111)**]{.alert}
+
+:::{.justify .small-text}
+
+Let's get back to the numerical example we introduced in the beginning of the chapter.
+
+
+| [Transition]{.alert} | Start | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | End |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Time** | 0.3 | 0.32 | 0.41 | 0.56 | 0.82 | 0.84 | 1.31 | 1.41 | 1.55 | 1.79 | 2.04 | 2.24 | 2.80 |
+| **State** | 2 | 1 | 3 | 4 | 1 | 2 | 1 | 3 | 2 | 3 | 1 | 2 | 2 |
+
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 3.5, fig.align = "center"}
+par(family = "Latin Modern Roman 10", mar = c(5, 5, 3, 3))
+
+trans<-0:12
+state<-c(2,1,3,4,1,2,1,3,2,3,1,2,2)
+time<-c(0.3,0.32,0.41,0.56,0.82,0.84,1.31, 1.41,1.55,1.79,2.04,2.24,2.80)
+
+plot(0,0,xlab="Time",ylab="State",axes = FALSE, type="n", xlim=c(0,3), ylim=c(0.5,4.5))
+axis(side=2,at=1:4,labels=c("1","2","3","4"),las=2)
+axis(side=1,at=(0:6)/2)
+for(i in 1:12){
+  segments(x0=time[i],x1=time[i+1],y0=state[i],lwd=2, col = "red")
+}
+```
+
+<div style="margin-top: 20pt;"></div>
+
+:::{.fragment}
+
+$$
+t^+_1=0.41,\quad t^+_2=1.29,\quad t^+_3=0.54, ~~~\text{and}~~~~ t^+_4=0.26.
+$$
+
+:::
+
+:::
+
+
+## Example [**(Gap on page 111)**]{.alert}
+
+:::{.justify .small-text}
+
+$$
+[n_{k\ell}]=\left(\begin{array}{cccc}
+-&2&2&0\\
+2&-&1&0\\
+1&1&-&1\\
+1&0&0&-
+\end{array}\right),
+$$
+
+$$
+[\hat\mu_{k\ell}]=\left(\begin{array}{cccc}
+-&\frac{2}{0.41}&\frac{2}{0.41}&0\\[2pt]
+\frac{2}{1.29}&-&\frac{1}{1.29}&0\\[2pt]
+\frac{1}{0.54}&\frac{1}{0.54}&-&\frac{1}{0.54}\\[2pt]
+\frac{1}{0.26}&0&0&-
+\end{array}\right)=
+\left(\begin{array}{cccc}
+-&4.88&4.88&0\\
+1.55&-&0.78&0\\
+1.85&1.85&-&1.85\\
+3.85&0&0&-
+\end{array}\right), ~~~\text{and}
+$$
+
+$$
+[\text{se}(\hat\mu_{k\ell})]=\left(\begin{array}{cccc}
+-&3.45&3.45&0\\
+1.10&-&0.78&0\\
+1.85&1.85&-&1.85\\
+3.85&0&0&-
+\end{array}\right).
+$$
+
+:::
+
+## Multiple sequences $(n > 1)$ [**(Gap on page 112)**]{.alert}
+
+:::{.justify .small-text}
+
+In practice, we will observe [**multiple histories of transitions**]{.secondary} corresponding to individuals $i=1,\cdots ,n$ in the sample, with transition frequencies $[n_{ik\ell}]$ and holding times $\{t^+_{ik}\}$.
+
+:::{.fragment}
+
+We make the standard assumption that the $n$ observed histories are realizations of [**independent**]{.alert} random processes, so  the [**full likelihood (joint probability)**]{.alert} is obtained by multiplying the individual likelihoods
+$$
+\begin{eqnarray*}
+L(\boldsymbol{\mu})&=&\prod_{i=1}^n \;\prod_{k,\ell:k\ne \ell}\mu_{k\ell}^{n_{ik\ell}}\exp\left(-t^+_{ik} \mu_{k\ell}
+\right) \\
+&=&\prod_{k,\ell:k\ne \ell}\mu_{k\ell}^{n_{k\ell}}\exp\left(-t^+_k \mu_{k\ell}\right) 
+\end{eqnarray*}
+$$
+
+where now
+
+- $t^+_{k}$ is the total observed holding time in state $k$ [**across all individuals**]{.alert} and 
+- $n_{k\ell}$ is the total observed number of transitions from state $k$ to state $\ell$ [**across all individuals**]{.alert}.
+
+:::
+
+<div style="margin-top: -5pt;"></div>
+
+:::{.fragment}
+
+Inference proceeds exactly as [**Sections 9.4**]{.secondary} and [**9.5**]{.secondary} with these new sufficient statistics.
+
+:::
+
+:::
+
+
 

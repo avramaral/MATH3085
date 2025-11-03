@@ -657,8 +657,308 @@ text(x=30+40,y=20,labels=c("(Y=2)"),pos=1)
 
 :::{.fragment}
 
-TBD.
+As in the first example, this is a  two-state process, so is determined by the transition intensities between the two states, $\mu_{12}(x)$ and $\mu_{21}(x)$.
+
+However, neither state is absorbing, so the transition intensity matrix is given by
+$$
+\text{M}(x)=\left(
+\begin{array}{rr}
+-\mu_{12}(x)&\mu_{12}(x)\\
+\mu_{21}(x)&-\mu_{21}(x)
+\end{array}
+\right)
+$$
+To completely determine the transition structure for the process, we need to solve for $p_{11}(x,t)$ $($or $p_{12}(x,t))$ and
+$p_{21}(x,t)$ $($or $p_{22}(x,t))$.
 
 :::
+
+:::
+
+## Two-state model (no absorb. state) [**(Gap on page 95)**]{.alert}
+
+:::{.justify .small-text}
+
+
+The Kolmogorov forward equation for $p_{11}(x,t)$ is
+$$
+\begin{eqnarray*}
+\frac{d}{dt} p_{11}(x,t) &=& p_{11}(x,t)\mu_{11}(x+t)+p_{12}(x,t)\mu_{21}(x+t)\\
+&=& -p_{11}(x,t)\mu_{12}(x+t)+[1-p_{11}(x,t)]\mu_{21}(x+t)\\
+&=& -p_{11}(x,t)[\mu_{12}(x+t)+\mu_{21}(x+t)]+\mu_{21}(x+t)
+\end{eqnarray*}
+$$
+
+:::{.fragment}
+
+Similarly, the Kolmogorov forward equation for $p_{22}(x,t)$ is
+$$
+\frac{d}{dt} p_{22}(x,t) = -p_{22}(x,t)[\mu_{12}(x+t)+\mu_{21}(x+t)]+\mu_{12}(x+t)
+$$
+
+:::
+
+:::{.fragment}
+
+The existence of an analytic solution to these equations depends on the form of the transition intensity functions
+$\mu_{12}(x)$ and $\mu_{21}(x)$.
+
+:::
+
+:::{.fragment}
+
+We restrict attention to the time-homogeneous case where
+$$
+\mu_{12}(x)=\mu_{12}\qquad\mbox{and}\qquad \mu_{21}(x)=\mu_{21},
+$$
+independent of $x$.
+
+:::
+
+:::
+
+## Two-state model (no absorb. state) [**(Gap on page 95)**]{.alert}
+
+:::{.justify .small-text}
+
+The Kolmogorov forward equation for $p_{11}(x,t)$ is now
+$$
+\begin{eqnarray*}
+&&\frac{d}{dt} p_{11}(x,t) =  -p_{11}(x,t)[\mu_{12}+\mu_{21}]+\mu_{21}\\[3pt]
+\Rightarrow&&\int\frac{\mathrm{d} p_{11}(x,t)}{p_{11}(x,t)[\mu_{12}+\mu_{21}]-\mu_{21}} = -\int \mathrm{d}t\\[3pt]
+\Rightarrow&& \frac{\log (p_{11}(x,t)[\mu_{12}+\mu_{21}]-\mu_{21})}{\mu_{12}+\mu_{21}}= -t+C\\[3pt]
+\Rightarrow&& p_{11}(x,t)[\mu_{12}+\mu_{21}]-\mu_{21}= A\exp\left(-[\mu_{12}+\mu_{21}]t \right)\\[3pt]
+\Rightarrow&& p_{11}(x,t)= \frac{A\exp\left(-[\mu_{12}+\mu_{21}]t \right)+\mu_{21}}{\mu_{12}+\mu_{21}}\\[3pt]
+\Rightarrow&& p_{11}(x,t)= \frac{\mu_{12}\exp\left(-[\mu_{12}+\mu_{21}]t \right)+\mu_{21}}{\mu_{12}+\mu_{21}},\\
+\end{eqnarray*}
+$$
+as we have the boundary condition $p_{11}(x,0)=1$.
+
+:::
+
+## Two-state model (no absorb. state) [**(Gap on page 95)**]{.alert}
+
+:::{.justify .small-text}
+
+Similarly, the Kolmogorov forward equation for $p_{22}(x,t)$ is solved by
+$$
+p_{22}(x,t)= \frac{\mu_{21}\exp\left(-[\mu_{12}+\mu_{21}]t \right)+\mu_{12}}{\mu_{21}+\mu_{12}}
+$$
+and we also obtain, using the identities $p_{11}(x,t)+p_{12}(x,t)=1$ and  $p_{21}(x,t)+p_{22}(x,t)=1$,
+$$
+p_{12}(x,t)= \frac{\mu_{12}(1-\exp\left(-[\mu_{12}+\mu_{21}]t \right))}{\mu_{12}+\mu_{21}}
+$$
+and
+
+<div style="margin-top: -10pt;"></div>
+
+$$
+p_{21}(x,t)= \frac{\mu_{21}(1-\exp\left(-[\mu_{12}+\mu_{21}]t \right))}{\mu_{21}+\mu_{12}}
+$$
+<div style="margin-top: -10pt;"></div>
+
+Note that, as $t\to\infty$,
+$$
+p_{i1}(x,t)\to \frac{\mu_{21}}{\mu_{21}+\mu_{12}}
+\qquad\mbox{and}\qquad
+p_{i2}(x,t)\to \frac{\mu_{12}}{\mu_{12}+\mu_{21}}
+$$
+for $i=1,~2$, so the final state becomes independent of the initial state.
+
+:::
+
+## Two-state model (no absorb. state) [**(Gap on page 95)**]{.alert}
+
+:::{.justify .small-text}
+
+Note that, in this model, the survivor function for the holding time random variables $T_{x1}$ (`state 1`) and $T_{x2}$ (`state 2`) are
+$$
+S_{x1}(t)=\exp(-\mu_{12}t) \qquad\mbox{and}\qquad S_{x2}(t)=\exp(-\mu_{21}t)
+$$
+and that
+$$
+S_{x1}(t)\ne p_{11}(x,t) \qquad\mbox{and}\qquad S_{x2}(t)\ne p_{22}(x,t),
+$$
+as this model allows transition out of a state and then return at a later time.
+
+:::
+
+## Four-state process [**(Gap on page 99)**]{.alert}
+
+:::{.justify .small-text}
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 2, fig.align = "center"}
+par(family = "Latin Modern Roman 10", mar = c(0, 0, 0, 0))
+
+plot(0,0,xlim=c(0,100),ylim=c(0,70),type="n",axes=FALSE,xlab="",ylab="")
+polygon(x=c(20,20,40,40),y=c(25,45,45,25))
+polygon(x=c(60,60,80,80),y=c(0,20,20,0))
+polygon(x=c(60,60,80,80),y=c(0,20,20,0)+25)
+polygon(x=c(60,60,80,80),y=c(0,20,20,0)+50)
+arrows(x0=40,x1=60,y0=30,y1=10,len=0.1)
+arrows(x0=40,x1=60,y0=35,y1=35,len=0.1)
+arrows(x0=40,x1=60,y0=45,y1=60,len=0.1)
+text(x=30,y=35,labels=c("Alive"),pos=3)
+text(x=30,y=35,labels=c("(Y=1)"),pos=1)
+text(x=70,y=63.66,labels=c("Dead"),pos=3,cex=0.8,offset=0.25)
+text(x=70,y=63.66,labels=c("Cancer"),pos=1,cex=0.8,offset=0.25)
+text(x=70,y=56.66,labels=c("(Y=3)"),pos=1,cex=0.8,offset=0.25)
+text(x=70,y=63.66-25,labels=c("Dead"),pos=3,cex=0.8,offset=0.25)
+text(x=70,y=63.66-25,labels=c("Coronary Hear Disease"),pos=1,cex=0.8,offset=0.25)
+text(x=70,y=56.66-25,labels=c("(Y=2)"),pos=1,cex=0.8,offset=0.25)
+text(x=70,y=63.66-50,labels=c("Dead"),pos=3,cex=0.8,offset=0.25)
+text(x=70,y=63.66-50,labels=c("Other"),pos=1,cex=0.8,offset=0.25)
+text(x=70,y=56.66-50,labels=c("(Y=4)"),pos=1,cex=0.8,offset=0.25)
+```
+
+
+:::{.fragment}
+
+This four-state process is determined by the transition intensities, $\mu_{ij}(x)$ $i\ne j$.
+
+As `states 2`, `3`, `4` are absorbing,
+$$
+p_{ij}(x,t)=0\; \mbox{for all }x,t, i>1,j\ne i\quad\Rightarrow\quad \mu_{ij}(x)=0\; \mbox{for all }x, i>1,j\ne i.
+$$
+
+:::
+
+:::
+
+
+## Four-state process [**(Gap on page 99)**]{.alert}
+
+:::{.justify .small-text}
+
+The transition intensity matrix is given by
+$$
+\text{M}(x)=\left(
+\begin{array}{ccccc}
+-\mu_{12}(x)-\mu_{13}(x)-\mu_{14}(x)&\quad&\mu_{12}(x)&\mu_{13}(x)&\mu_{14}(x)\\
+0&&0&0&0\\
+0&&0&0&0\\
+0&&0&0&0
+\end{array}
+\right)
+$$
+
+
+<div style="margin-top: 15pt;"></div>
+
+To completely determine the transition structure for the process, we need to solve the [Kolmogorov forward equation]{.alert} for three of $\{p_{11}(x,t),p_{12}(x,t),$ $p_{13}(x,t),p_{14}(x,t)\}$, and then obtain the other using
+
+<div style="margin-top: 15pt;"></div>
+
+$$
+p_{11}(x,t)+p_{12}(x,t)+p_{13}(x,t)+p_{14}(x,t)=1.
+$$
+
+
+:::
+
+## Four-state process [**(Gap on page 99)**]{.alert}
+
+:::{.justify .small-text}
+
+The Kolmogorov forward equation for $p_{11}(x,t)$ is
+
+<div style="margin-top: -5pt;"></div>
+
+$$
+\begin{eqnarray*}
+\frac{d}{dt} p_{11}(x,t) &=& p_{11}(x,t)\mu_{11}(x+t)+p_{12}(x,t)\mu_{21}(x+t)\\
+&&\qquad\qquad+p_{13}(x,t)\mu_{31}(x+t)+p_{14}(x,t)\mu_{41}(x+t)\\
+&=& p_{11}(x,t)\mu_{11}(x+t).
+\end{eqnarray*}
+$$
+<div style="margin-top: -5pt;"></div>
+
+So,
+$$
+\begin{eqnarray*}
+&&\int\frac{\mathrm{d} p_{11}(x,t)}{p_{11}(x,t)} = -\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)]
+ \mathrm{d}t\\
+\Rightarrow&& \log p_{11}(x,t)= -\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)] \mathrm{d}t + C\\
+\Rightarrow&& p_{11}(x,t)= A\exp\left(-\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)]
+ \mathrm{d}t \right)\\
+\Rightarrow&& p_{11}(x,t)= \exp\left(-\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)]
+ \mathrm{d}t \right),
+\end{eqnarray*}
+$$
+
+<div style="margin-top: -5pt;"></div>
+
+because we have the boundary condition $p_{11}(x,0)=1$.
+
+:::
+
+## Four-state process [**(Gap on page 99)**]{.alert}
+
+:::{.justify .small-text}
+
+The Kolmogorov forward equation for $p_{12}(x,t)$ is
+$$
+\begin{eqnarray*}
+\frac{d}{dt} p_{12}(x,t) &=& p_{11}(x,t)\mu_{12}(x+t)+p_{12}(x,t)\mu_{22}(x+t)\\
+&&\qquad\qquad+p_{13}(x,t)\mu_{32}(x+t)+p_{14}(x,t)\mu_{42}(x+t)\\
+&=& p_{11}(x,t)\mu_{12}(x+t)\\
+&=& \mu_{12}(x+t)\cdot \exp\left(-\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)]
+ \mathrm{d}t \right).
+\end{eqnarray*}
+$$
+
+Similarly, for $j=2,3,4$, we have
+$$
+\begin{eqnarray*}
+\frac{d}{dt} p_{1j}(x,t) &=&  \mu_{1j}(x+t) \cdot \exp\left(-\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)]
+ \mathrm{d}t \right).
+\end{eqnarray*}
+$$
+The existence of an analytic solution to the differential equations for $p_{2j}(x,t)$, $p_{3j}(x,t)$ and $p_{4j}(x,t)$,  depends on the form of the intensity functions
+$\mu_{12}(x)$ and $\mu_{13}(x)$ and $\mu_{14}(x)$.
+
+:::
+
+## Four-state process [**(Gap on page 99)**]{.alert}
+
+:::{.justify .small-text}
+
+We restrict attention to the time-homogeneous case, where
+$$
+\mu_{12}(x)=\mu_{12}\qquad \mu_{13}(x)=\mu_{13}\qquad \mu_{14}(x)=\mu_{14},
+$$
+independent of $x$.
+
+
+It immediately follows that
+$$
+\begin{eqnarray*}
+p_{11}(x,t)&=& \exp\left(-\int_0^t[\mu_{12}(x+t)+\mu_{13}(x+t)+\mu_{14}(x+t)]
+ \mathrm{d}t \right)\\
+ &=& \exp\left(-t[\mu_{12}+\mu_{13}+\mu_{14}]\right).
+\end{eqnarray*}
+$$
+:::
+
+## Four-state process [**(Gap on page 99)**]{.alert}
+
+:::{.justify .small-text}
+
+Then, for $j>1$,
+$$
+\begin{eqnarray*}
+&&\frac{d}{dt} p_{1j}(x,t) =  \mu_{1j} \cdot \exp\left(-t[\mu_{12}+\mu_{13}+\mu_{14}]\right)\\
+\Rightarrow&& p_{1j}(x,t) =C-\frac{\mu_{1j}}{\mu_{12}+\mu_{13}+\mu_{14}}
+\cdot \exp\left(-t[\mu_{12}+\mu_{13}+\mu_{14}]\right)\\
+\Rightarrow&& p_{1j}(x,t) =\frac{\mu_{1j}}{\mu_{12}+\mu_{13}+\mu_{14}}
+\cdot \left(1-\exp\left(-t[\mu_{12}+\mu_{13}+\mu_{14}]\right)\right),
+\end{eqnarray*}
+$$
+because we have the boundary condition $p_{1j}(x,0)=0$, $j>1$.
+
+It is easy to verify that
+$$
+p_{11}(x,t)+p_{12}(x,t)+p_{13}(x,t)+p_{14}(x,t)=1.
+$$
 
 :::

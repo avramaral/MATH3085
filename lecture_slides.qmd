@@ -74,9 +74,7 @@ This chapter introduces survival regression to analyze the effect of explanatory
 
 This chapter introduces multistate models, which generalize the simple alive-dead framework to processes with multiple states by using the theory of time-homogeneous Markov processes.
 
-- :page_facing_up: [Chapter 8](/slides/_output/chap_8.html) (last updated on 28/10/2025)
-
-<!--
+- :page_facing_up: [Chapter 8](/slides/_output/chap_8.html) (last updated on 03/11/2025)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -84,8 +82,6 @@ This chapter introduces multistate models, which generalize the simple alive-dea
 
 This chapter introduces statistical inference for time-homogeneous multistate models by explaining how to estimate constant transition intensities from observed data using maximum likelihood.
 
-- :page_facing_up: [Chapter 9](/slides/_output/chap_9.html) (incomplete)
+- :page_facing_up: [Chapter 9](/slides/_output/chap_9.html) (last updated on 03/11/2025)
 
 <div style="margin-top: 25pt;"></div>
-
--->
