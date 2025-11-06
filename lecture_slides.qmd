@@ -85,3 +85,11 @@ This chapter introduces statistical inference for time-homogeneous multistate mo
 - :page_facing_up: [Chapter 9](/slides/_output/chap_9.html) (last updated on 03/11/2025)
 
 <div style="margin-top: 25pt;"></div>
+
+##### [:bar_chart: **Chapter 10: Modelling Human Lifetime**]{.secondary}
+
+This chapter focuses on the specialized methods and notation required for analyzing human life expectancy. It establishes the link between standard survival modeling and classical demographic/actuarial science.
+
+- :page_facing_up: [Chapter 10](/slides/_output/chap_10.html) (last updated on 06/11/2025)
+
+<div style="margin-top: 25pt;"></div>
