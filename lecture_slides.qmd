@@ -8,7 +8,7 @@ format:
     from: markdown+emoji
 ---
 
-Welcome to the [Lecture Slides]{.attention} section! Here, you will find the slides for each chapter **MATH3085/6143**.
+Welcome to the [Lecture Slides]{.attention} section! Here, you will find the slides for each chapter **MATH3085/6143**. Also, here is a [summary of `Chapters 1-9`](/slides/_output/chaps_1-9.html).
 
 :pushpin: **Note:** slides may be updated throughout the course.
 
