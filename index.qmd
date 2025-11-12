@@ -12,7 +12,7 @@ Welcome to **[MATH3085/6143: Survival Models]{.attention}**! **MATH3085/6143** i
 
 Note that **MATH3085** and **MATH6143** are double-badged. This means that the course content of the two modules is the same but some of the assessment differs.
 
-The Panopto **recorded sessions** are available through [Blackboard](https://blackboard.soton.ac.uk/){target="_blank"} (links for [MATH3085](https://southampton.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=cb1a0d6f-b69f-45a0-bfb1-b33e00ca7a53){target="_blank"} and [MATH6143](https://southampton.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=b8b80000-daf0-4d0c-9f27-b33e00ca8818){target="_blank"}; note that you must be logged in to access them).
+The Panopto **recorded sessions** are available on [Blackboard](https://blackboard.soton.ac.uk/){target="_blank"} (links for [MATH3085](https://southampton.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=cb1a0d6f-b69f-45a0-bfb1-b33e00ca7a53){target="_blank"} and [MATH6143](https://southampton.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=b8b80000-daf0-4d0c-9f27-b33e00ca8818){target="_blank"}; note that you must be logged in to access them).
 
 ---
 
