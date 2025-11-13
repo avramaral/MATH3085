@@ -10,7 +10,6 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="André Victor Ribeiro Amaral">
-  <meta name="dcterms.date" content="2025-06-11">
   <title>Survival Models (MATH3085/6143)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -145,7 +144,7 @@
     </div>
 </div>
 
-  <p class="date">06/11/2025</p>
+  <p class="date">13/11/2025</p>
 </section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
@@ -178,12 +177,12 @@
 
 </div>
 <ul>
-<li>Billions of pounds are invested in pension funds. <span class="secondary">Calculation of the liabilities</span> requires us to be able to predict lifetimes of current and future pensioners.</li>
+<li>Billions of pounds are invested in <span class="alert"><strong>pension funds</strong></span>. <span class="secondary">Calculation of the liabilities</span> requires us to be able to predict lifetimes of current and future pensioners.</li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li>Planning public services requires requires us to predict age-structured populations, sometimes within a small geographical area. This requires us to be able to <span class="secondary">forecast mortality</span> (along with fertility and migration).</li>
+<li>Planning public services requires requires us to predict <span class="alert"><strong>age-structured populations</strong></span>, sometimes within a small geographical area. This requires us to be able to <span class="secondary">forecast mortality</span> (along with fertility and migration).</li>
 </ul>
 </div>
 </div>
@@ -251,14 +250,16 @@ p_{11}(x,t)\;=\; P(Y_{x+t}=1\,|\,Y_x=1)&amp;=&amp;P(T&gt; x+t\,|\,T&gt;x)\\[2pt]
 &amp;=&amp;\frac{S_T(x+t)}{S_T(x)},
 \end{eqnarray*}
 \]</span> where <span class="math inline">\(S_T(t|x)\)</span> is the residual survival function (see <span class="secondary"><strong>Section 3.3.2</strong></span>). So, <span class="math inline">\(p_{11}(0,t)=S_T(t)\)</span></p>
-<div style="margin-top: 20pt;">
+<div style="margin-top: 50pt;">
 
 </div>
+<div class="fragment">
 <p>Similarly, <span class="math display">\[
 \mu_{12}(x)=\lim_{\delta t\to 0} \frac{p_{12}(x,\delta t)}{\delta t}
 =\lim_{\delta t\to 0} \frac{P(T\le  x+\delta t\,|\,T&gt;x)}{\delta t } =h_T(x).
 \]</span></p>
 <p>So the models are equivalently specified.</p>
+</div>
 </div>
 </section>
 <section id="alternative-notation-gap-on-page-115" class="slide level2">
@@ -287,8 +288,8 @@ p_{12}(x,t)=1-S_T(t|x)=1-\,_tp_x\;\equiv\;\,_tq_x.
 <div class="fragment">
 <p>So,</p>
 <ul>
-<li><span class="math inline">\({}_tq_x\)</span> is the probability of death in <span class="math inline">\((x,x+t]\)</span> given survival to age <span class="math inline">\(x\)</span>.</li>
 <li><span class="math inline">\({}_tp_x\)</span> is probability of probability of survival to <span class="math inline">\(x+t\)</span> given survival to age <span class="math inline">\(x\)</span>.</li>
+<li><span class="math inline">\({}_tq_x\)</span> is the probability of death in <span class="math inline">\((x,x+t]\)</span> given survival to age <span class="math inline">\(x\)</span>.</li>
 </ul>
 </div>
 </div>
@@ -296,7 +297,7 @@ p_{12}(x,t)=1-S_T(t|x)=1-\,_tp_x\;\equiv\;\,_tq_x.
 <section id="p_x-and-q_x-notation-gap-on-page-116" class="slide level2">
 <h2><span class="math inline">\(p_x\)</span> and <span class="math inline">\(q_x\)</span> notation <span class="alert"><strong>(Gap on page 116)</strong></span></h2>
 <div class="justify small-text fragment">
-<p>When <span class="math inline">\(t=1\)</span>, the first subscript is usually omitted, so</p>
+<p>When <span class="math inline">\(t=1\)</span> <span class="secondary">(e.g., another year)</span>, the first subscript is usually omitted, so</p>
 <ul>
 <li><span class="math inline">\(q_x\)</span> is the probability of death in <span class="math inline">\((x,x+1]\)</span> given survival to age <span class="math inline">\(x\)</span></li>
 <li><span class="math inline">\(p_x= 1 - q_x\)</span> is probability of survival to <span class="math inline">\(x+1\)</span> given survival to age <span class="math inline">\(x\)</span>.</li>
@@ -314,7 +315,7 @@ p_{12}(x,t)=1-S_T(t|x)=1-\,_tp_x\;\equiv\;\,_tq_x.
 </div>
 <div class="fragment">
 <p>and so <span class="math display">\[
-{}_tq_x=1-(1-q_{x})\times (1-q_{x+1}) \times \cdots \times (1-q_{x+t-1}).
+{}_tq_x=1- \left[(1-q_{x})\times (1-q_{x+1}) \times \cdots \times (1-q_{x+t-1})\right].
 \]</span></p>
 </div>
 </div>
@@ -332,13 +333,13 @@ p_{12}(x,t)=1-S_T(t|x)=1-\,_tp_x\;\equiv\;\,_tq_x.
 <p>The force of mortality <span class="math inline">\(\mu_x\)</span> is the limiting death rate at age <span class="math inline">\(x\)</span>, and as such is only constrained by <span class="math inline">\(\mu_x\ge 0\)</span>.</p>
 </div>
 <div class="fragment">
-<p>In practice, if we are measuring time in years, <span class="math inline">\(\mu_x&lt;1\)</span> for all except <span class="alert"><strong>very</strong></span> extreme ages <span class="math inline">\(x\)</span>.</p>
+<p>In practice, if we are measuring time in years, <span class="math inline">\(\mu_x&lt;1\)</span> for all except very extreme ages <span class="math inline">\(x\)</span>.</p>
 </div>
-<div style="margin-top: 20pt;">
+<div style="margin-top: 80pt;">
 
 </div>
 <div class="fragment">
-<p>The functions <span class="math inline">\({}_tp_x\)</span>, <span class="math inline">\({}_tq_x\)</span> and <span class="math inline">\(\mu_x\)</span> are related by <span class="math display">\[
+<p>Lastly, the functions <span class="math inline">\({}_tp_x\)</span>, <span class="math inline">\({}_tq_x\)</span> and <span class="math inline">\(\mu_x\)</span> are related by <span class="math display">\[
 {}_tp_x\;=\;1-{}_tq_x\;=\;\exp\left(-\int_x^{x+t} \mu_x \mathrm{d}x\right).
 \]</span></p>
 </div>

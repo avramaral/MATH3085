@@ -12,7 +12,7 @@ Welcome to **[MATH3085/6143: Survival Models]{.attention}**! **MATH3085/6143** i
 
 Note that **MATH3085** and **MATH6143** are double-badged. This means that the course content of the two modules is the same but some of the assessment differs.
 
-The Panopto **recorded sessions** are available on [Blackboard](https://blackboard.soton.ac.uk/){target="_blank"} (links for [MATH3085](https://southampton.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=cb1a0d6f-b69f-45a0-bfb1-b33e00ca7a53){target="_blank"} and [MATH6143](https://southampton.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=b8b80000-daf0-4d0c-9f27-b33e00ca8818){target="_blank"}; note that you must be logged in to access them).
+The Panopto **recorded lectures** are available on [Blackboard](https://blackboard.soton.ac.uk/){target="_blank"} (links for [MATH3085](https://southampton.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=cb1a0d6f-b69f-45a0-bfb1-b33e00ca7a53){target="_blank"} and [MATH6143](https://southampton.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=b8b80000-daf0-4d0c-9f27-b33e00ca8818){target="_blank"}; note that you must be logged in to access them).
 
 ---
 
@@ -112,7 +112,7 @@ Below is the **tentative** schedule for the module.
 | [04]{.inst1}   | Problem Sheet 2 (part 2) | Chapter 7 (part 1)   | Chapter 7 (part 2)   | Chapter 7 (part 3)   | 
 | [05]{.inst1}   | Problem Sheet 3      | Chapter 8 (part 1)   | Chapter 8 (part 2)   | Chapter 8 (part 3)   | 
 | [06]{.inst1}   | Chapter 8 (part 4)   | Chapter 9 (part 1)   | Chapter 9 (part 2)   | Chapter 9 (part 3)   |  <!-- Ends in Nov 09 -->
-| [07]{.inst1}   |                      |                      | Problem Sheet 4      | Chapter 10           | 
+| [07]{.inst1}   |                      |                      | Problem Sheet 4      | Chapter 10 + revision          | 
 | [08]{.inst2}   | Chapter 11 (part 1)  | Chapter 11 (part 2)  | Chapter 12 (part 1)  | Chapter 12 (part 2)  | 
 | [09]{.inst2}   | Chapter 13 (part 1)  | Chapter 13 (part 2)  | Chapter 13 (part 3)  | Chapter 13 (part 4)  | 
 | [10]{.inst2}   | Problem Sheet 5 (part 1) |   Problem Sheet 5 (part 2)| Chapter 14  |  Chapter 15          | 

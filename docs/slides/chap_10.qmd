@@ -59,13 +59,13 @@ For the rest of this module our focus will be on modeling [**human life length**
 
 <div style="margin-top: 20pt;"></div>
 
-- Billions of pounds are invested in pension funds. [Calculation of the liabilities]{.secondary} requires us to be able to predict lifetimes of current and future pensioners.
+- Billions of pounds are invested in [**pension funds**]{.alert}. [Calculation of the liabilities]{.secondary} requires us to be able to predict lifetimes of current and future pensioners.
 
 :::
 
 :::{.fragment}
 
-- Planning public services requires requires us to predict age-structured populations, sometimes within a small geographical area. This requires us to be able to [forecast mortality]{.secondary} (along with fertility and migration).
+- Planning public services requires requires us to predict [**age-structured populations**]{.alert}, sometimes within a small geographical area. This requires us to be able to [forecast mortality]{.secondary} (along with fertility and migration).
 
 :::
 
@@ -156,7 +156,9 @@ p_{11}(x,t)\;=\; P(Y_{x+t}=1\,|\,Y_x=1)&=&P(T> x+t\,|\,T>x)\\[2pt]
 $$
 where $S_T(t|x)$ is the residual survival function (see [**Section 3.3.2**]{.secondary}). So, $p_{11}(0,t)=S_T(t)$
 
-<div style="margin-top: 20pt;"></div>
+<div style="margin-top: 50pt;"></div>
+
+:::{.fragment}
 
 Similarly,
 $$
@@ -166,6 +168,7 @@ $$
 
 So the models are equivalently specified.
 
+:::
 :::
 
 ## Alternative notation [**(Gap on page 115)**]{.alert}
@@ -202,8 +205,8 @@ $$
 
 So, 
 
-- ${}_tq_x$ is the probability of death in $(x,x+t]$ given survival to age $x$.
 - ${}_tp_x$ is probability of probability of survival to $x+t$ given survival to age $x$.
+- ${}_tq_x$ is the probability of death in $(x,x+t]$ given survival to age $x$.
 
 :::
 
@@ -214,7 +217,7 @@ So,
 
 :::{.justify .small-text .fragment}
 
-When $t=1$, the first subscript is usually omitted, so
+When $t=1$ [(e.g., another year)]{.secondary}, the first subscript is usually omitted, so
 
 - $q_x$ is the probability of death in $(x,x+1]$ given survival to age $x$
 - $p_x= 1 - q_x$ is probability of survival to $x+1$ given survival to age $x$.
@@ -241,7 +244,7 @@ $$
 
 and so
 $$
-{}_tq_x=1-(1-q_{x})\times (1-q_{x+1}) \times \cdots \times (1-q_{x+t-1}).
+{}_tq_x=1- \left[(1-q_{x})\times (1-q_{x+1}) \times \cdots \times (1-q_{x+t-1})\right].
 $$
 
 :::
@@ -268,15 +271,15 @@ The force of mortality $\mu_x$ is the limiting death rate at age $x$, and as suc
 
 :::{.fragment}
 
-In practice, if we are measuring time in years, $\mu_x<1$ for all except [**very**]{.alert} extreme ages $x$.
+In practice, if we are measuring time in years, $\mu_x<1$ for all except very extreme ages $x$.
 
 :::
 
-<div style="margin-top: 20pt;"></div>
+<div style="margin-top: 80pt;"></div>
 
 :::{.fragment}
 
-The functions ${}_tp_x$, ${}_tq_x$ and $\mu_x$ are related by
+Lastly, the functions ${}_tp_x$, ${}_tq_x$ and $\mu_x$ are related by
 $$
 {}_tp_x\;=\;1-{}_tq_x\;=\;\exp\left(-\int_x^{x+t} \mu_x \mathrm{d}x\right).
 $$
