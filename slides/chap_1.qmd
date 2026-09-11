@@ -14,7 +14,7 @@ author:
     url: "https://www.avramaral.com/"  
     email: "a.v.ribeiro-amaral@soton.ac.uk"
     affiliations: "University of Southampton"
-date: last-modified
+date: today
 date-format: "DD/MM/YYYY"
 ---
 
@@ -38,19 +38,14 @@ Information about the module (syllabus, schedule, etc.) is available on [[Blackb
 
 :::
 
-## Instructors
+## Instructor
 
 :::{.justify}
 
-This module will be co-taught by 
+This module will be taught by [Dr André Amaral](https://www.avramaral.com/){target="_blank"} <br /> ([a.v.ribeiro-amaral@soton.ac.uk](mailto:a.v.ribeiro-amaral@soton.ac.uk)).
 
-1. [Dr André Amaral](https://www.avramaral.com/){target="_blank"} ([a.v.ribeiro-amaral@soton.ac.uk](mailto:a.v.ribeiro-amaral@soton.ac.uk)): Chapters 1-9
-2. [Dr Chao Zheng](https://www.personal.soton.ac.uk/cz1y20/){target="_blank"} ([chao.zheng@southampton.ac.uk](mailto:chao.zheng@southampton.ac.uk)): Chapters 10-16
-
-For any queries, please see either of us during our office hours
-
-- Dr André Amaral (weeks 1-6): Tuesday, 14:00–16:00, Room 54/10007.
-- Dr Chao Zheng (weeks 7-11 and 15): Tuesday, 14:00–16:00, Room 54/9001.
+For any queries, please see me during office hours: 
+**Friday, 14:00–16:00, Room 54/10007**.
 
 :::
 
@@ -59,31 +54,43 @@ For any queries, please see either of us during our office hours
 
 :::{.justify}
 
-[MATH3085/6143]{.alert} has been given a timetable with the following slots
+[**MATH3085/6143**]{.alert} has been given a timetable with the following slots
 
 | Day          | Time             | Room     |
 |--------------|------------------|----------|
-| Tuesday      | 16:00–18:00      | 02/1089  |
-| Thursday     | 15:00–17:00      | 35/1001  |
+| Friday       | 11:00–13:00      | 02/1089  |
+| Friday       | 16:00–18:00      | 02/1089  |
 
 <div style="margin-top: 25pt;"></div>
 
-:::{.fragment}
-Below is the [tentative]{.alert} schedule for the [first part]{.alert} of the module.   
+:::
+
+## Timetabling 
+
+:::{.justify}
+
+Below is the [**tentative**]{.alert} schedule for the module.   
 
 :::{.small-text}
-| Week | Tuesday (Session 1)  | Tuesday (Session 2)  | Thursday (Session 1) | Thursday (Session 2) |
+
+| Week | Friday (11:00-12:00)  | Friday (12:00-13:00)  | Friday (16:00-17:00) | Friday (17:00-18:00) |
 | ---- | -------------------- | -------------------- | -------------------- | -------------------- | 
-| 01   | Chapter 1            | Chapter 2            | Chapter 3            | Chapter 4 (part 1)   | 
-| 02   | Chapter 4 (part 2)   | Problem Sheet 1      | Chapter 5            | Chapter 6 (part 1)   | 
-| 03   | Chapter 6 (part 2)   | Chapter 6 (part 3)   | Chapter 6 (part 4)   | Problem Sheet 2      | 
-| 04   | Chapter 7 (part 1)   | Chapter 7 (part 2)   | Chapter 7 (part 3)   | Problem Sheet 3      | 
-| 05   | Chapter 8 (part 1)   | Chapter 8 (part 2)   | Chapter 8 (part 3)   | Chapter 8 (part 4)   | 
-| 06   | Chapter 9 (part 1)   | Chapter 9 (part 2)   | Chapter 9 (part 3)   | Problem Sheet 4      | <!-- Ends in Nov 09 -->
+| [**01**]{.inst1}    | Chapter 1            | Chapter 2            | Chapter 3            | Chapter 4 (part 1)   | 
+| [**02**]{.inst1}   | Chapter 4 (part 2)   | Problem Sheet 1      | Chapter 5 (part 1)   | Chapter 5 (part 2)   | 
+| [**03**]{.inst1}   | Chapter 6 (part 1)   | Chapter 6 (part 2)   | Chapter 6 (part 3)   | Problem Sheet 2 (part 1) | 
+| [**04**]{.inst1}   | Problem Sheet 2 (part 2) | Chapter 7 (part 1)   | Chapter 7 (part 2)   | Chapter 7 (part 3)   | 
+| [**05**]{.inst1}   | Problem Sheet 3      | Chapter 8 (part 1)   | Chapter 8 (part 2)   | Chapter 8 (part 3)   | 
+| [**06**]{.inst1}   | Chapter 8 (part 4)   | Chapter 9 (part 1)   | Chapter 9 (part 2)   | Chapter 9 (part 3)   |
+| [**07**]{.inst2}   | Problem Sheet 4      |  Chapter 10 |        |                      |
+| [**08**]{.inst2}   | Chapter 11 (part 1)  | Chapter 11 (part 2)  | Chapter 12 (part 1)  | Chapter 12 (part 2)  | 
+| [**09**]{.inst2}   | Chapter 13 (part 1)  | Chapter 13 (part 2)  | Chapter 13 (part 3)  | Chapter 13 (part 4)  | 
+| [**10**]{.inst2}   | Problem Sheet 5 (part 1) |   Problem Sheet 5 (part 2)| Chapter 14  |  Chapter 15          | 
+| [**11**]{.inst2}   | Chapter 16 (part 1)  | Chapter 16 (part 2)  | Problem Sheet 6 (part 1) | Problem Sheet 6 (part 2) | 
+| [**12**]{.inst2}   | Revision (part 1) |  Revision (part 2) |               |                      | 
 :::
 :::
 
-:::
+The module is loosely divided into two parts: survival analysis from [**(1) a statistical**]{.inst1} and [**(2) an actuarial science**]{.inst2} perspective.
 
 ## How is MATH3085/6143 taught?
 
@@ -103,7 +110,7 @@ Below is the [tentative]{.alert} schedule for the [first part]{.alert} of the mo
 
 :::{.fragment}
 - **`R` [Self-paced Tutorial](https://avramaral.github.io/MATH3085/computer_lab.html)**  
-  - Do not need to start until after Chapter 7.  
+  - Do **not** need to start until after [**Chapter 7**]{.alert}.  
   - Drop-in support for `R` (details to be released later).
   
 :::
@@ -117,7 +124,7 @@ The basic module assessment breakdown is
 1. 30% [data analysis project](https://avramaral.github.io/MATH3085/project.html)
 2. 70% written exam
 
-The [data analysis project](https://avramaral.github.io/MATH3085/project.html) involves a series of tasks in which you will conduct survival analysis on provided datasets using `R`. The project will be released around mid-December 2025, and detailed instructions and guidance will be provided towards the end of the term.
+The [data analysis project](https://avramaral.github.io/MATH3085/project.html) consists of a series of tasks in which you will conduct survival analyses on the provided datasets using `R`. The project will be released in early December 2026, with detailed instructions and guidance provided towards the end of the term.
 :::
 
 # <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 1:**]{.secondary} Introduction</span>
@@ -339,12 +346,16 @@ In statistical modelling, [censoring has to be taken into account to avoid bias]
 
 ## Right censoring [**(Gap on page 04)**]{.alert}
 
+:::{.fragment}
+
 :::{.justify}
 
 An observation of $T$ is [**right censored**]{.alert} if we only observe a lower bound for $T$, i.e. we know that $T$ was greater than some value, e.g. $18$, but not the exact value itself.
 
 A censored value with be denoted by $T^*$ or $T^+$, so we know 
 $$T \ge T^* \qquad \mbox{equivalently} \qquad T \in \left(T^*, \infty \right).$$
+:::
+
 :::
 
 ## Right censoring

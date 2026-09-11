@@ -8,7 +8,9 @@ format:
     from: markdown+emoji
 ---
 
-Welcome to the [Lecture Slides]{.attention} section! Here, you will find the slides for each chapter **MATH3085/6143**. Also, here is a [summary of `Chapters 1-9`](/slides/_output/chaps_1-9.html).
+Welcome to the [Lecture Slides]{.attention} section! 
+
+<!-- Here, you will find the slides for each chapter **MATH3085/6143**. Also, here is a [summary of `Chapters 1-9`](/slides/_output/chaps_1-9.html). -->
 
 :pushpin: **Note:** slides may be updated throughout the course.
 
@@ -18,7 +20,7 @@ Welcome to the [Lecture Slides]{.attention} section! Here, you will find the sli
 
 This chapter introduces survival analysis, a set of statistical methods for time-to-event data that features unique challenges like censoring and truncation.
 
-- :page_facing_up: [Chapter 1](/slides/_output/chap_1.html) (last updated on 30/09/2025)
+- :page_facing_up: [Chapter 1](/slides/_output/chap_1.html) (last updated on 11/09/2026)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -26,7 +28,7 @@ This chapter introduces survival analysis, a set of statistical methods for time
 
 This chapter introduces the fundamental role of statistical models (differentiating between parametric, non-parametric, and regression approaches) to simulate the process that generates survival data.
 
-- :page_facing_up: [Chapter 2](/slides/_output/chap_2.html) (last updated on 30/09/2025)
+- :page_facing_up: [Chapter 2](/slides/_output/chap_2.html) (last updated on 11/09/2026)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -34,7 +36,7 @@ This chapter introduces the fundamental role of statistical models (differentiat
 
 This chapter introduces the core mathematical functions used to characterize a survival distribution, primarily the survival function and the hazard function.
 
-- :page_facing_up: [Chapter 3](/slides/_output/chap_3.html) (last updated on 30/09/2025)
+- :page_facing_up: [Chapter 3](/slides/_output/chap_3.html) (last updated on 11/09/2026)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -42,7 +44,7 @@ This chapter introduces the core mathematical functions used to characterize a s
 
 This chapter introduces several common parametric distributions for survival modeling, including the Exponential, Weibull, Log-logistic, Lognormal, and Gompertz.
 
-- :page_facing_up: [Chapter 4](/slides/_output/chap_4.html) (last updated on 02/10/2025)
+- :page_facing_up: [Chapter 4](/slides/_output/chap_4.html) (last updated on 11/09/2026)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -50,7 +52,7 @@ This chapter introduces several common parametric distributions for survival mod
 
 This chapter introduces parameter estimation for parametric models using maximum likelihood estimation (MLE), a method adapted to handle right-censored data.
 
-- :page_facing_up: [Chapter 5](/slides/_output/chap_5.html) (last updated on 09/10/2025)
+- :page_facing_up: [Chapter 5](/slides/_output/chap_5.html) (last updated on 11/09/2026)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -58,7 +60,7 @@ This chapter introduces parameter estimation for parametric models using maximum
 
 This chapter introduces non-parametric methods for estimating the survival distribution, focusing on the widely used Kaplan-Meier (KM) product-limit estimator.
 
-- :page_facing_up: [Chapter 6](/slides/_output/chap_6.html) (last updated on 20/10/2025)
+- :page_facing_up: [Chapter 6](/slides/_output/chap_6.html) (last updated on 11/09/2026)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -66,7 +68,7 @@ This chapter introduces non-parametric methods for estimating the survival distr
 
 This chapter introduces survival regression to analyze the effect of explanatory variables, focusing on the semi-parametric Cox Proportional Hazards (PH) model and the parametric Accelerated Failure Time (AFT) model.
 
-- :page_facing_up: [Chapter 7](/slides/_output/chap_7.html) (last updated on 20/10/2025)
+- :page_facing_up: [Chapter 7](/slides/_output/chap_7.html) (last updated on 11/09/2026)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -74,7 +76,7 @@ This chapter introduces survival regression to analyze the effect of explanatory
 
 This chapter introduces multistate models, which generalize the simple alive-dead framework to processes with multiple states by using the theory of time-homogeneous Markov processes.
 
-- :page_facing_up: [Chapter 8](/slides/_output/chap_8.html) (last updated on 03/11/2025)
+- :page_facing_up: [Chapter 8](/slides/_output/chap_8.html) (last updated on 11/09/2026)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -82,7 +84,7 @@ This chapter introduces multistate models, which generalize the simple alive-dea
 
 This chapter introduces statistical inference for time-homogeneous multistate models by explaining how to estimate constant transition intensities from observed data using maximum likelihood.
 
-- :page_facing_up: [Chapter 9](/slides/_output/chap_9.html) (last updated on 03/11/2025)
+- :page_facing_up: [Chapter 9](/slides/_output/chap_9.html) (last updated on 11/09/2026)
 
 <div style="margin-top: 25pt;"></div>
 
@@ -90,6 +92,6 @@ This chapter introduces statistical inference for time-homogeneous multistate mo
 
 This chapter focuses on the specialized methods and notation required for analyzing human life expectancy. It establishes the link between standard survival modeling and classical demographic/actuarial science.
 
-- :page_facing_up: [Chapter 10](/slides/_output/chap_10.html) (last updated on 06/11/2025)
+- :page_facing_up: [Chapter 10](/slides/_output/chap_10.html) (last updated on 11/09/2026)
 
 <div style="margin-top: 25pt;"></div>

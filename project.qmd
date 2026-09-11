@@ -8,6 +8,9 @@ format:
     from: markdown+emoji
 ---
 
-Welcome to the [Data Analysis Project]{.attention} section! Here, you will find detailed instructions for the project in **MATH3085/6143**.
+Welcome to the [Data Analysis Project]{.attention} section! 
+<!-- Here, you will find detailed instructions for the project in **MATH3085/6143**. -->
+
+The project (**MATH3085/6143**) will be released in early December 2026, with detailed instructions and guidance provided towards the end of the term.
 
 ---

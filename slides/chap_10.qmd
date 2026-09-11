@@ -14,7 +14,7 @@ author:
     url: "https://www.avramaral.com/"  
     email: "a.v.ribeiro-amaral@soton.ac.uk"
     affiliations: "University of Southampton"
-date: last-modified
+date: today
 date-format: "DD/MM/YYYY"
 ---
 

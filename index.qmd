@@ -12,21 +12,15 @@ Welcome to **[MATH3085/6143: Survival Models]{.attention}**! **MATH3085/6143** i
 
 Note that **MATH3085** and **MATH6143** are double-badged. This means that the course content of the two modules is the same but some of the assessment differs.
 
-The Panopto **recorded lectures** are available on [Blackboard](https://blackboard.soton.ac.uk/){target="_blank"} (links for [MATH3085](https://southampton.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=cb1a0d6f-b69f-45a0-bfb1-b33e00ca7a53){target="_blank"} and [MATH6143](https://southampton.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx?folderID=b8b80000-daf0-4d0c-9f27-b33e00ca8818){target="_blank"}; note that you must be logged in to access them).
+The Panopto **recorded lectures** are available on [Blackboard](https://blackboard.soton.ac.uk/){target="_blank"} (links for [MATH3085](https://southampton.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx#folderID=c0426b53-926a-4cd9-8e56-b4a300d1b606){target="_blank"} and [MATH6143](https://southampton.cloud.panopto.eu/Panopto/Pages/Sessions/List.aspx#folderID=41cfdb95-af0d-4184-8620-b4a300d1c78f){target="_blank"}; note that you must be logged in to access them).
 
 ---
 
-### :teacher: **Instructors**
+### :teacher: **Instructor**
 
-This module will be co-taught by 
+This module will be taught by [Dr André Amaral](https://www.avramaral.com/){target="_blank"} ([a.v.ribeiro-amaral@soton.ac.uk](mailto:a.v.ribeiro-amaral@soton.ac.uk)).
 
-1. [Dr André Amaral](https://www.avramaral.com/){target="_blank"} ([a.v.ribeiro-amaral@soton.ac.uk](mailto:a.v.ribeiro-amaral@soton.ac.uk)): Chapters 1-9
-2. [Dr Chao Zheng](https://www.personal.soton.ac.uk/cz1y20/){target="_blank"} ([chao.zheng@southampton.ac.uk](mailto:chao.zheng@southampton.ac.uk)): Chapters 10-16
-
-For any queries, please see either of us during our office hours
-
-- Dr André Amaral (weeks 1-7): Tuesday, 14:00–16:00, Room 54/10007.
-- Dr Chao Zheng (weeks 8-11 and 15): Tuesday, 14:00–16:00, Room 54/9001.
+For any queries, please see me during the office hours: **Friday, 14:00–16:00, Room 54/10007**.
 
 ---
 
@@ -37,7 +31,7 @@ The basic module assessment breakdown is
 1. 30% [data analysis project](project.html)
 2. 70% written exam
 
-The [data analysis project](project.html) involves a series of tasks in which you will conduct survival analysis on provided datasets using `R`. The project will be released around mid-December 2025, and detailed instructions and guidance will be provided towards the end of the term.
+The [data analysis project](project.html) consists of a series of tasks in which you will conduct survival analyses on the provided datasets using `R`. The project will be released in early December 2026, with detailed instructions and guidance provided towards the end of the term.
 
 ---
 
@@ -104,20 +98,20 @@ MATH3085/6143 has been given a timetable with the following slots
 Below is the **tentative** schedule for the module.   
 
 :::{.small-text}
-| Week | Tuesday (Session 1)  | Tuesday (Session 2)  | Thursday (Session 1) | Thursday (Session 2) |
+| Week | Friday (Session 11-12pm)  | Friday (Session 12-1pm)  | Friday (Session 4-5pm) | Friday (Session 5-6pm) |
 | ---- | -------------------- | -------------------- | -------------------- | -------------------- | 
-| [01]{.inst1}   | Chapter 1            | Chapter 2            | Chapter 3            | Chapter 4 (part 1)   | 
-| [02]{.inst1}   | Chapter 4 (part 2)   | Problem Sheet 1      | Chapter 5 (part 1)   | Chapter 5 (part 2)   | 
-| [03]{.inst1}   | Chapter 6 (part 1)   | Chapter 6 (part 2)   | Chapter 6 (part 3)   | Problem Sheet 2 (part 1) | 
-| [04]{.inst1}   | Problem Sheet 2 (part 2) | Chapter 7 (part 1)   | Chapter 7 (part 2)   | Chapter 7 (part 3)   | 
-| [05]{.inst1}   | Problem Sheet 3      | Chapter 8 (part 1)   | Chapter 8 (part 2)   | Chapter 8 (part 3)   | 
-| [06]{.inst1}   | Chapter 8 (part 4)   | Chapter 9 (part 1)   | Chapter 9 (part 2)   | Chapter 9 (part 3)   |  <!-- Ends in Nov 09 -->
-| [07]{.inst1}   |                      |                      | Problem Sheet 4      | Chapter 10 + revision          | 
-| [08]{.inst2}   | Chapter 11 (part 1)  | Chapter 11 (part 2)  | Chapter 12 (part 1)  | Chapter 12 (part 2)  | 
-| [09]{.inst2}   | Chapter 13 (part 1)  | Chapter 13 (part 2)  | Chapter 13 (part 3)  | Chapter 13 (part 4)  | 
-| [10]{.inst2}   | Problem Sheet 5 (part 1) |   Problem Sheet 5 (part 2)| Chapter 14  |  Chapter 15          | 
-| [11]{.inst2}   | Chapter 16 (part 1)  | Chapter 16 (part 2)  | Problem Sheet 6 (part 1) | Problem Sheet 6 (part 2) | 
-| [15]{.inst2}   | Revision Class (part 1) |  Revision Class (part 1) |               |                      | <!-- Ends in Jan 11 -->
+| 01   | Chapter 1            | Chapter 2            | Chapter 3            | Chapter 4 (part 1)   | 
+| 02   | Chapter 4 (part 2)   | Problem Sheet 1      | Chapter 5 (part 1)   | Chapter 5 (part 2)   | 
+| 03   | Chapter 6 (part 1)   | Chapter 6 (part 2)   | Chapter 6 (part 3)   | Problem Sheet 2 (part 1) | 
+| 04   | Problem Sheet 2 (part 2) | Chapter 7 (part 1)   | Chapter 7 (part 2)   | Chapter 7 (part 3)   | 
+| 05   | Problem Sheet 3      | Chapter 8 (part 1)   | Chapter 8 (part 2)   | Chapter 8 (part 3)   | 
+| 06   | Chapter 8 (part 4)   | Chapter 9 (part 1)   | Chapter 9 (part 2)   | Chapter 9 (part 3)   |
+| 07   | Problem Sheet 4      | Chapter 10           |                      |                      |
+| 08   | Chapter 11 (part 1)  | Chapter 11 (part 2)  | Chapter 12 (part 1)  | Chapter 12 (part 2)  | 
+| 09   | Chapter 13 (part 1)  | Chapter 13 (part 2)  | Chapter 13 (part 3)  | Chapter 13 (part 4)  | 
+| 10   | Problem Sheet 5 (part 1) |   Problem Sheet 5 (part 2)| Chapter 14  |  Chapter 15          | 
+| 11   | Chapter 16 (part 1)  | Chapter 16 (part 2)  | Problem Sheet 6 (part 1) | Problem Sheet 6 (part 2) | 
+| 12   | Revision (part 1) |  Revision (part 2) |               |                      | 
 :::
 
-Weeks [1-7]{.inst1} will be taught by [Dr André Amaral]{.inst1}, and weeks [8-11 and 15]{.inst2} will be taught by [Dr Chao Zheng]{.inst2}.
+<!-- Weeks [1-7]{.inst1} will be taught by [Dr André Amaral]{.inst1}, and weeks [8-11 and 15]{.inst2} will be taught by [Dr Chao Zheng]{.inst2}. -->

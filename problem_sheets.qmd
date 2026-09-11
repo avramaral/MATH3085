@@ -18,7 +18,7 @@ Welcome to the [Problem Sheets]{.attention} section! Here, you will find the pro
 
 <!--:white_check_mark:-->
 - :memo: <a href="/problem_sheets/pc01/ex01.pdf" download>Problem Sheet 01</a>
-- :unlock: <a href="/problem_sheets/pc01/sol01.pdf" download>Solution</a> <!-- :lock: **Solution (available after class)** :unlock: <a href="/problem_sheets/pc01/sol01.pdf" download>Solution</a> -->
+- :lock: **Solution (available after class)** <!-- :unlock: <a href="/problem_sheets/pc01/sol01.pdf" download>Solution</a> -->
 
 <div style="margin-top: 25pt;"></div>
 
@@ -26,7 +26,7 @@ Welcome to the [Problem Sheets]{.attention} section! Here, you will find the pro
 
 <!--:white_check_mark:-->
 - :memo: <a href="/problem_sheets/pc02/ex02.pdf" download>Problem Sheet 02</a>
-- :unlock: <a href="/problem_sheets/pc02/sol02.pdf" download>Solution</a> <!-- :lock: **Solution (available after class)** :unlock: <a href="/problem_sheets/pc02/sol02.pdf" download>Solution</a> -->
+- :lock: **Solution (available after class)** <!-- :unlock: <a href="/problem_sheets/pc02/sol02.pdf" download>Solution</a> -->
 
 <div style="margin-top: 25pt;"></div>
 
@@ -34,7 +34,7 @@ Welcome to the [Problem Sheets]{.attention} section! Here, you will find the pro
 
 <!--:white_check_mark:-->
 - :memo: <a href="/problem_sheets/pc03/ex03.pdf" download>Problem Sheet 03</a>
-- :unlock: <a href="/problem_sheets/pc03/sol03.pdf" download>Solution</a> <!-- :lock: **Solution (available after class)** :unlock: <a href="/problem_sheets/pc03/sol03.pdf" download>Solution</a> -->
+- :lock: **Solution (available after class)** <!-- :unlock: <a href="/problem_sheets/pc03/sol03.pdf" download>Solution</a> --> 
 
 <div style="margin-top: 25pt;"></div>
 
@@ -42,7 +42,7 @@ Welcome to the [Problem Sheets]{.attention} section! Here, you will find the pro
 
 <!--:white_check_mark:-->
 - :memo: <a href="/problem_sheets/pc04/ex04.pdf" download>Problem Sheet 04</a>
-- :unlock: <a href="/problem_sheets/pc04/sol04.pdf" download>Solution</a> <!-- :lock: **Solution (available after class)**  :unlock: <a href="/problem_sheets/pc04/sol04.pdf" download>Solution</a> -->
+- :lock: **Solution (available after class)** <!-- :unlock: <a href="/problem_sheets/pc04/sol04.pdf" download>Solution</a> -->
 
 <div style="margin-top: 25pt;"></div>
 

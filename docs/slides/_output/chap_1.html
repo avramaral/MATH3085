@@ -10,6 +10,7 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="André Victor Ribeiro Amaral">
+  <meta name="dcterms.date" content="2026-11-09">
   <title>Survival Models (MATH3085/6143)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -95,7 +96,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="chap_1_files/libs/revealjs/dist/theme/quarto-50d97454b6a0828d56c2dde218def0e8.css">
+  <link rel="stylesheet" href="chap_1_files/libs/revealjs/dist/theme/quarto-ce4aa76c9cd87356853c3d6b80484df3.css">
   <link href="chap_1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="chap_1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="chap_1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -210,7 +211,7 @@
     </div>
 </div>
 
-  <p class="date">30/09/2025</p>
+  <p class="date">11/09/2026</p>
 </section>
 <section id="preface" class="slide level2">
 <h2>Preface</h2>
@@ -219,25 +220,17 @@
 <p>Information about the module (syllabus, schedule, etc.) is available on <a href="https://blackboard.soton.ac.uk/"><span class="alert">Blackboard</span></a> and on the <a href="https://avramaral.github.io/MATH3085/"><span class="alert">module website (avramaral.github.io/MATH3085/)</span></a>.</p>
 </div>
 </section>
-<section id="instructors" class="slide level2">
-<h2>Instructors</h2>
+<section id="instructor" class="slide level2">
+<h2>Instructor</h2>
 <div class="justify">
-<p>This module will be co-taught by</p>
-<ol type="1">
-<li><a href="https://www.avramaral.com/" target="_blank">Dr André Amaral</a> (<a href="mailto:a.v.ribeiro-amaral@soton.ac.uk">a.v.ribeiro-amaral@soton.ac.uk</a>): Chapters 1-9</li>
-<li><a href="https://www.personal.soton.ac.uk/cz1y20/" target="_blank">Dr Chao Zheng</a> (<a href="mailto:chao.zheng@southampton.ac.uk">chao.zheng@southampton.ac.uk</a>): Chapters 10-16</li>
-</ol>
-<p>For any queries, please see either of us during our office hours</p>
-<ul>
-<li>Dr André Amaral (weeks 1-6): Tuesday, 14:00–16:00, Room 54/10007.</li>
-<li>Dr Chao Zheng (weeks 7-11 and 15): Tuesday, 14:00–16:00, Room 54/9001.</li>
-</ul>
+<p>This module will be taught by <a href="https://www.avramaral.com/" target="_blank">Dr André Amaral</a> <br> (<a href="mailto:a.v.ribeiro-amaral@soton.ac.uk">a.v.ribeiro-amaral@soton.ac.uk</a>).</p>
+<p>For any queries, please see me during office hours: <strong>Friday, 14:00–16:00, Room 54/10007</strong>.</p>
 </div>
 </section>
 <section id="timetabling" class="slide level2">
 <h2>Timetabling</h2>
 <div class="justify">
-<p><span class="alert">MATH3085/6143</span> has been given a timetable with the following slots</p>
+<p><span class="alert"><strong>MATH3085/6143</strong></span> has been given a timetable with the following slots</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -248,22 +241,26 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td>Tuesday</td>
-<td>16:00–18:00</td>
+<td>Friday</td>
+<td>11:00–13:00</td>
 <td>02/1089</td>
 </tr>
 <tr class="even">
-<td>Thursday</td>
-<td>15:00–17:00</td>
-<td>35/1001</td>
+<td>Friday</td>
+<td>16:00–18:00</td>
+<td>02/1089</td>
 </tr>
 </tbody>
 </table>
 <div style="margin-top: 25pt;">
 
 </div>
-<div class="fragment">
-<p>Below is the <span class="alert">tentative</span> schedule for the <span class="alert">first part</span> of the module.</p>
+</div>
+</section>
+<section id="timetabling-1" class="slide level2">
+<h2>Timetabling</h2>
+<div class="justify">
+<p>Below is the <span class="alert"><strong>tentative</strong></span> schedule for the module.</p>
 <div class="small-text">
 <table class="caption-top">
 <colgroup>
@@ -276,60 +273,102 @@
 <thead>
 <tr class="header">
 <th>Week</th>
-<th>Tuesday (Session 1)</th>
-<th>Tuesday (Session 2)</th>
-<th>Thursday (Session 1)</th>
-<th>Thursday (Session 2)</th>
+<th>Friday (11:00-12:00)</th>
+<th>Friday (12:00-13:00)</th>
+<th>Friday (16:00-17:00)</th>
+<th>Friday (17:00-18:00)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>01</td>
+<td><span class="inst1"><strong>01</strong></span></td>
 <td>Chapter 1</td>
 <td>Chapter 2</td>
 <td>Chapter 3</td>
 <td>Chapter 4 (part 1)</td>
 </tr>
 <tr class="even">
-<td>02</td>
+<td><span class="inst1"><strong>02</strong></span></td>
 <td>Chapter 4 (part 2)</td>
 <td>Problem Sheet 1</td>
-<td>Chapter 5</td>
-<td>Chapter 6 (part 1)</td>
+<td>Chapter 5 (part 1)</td>
+<td>Chapter 5 (part 2)</td>
 </tr>
 <tr class="odd">
-<td>03</td>
+<td><span class="inst1"><strong>03</strong></span></td>
+<td>Chapter 6 (part 1)</td>
 <td>Chapter 6 (part 2)</td>
 <td>Chapter 6 (part 3)</td>
-<td>Chapter 6 (part 4)</td>
-<td>Problem Sheet 2</td>
+<td>Problem Sheet 2 (part 1)</td>
 </tr>
 <tr class="even">
-<td>04</td>
+<td><span class="inst1"><strong>04</strong></span></td>
+<td>Problem Sheet 2 (part 2)</td>
 <td>Chapter 7 (part 1)</td>
 <td>Chapter 7 (part 2)</td>
 <td>Chapter 7 (part 3)</td>
-<td>Problem Sheet 3</td>
 </tr>
 <tr class="odd">
-<td>05</td>
+<td><span class="inst1"><strong>05</strong></span></td>
+<td>Problem Sheet 3</td>
 <td>Chapter 8 (part 1)</td>
 <td>Chapter 8 (part 2)</td>
 <td>Chapter 8 (part 3)</td>
-<td>Chapter 8 (part 4)</td>
 </tr>
 <tr class="even">
-<td>06</td>
+<td><span class="inst1"><strong>06</strong></span></td>
+<td>Chapter 8 (part 4)</td>
 <td>Chapter 9 (part 1)</td>
 <td>Chapter 9 (part 2)</td>
 <td>Chapter 9 (part 3)</td>
+</tr>
+<tr class="odd">
+<td><span class="inst2"><strong>07</strong></span></td>
 <td>Problem Sheet 4</td>
+<td>Chapter 10</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="inst2"><strong>08</strong></span></td>
+<td>Chapter 11 (part 1)</td>
+<td>Chapter 11 (part 2)</td>
+<td>Chapter 12 (part 1)</td>
+<td>Chapter 12 (part 2)</td>
+</tr>
+<tr class="odd">
+<td><span class="inst2"><strong>09</strong></span></td>
+<td>Chapter 13 (part 1)</td>
+<td>Chapter 13 (part 2)</td>
+<td>Chapter 13 (part 3)</td>
+<td>Chapter 13 (part 4)</td>
+</tr>
+<tr class="even">
+<td><span class="inst2"><strong>10</strong></span></td>
+<td>Problem Sheet 5 (part 1)</td>
+<td>Problem Sheet 5 (part 2)</td>
+<td>Chapter 14</td>
+<td>Chapter 15</td>
+</tr>
+<tr class="odd">
+<td><span class="inst2"><strong>11</strong></span></td>
+<td>Chapter 16 (part 1)</td>
+<td>Chapter 16 (part 2)</td>
+<td>Problem Sheet 6 (part 1)</td>
+<td>Problem Sheet 6 (part 2)</td>
+</tr>
+<tr class="even">
+<td><span class="inst2"><strong>12</strong></span></td>
+<td>Revision (part 1)</td>
+<td>Revision (part 2)</td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-</div>
+<p>The module is loosely divided into two parts: survival analysis from <span class="inst1"><strong>(1) a statistical</strong></span> and <span class="inst2"><strong>(2) an actuarial science</strong></span> perspective.</p>
 </section>
 <section id="how-is-math30856143-taught" class="slide level2">
 <h2>How is MATH3085/6143 taught?</h2>
@@ -355,7 +394,7 @@
 <ul>
 <li><strong><code>R</code> <a href="https://avramaral.github.io/MATH3085/computer_lab.html">Self-paced Tutorial</a></strong>
 <ul>
-<li>Do not need to start until after Chapter 7.<br>
+<li>Do <strong>not</strong> need to start until after <span class="alert"><strong>Chapter 7</strong></span>.<br>
 </li>
 <li>Drop-in support for <code>R</code> (details to be released later).</li>
 </ul></li>
@@ -371,7 +410,7 @@
 <li>30% <a href="https://avramaral.github.io/MATH3085/project.html">data analysis project</a></li>
 <li>70% written exam</li>
 </ol>
-<p>The <a href="https://avramaral.github.io/MATH3085/project.html">data analysis project</a> involves a series of tasks in which you will conduct survival analysis on provided datasets using <code>R</code>. The project will be released around mid-December 2025, and detailed instructions and guidance will be provided towards the end of the term.</p>
+<p>The <a href="https://avramaral.github.io/MATH3085/project.html">data analysis project</a> consists of a series of tasks in which you will conduct survival analyses on the provided datasets using <code>R</code>. The project will be released in early December 2026, with detailed instructions and guidance provided towards the end of the term.</p>
 </div>
 </section>
 <section>
@@ -700,9 +739,11 @@
 </section>
 <section id="right-censoring-gap-on-page-04" class="slide level2">
 <h2>Right censoring <span class="alert"><strong>(Gap on page 04)</strong></span></h2>
+<div class="fragment">
 <div class="justify">
 <p>An observation of <span class="math inline">\(T\)</span> is <span class="alert"><strong>right censored</strong></span> if we only observe a lower bound for <span class="math inline">\(T\)</span>, i.e.&nbsp;we know that <span class="math inline">\(T\)</span> was greater than some value, e.g.&nbsp;<span class="math inline">\(18\)</span>, but not the exact value itself.</p>
 <p>A censored value with be denoted by <span class="math inline">\(T^*\)</span> or <span class="math inline">\(T^+\)</span>, so we know <span class="math display">\[T \ge T^* \qquad \mbox{equivalently} \qquad T \in \left(T^*, \infty \right).\]</span></p>
+</div>
 </div>
 </section>
 <section id="right-censoring" class="slide level2">
