@@ -135,7 +135,7 @@ The [data analysis project](https://avramaral.github.io/MATH3085/project.html) c
 
 - The aim in most statistical modelling problems (e.g. `MATH2010`) is to investigate the relationship between  
   - an observed response (usually denoted by $y$) .
-  - $k$ explanatory variables (denoted by $x = (x1, \cdots, x_k)$).
+  - $k$ explanatory variables (denoted by $x = (x_1, \cdots, x_k)$).
   
 <div style="margin-top: 10pt;"></div>
 
@@ -159,7 +159,7 @@ The [data analysis project](https://avramaral.github.io/MATH3085/project.html) c
 <div style="margin-top: 10pt;"></div>
 
 :::{.fragment}
-The object of survival modelling is to learn about the variability in $T$ in a population of interest and (often) how this is associated with other potentially explanatory variables (covariates).
+The object of survival modelling is to [learn about the variability in]{.secondary} $T$ [in a population of interest]{.secondary} and (often) [how this is associated with other potentially explanatory variables]{.secondary} (covariates).
 :::
 :::
 

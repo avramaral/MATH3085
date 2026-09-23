@@ -59,7 +59,7 @@ using the evidence provided to us by observed data.
 <div style="margin-top: 25pt;"></div>
 
 :::{.fragment}
-To do this, we use **statistical models**, where we simulate the process by which the observed data were generated through a [probability distribution]{.alert}.
+To do this, we use **statistical models**, which describe the process by which the observed data were generated through a [probability distribution]{.alert}.
 :::
 
 :::

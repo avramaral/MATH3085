@@ -10,7 +10,6 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="André Victor Ribeiro Amaral">
-  <meta name="dcterms.date" content="2026-11-09">
   <title>Survival Models (MATH3085/6143)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -211,7 +210,7 @@
     </div>
 </div>
 
-  <p class="date">11/09/2026</p>
+  <p class="date">23/09/2026</p>
 </section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
@@ -246,7 +245,7 @@
 
 </div>
 <div class="fragment">
-<p>To do this, we use <strong>statistical models</strong>, where we simulate the process by which the observed data were generated through a <span class="alert">probability distribution</span>.</p>
+<p>To do this, we use <strong>statistical models</strong>, which describe the process by which the observed data were generated through a <span class="alert">probability distribution</span>.</p>
 </div>
 </div>
 </section>
@@ -303,7 +302,7 @@
 <ul>
 <li>Suppose that we have <span class="math inline">\(n\)</span> data observations, then we use <span class="math display">\[
 t_1,t_2,\cdots , t_n
-\]</span> to denote these observed event (failure, death, <span class="math inline">\(\cdots\)</span>) or censoring times.</li>
+\]</span> to denote these observed event (failure, death, etc) or censoring times.</li>
 </ul>
 <div class="fragment">
 <ul>
@@ -362,7 +361,7 @@ T_1,T_2,\cdots , T_n.
 <p>Assumption <code>1</code> is very common, even in quite complex examples.</p>
 </div>
 <div class="fragment">
-<p>Assumption <code>2</code> is not always appropriate, but may be reasonable when we are <span class="alert">modelling a homogeneous population, without other information</span>.</p>
+<p>Assumption <code>2</code> is <strong>not</strong> always appropriate, but may be reasonable when we are <span class="alert">modelling a homogeneous population, without other information</span>.</p>
 <ul>
 <li>Making assumption <code>2</code> means we cannot include explanatory variables, so sometimes we will not make this assumption.</li>
 </ul>
@@ -379,12 +378,10 @@ T_1,T_2,\cdots , T_n.
 <h2>A fully specified model</h2>
 <div class="justify">
 <p>Sometimes a model completely specifies the probability distribution of <span class="math inline">\(T_1,T_2,\cdots , T_n\)</span>.</p>
-<div class="fragment">
 <p>For example, for the <span class="alert">leukaemia survival times</span>, we might assume the model</p>
 <p><span class="math display">\[
 T_1,T_2,\ldots , T_n \stackrel{\text{i.i.d.}}{\sim} \mathrm{lognormal}(\mu,\sigma^2)
 \]</span> where <span class="math inline">\(\mu=3\)</span> and <span class="math inline">\(\sigma^2=4\)</span>.</p>
-</div>
 <div class="fragment">
 <p>Note that <span class="math inline">\(T_1,T_2,\cdots , T_n \stackrel{\text{i.i.d.}}{\sim} \mathrm{lognormal}(\mu,\sigma^2)\)</span> is equivalent to <span class="math display">\[
 \log(T_1), \log(T_2), \cdots , \log(T_n) \stackrel{\text{i.i.d.}}{\sim} \mathrm{N}(\mu,\sigma^2),
@@ -392,17 +389,15 @@ T_1,T_2,\ldots , T_n \stackrel{\text{i.i.d.}}{\sim} \mathrm{lognormal}(\mu,\sigm
 </div>
 </div>
 </section>
-<section id="a-fully-specified-model-1" class="slide level2">
-<h2>A fully specified model</h2>
+<section id="a-fully-specified-model-cont." class="slide level2">
+<h2>A fully specified model (cont.)</h2>
 <div class="justify">
 <p>For example, for the <span class="alert">leukaemia survival times</span>, we might assume the model <span class="math display">\[
 T_1,T_2,\cdots , T_n \stackrel{\text{i.i.d.}}{\sim} \mathrm{lognormal}(\mu,\sigma^2)
 \]</span> where <span class="math inline">\(\mu=3\)</span> and <span class="math inline">\(\sigma^2=4\)</span>.</p>
-<div class="fragment">
 <ul>
 <li>The key is that we have assumed <strong>exact values</strong> for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>.</li>
 </ul>
-</div>
 <div style="margin-top: -5pt;">
 
 </div>
@@ -462,7 +457,7 @@ T_1,T_2,\cdots , T_n \text{ are i.i.d. random variables.}
 <div class="justify">
 <p>It imposes limitations on the kind of statistical inferences we can obtain, but still allows us to do some interesting things, such as the following</p>
 <ul>
-<li>Use exploratory/graphical techniques, such as <span class="alert">box plots and histograms</span> to learn about the distribution of the (common) random variable <span class="math inline">\(T\)</span> which generated the data.</li>
+<li>Use exploratory or graphical techniques, such as <span class="alert">box plots and histograms</span> to learn about the distribution of the (common) random variable <span class="math inline">\(T\)</span> which generated the data.</li>
 </ul>
 <div class="fragment">
 <ul>
@@ -471,7 +466,7 @@ T_1,T_2,\cdots , T_n \text{ are i.i.d. random variables.}
 </div>
 <div class="fragment">
 <ul>
-<li>Estimate the distribution or <span class="alert">survival function</span> of <span class="math inline">\(T\)</span> (<strong>to be covered in this module</strong>).</li>
+<li>Estimate the distribution or <span class="alert">survival function</span> of <span class="math inline">\(T\)</span> (<span class="alert"><strong>to be covered in this module</strong></span>).</li>
 </ul>
 </div>
 </div>
@@ -509,7 +504,7 @@ T_1,T_2,\cdots , T_n \text{ are i.i.d. random variables.}
 <div style="margin-top: -20pt;">
 
 </div>
-<p>In a regression model, we assume that <span class="math inline">\(T_1 ,T_2,\cdots , T_n\)</span> are independent random variables but they are not identically distributed (we make assumption <code>1</code> but not assumption <code>2</code>).</p>
+<p>In a regression model, we assume that <span class="math inline">\(T_1 ,T_2,\cdots , T_n\)</span> are independent random variables but they are not identically distributed (we make assumption <code>1</code>, but <strong>not</strong> assumption <code>2</code>).</p>
 </div>
 </div>
 </section>
