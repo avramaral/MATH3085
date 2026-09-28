@@ -107,7 +107,7 @@ as_tibble(leuk)
 $$
 t_1,t_2,\cdots , t_n
 $$
-to denote these observed event (failure, death, $\cdots$) or censoring times.
+to denote these observed event (failure, death, etc) or censoring times.
 
 :::{.fragment}
 - For the [leukaemia survival times]{.alert}, $n=33$ and $t_1=65$, $t_2=156$, $\cdots , t_{33}=43$.
@@ -169,7 +169,7 @@ Assumption `1` is very common, even in quite complex examples.
 :::
 
 :::{.fragment}
-Assumption `2` is not always appropriate, but may be reasonable when we are [modelling a homogeneous population, without other information]{.alert}.
+Assumption `2` is **not** always appropriate, but may be reasonable when we are [modelling a homogeneous population, without other information]{.alert}.
 
 - Making assumption `2` means we cannot include explanatory variables, so sometimes we will not make this assumption.
 :::
@@ -188,14 +188,12 @@ When we make assumptions `1` and `2`, we say that $T_1,T_2,\cdots , T_n$ are *in
 
 Sometimes a model completely specifies the probability distribution of $T_1,T_2,\cdots , T_n$.
 
-:::{.fragment}
 For example, for the [leukaemia survival times]{.alert}, we might assume the model
 
 $$
 T_1,T_2,\ldots , T_n \stackrel{\text{i.i.d.}}{\sim} \mathrm{lognormal}(\mu,\sigma^2)
 $$
 where $\mu=3$ and $\sigma^2=4$.
-:::
 
 :::{.fragment}
 Note that $T_1,T_2,\cdots , T_n \stackrel{\text{i.i.d.}}{\sim} \mathrm{lognormal}(\mu,\sigma^2)$ is equivalent to 
@@ -206,7 +204,7 @@ where $\log$ is the natural logarithm.
 :::
 :::
 
-## A fully specified model
+## A fully specified model (cont.)
 
 :::{.justify}
 
@@ -216,9 +214,7 @@ T_1,T_2,\cdots , T_n \stackrel{\text{i.i.d.}}{\sim} \mathrm{lognormal}(\mu,\sigm
 $$
 where $\mu=3$ and $\sigma^2=4$.
 
-:::{.fragment}
 - The key is that we have assumed **exact values** for $\mu$ and $\sigma^2$. 
-:::
 
 <div style="margin-top: -5pt;"></div>
 
@@ -282,14 +278,14 @@ This is sometimes described as a [**nonparametric (or distribution-free) specifi
 
 It imposes limitations on the kind of statistical inferences we can obtain, but still allows us to do some interesting things, such as the following
 
-- Use exploratory/graphical techniques, such as [box plots and histograms]{.alert} to learn about the distribution of the (common) random variable $T$ which generated the data.
+- Use exploratory or graphical techniques, such as [box plots and histograms]{.alert} to learn about the distribution of the (common) random variable $T$ which generated the data.
 
 :::{.fragment}
 - Estimate features of the distribution of $T$, such as its expectation $\mathbb{E}(T)$, variance $\text{Var}(T)$, $\mathbb{P}(T>t_0)$ for some specified $t_0$, etc.
 :::
 
 :::{.fragment}
-- Estimate the distribution or [survival function]{.alert} of $T$ (**to be covered in this module**).
+- Estimate the distribution or [survival function]{.alert} of $T$ ([**to be covered in this module**]{.alert}).
 :::
 :::
 
@@ -315,7 +311,7 @@ The [leukaemia survival times]{.alert} include values of two such explanatory va
 
 <div style="margin-top: -20pt;"></div>
 
-In a regression model, we assume that $T_1 ,T_2,\cdots , T_n$ are independent random variables but they are not identically distributed (we make assumption `1` but not assumption `2`).
+In a regression model, we assume that $T_1 ,T_2,\cdots , T_n$ are independent random variables but they are not identically distributed (we make assumption `1`, but **not** assumption `2`).
 :::
 :::
 

@@ -89,8 +89,8 @@ MATH3085/6143 has been given a timetable with the following slots
 :::{.small-text}
 | Day       | Time       | Room   |
 |-----------|------------|--------|
-| Tuesday   | 16:00-18:00 | 02/1089 |
-| Thursday  | 15:00-17:00 | 35/1001 |
+| Friday    | 11:00-13:00 | 02/1089 |
+| Friday    | 16:00-18:00 | 02/1089 |
 :::
 
 <div style="margin-top: 25pt;"></div>
