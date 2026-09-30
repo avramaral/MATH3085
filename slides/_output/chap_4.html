@@ -10,7 +10,6 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="André Victor Ribeiro Amaral">
-  <meta name="dcterms.date" content="2026-11-09">
   <title>Survival Models (MATH3085/6143)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -211,7 +210,7 @@
     </div>
 </div>
 
-  <p class="date">11/09/2026</p>
+  <p class="date">30/09/2026</p>
 </section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
@@ -516,7 +515,7 @@ h_T(t) &amp; = &amp; \frac{f_T(t)}{S_T(t)}\\
 <section id="the-log-logistic-distribution-1" class="slide level2">
 <h2>The log-logistic distribution</h2>
 <div class="justify small-text">
-<p>The plots below show <span class="math inline">\(f(t)\)</span>, <span class="math inline">\(S(t)\)</span>, and <span class="math inline">\(h(t)\)</span> for two different <span class="alert"><strong>exponential distributions</strong></span> with different values of <span class="math inline">\(\alpha\)</span> (<span class="math inline">\(\text{solid} = 0.5\)</span> and <span class="math inline">\(\text{dashed} = 3\)</span>) but all with <span class="math inline">\(\beta = 1\)</span>.</p>
+<p>The plots below show <span class="math inline">\(f(t)\)</span>, <span class="math inline">\(S(t)\)</span>, and <span class="math inline">\(h(t)\)</span> for two different <span class="alert"><strong>log-logistic distributions</strong></span> with different values of <span class="math inline">\(\alpha\)</span> (<span class="math inline">\(\text{solid} = 0.5\)</span> and <span class="math inline">\(\text{dashed} = 3\)</span>) but all with <span class="math inline">\(\beta = 1\)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>t_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.001</span>, <span class="at">to =</span> <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">100</span>); alpha_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">3</span>); beta_scale <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># Assuming beta=1</span></span>
 <span id="cb3-2"><a href=""></a>df_combined <span class="ot">&lt;-</span> <span class="fu">lapply</span>(alpha_values, <span class="cf">function</span>(alpha) { <span class="fu">data.frame</span>(<span class="at">t =</span> t_seq, <span class="at">alpha_factor =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">"alpha = "</span>, alpha)), <span class="at">ft =</span> <span class="fu">dllogis</span>(t_seq, <span class="at">shape =</span> alpha, <span class="at">scale =</span> beta_scale), <span class="at">St =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pllogis</span>(t_seq, <span class="at">shape =</span> alpha, <span class="at">scale =</span> beta_scale), <span class="at">ht =</span> <span class="fu">dllogis</span>(t_seq, <span class="at">shape =</span> alpha, <span class="at">scale =</span> beta_scale) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pllogis</span>(t_seq, <span class="at">shape =</span> alpha, <span class="at">scale =</span> beta_scale))) }) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>()</span>

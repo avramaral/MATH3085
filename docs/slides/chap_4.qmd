@@ -388,7 +388,7 @@ Unlike the Exponential distribution (constant hazard) or the Weibull distributio
 
 :::{.justify .small-text}
 
-The plots below show $f(t)$, $S(t)$, and $h(t)$ for two different [**exponential distributions**]{.alert} with different values of $\alpha$ ($\text{solid} = 0.5$ and $\text{dashed} = 3$) but all with $\beta = 1$.
+The plots below show $f(t)$, $S(t)$, and $h(t)$ for two different [**log-logistic distributions**]{.alert} with different values of $\alpha$ ($\text{solid} = 0.5$ and $\text{dashed} = 3$) but all with $\beta = 1$.
 
 ```{r, echo = TRUE, fig.width = 8, fig.height = 3.75, fig.align = "center"}
 t_seq <- seq(from = 0.001, to = 5, length.out = 100); alpha_values <- c(0.5, 3); beta_scale <- 1 # Assuming beta=1
