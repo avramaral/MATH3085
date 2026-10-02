@@ -436,12 +436,12 @@ Let's start by deriving the p.d.f. of $T$. If $X\sim \text{N}(\mu,\sigma^2)$ the
 $$
 f_X(x) = \frac{1}{(2\pi)^{\frac{1}{2}}\sigma} \exp \left( - \frac{(x - \mu)^2}{2\sigma^2} \right).
 $$
-Now $t = \exp x$, so $\frac{\mathrm{d}x}{\mathrm{d}{t}} = \frac{1}{t}$.
+Now $T = g(X) = \exp\{X\}$, so $g^{-1}(t) = \log(t), ~ t > 0$.
 
 The p.d.f. of $T$ is then given by
 $$
 \begin{eqnarray*}
-f_T(t) & = & f_X(\log t) \left\vert \frac{\mathrm{d}t}{\mathrm{d}{x}} \right\vert\\
+f_T(t) & = & f_X(g^{-1}(t)) \left\vert \frac{\mathrm{d}}{\mathrm{d}{t}} g^{-1}(t) \right\vert = f_X(\log t) \left\vert \frac{\mathrm{d}}{\mathrm{d}{t}} \log t \right\vert\\
 & = & \frac{1}{(2\pi)^{\frac{1}{2}}\sigma} \exp \left( - \frac{(\log t - \mu)^2}{2\sigma^2} \right) \frac{1}{t} = \frac{1}{(2\pi)^{1/2}\sigma t}\exp\left(-\frac{1}{2\sigma^2}[\log t-\mu]^2\right).
 \end{eqnarray*}
 $$

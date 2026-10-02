@@ -10,6 +10,7 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="André Victor Ribeiro Amaral">
+  <meta name="dcterms.date" content="2026-02-10">
   <title>Survival Models (MATH3085/6143)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -210,7 +211,7 @@
     </div>
 </div>
 
-  <p class="date">30/09/2026</p>
+  <p class="date">02/10/2026</p>
 </section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
@@ -559,10 +560,10 @@ S_T(t)=1-\Phi\left(\frac{\log t-\mu}{\sigma}\right),
 <div class="justify small-text">
 <p>Let’s start by deriving the p.d.f. of <span class="math inline">\(T\)</span>. If <span class="math inline">\(X\sim \text{N}(\mu,\sigma^2)\)</span> then <span class="math display">\[
 f_X(x) = \frac{1}{(2\pi)^{\frac{1}{2}}\sigma} \exp \left( - \frac{(x - \mu)^2}{2\sigma^2} \right).
-\]</span> Now <span class="math inline">\(t = \exp x\)</span>, so <span class="math inline">\(\frac{\mathrm{d}x}{\mathrm{d}{t}} = \frac{1}{t}\)</span>.</p>
+\]</span> Now <span class="math inline">\(T = g(X) = \exp\{X\}\)</span>, so <span class="math inline">\(g^{-1}(t) = \log(t), ~ t &gt; 0\)</span>.</p>
 <p>The p.d.f. of <span class="math inline">\(T\)</span> is then given by <span class="math display">\[
 \begin{eqnarray*}
-f_T(t) &amp; = &amp; f_X(\log t) \left\vert \frac{\mathrm{d}t}{\mathrm{d}{x}} \right\vert\\
+f_T(t) &amp; = &amp; f_X(g^{-1}(t)) \left\vert \frac{\mathrm{d}}{\mathrm{d}{t}} g^{-1}(t) \right\vert = f_X(\log t) \left\vert \frac{\mathrm{d}}{\mathrm{d}{t}} \log t \right\vert\\
 &amp; = &amp; \frac{1}{(2\pi)^{\frac{1}{2}}\sigma} \exp \left( - \frac{(\log t - \mu)^2}{2\sigma^2} \right) \frac{1}{t} = \frac{1}{(2\pi)^{1/2}\sigma t}\exp\left(-\frac{1}{2\sigma^2}[\log t-\mu]^2\right).
 \end{eqnarray*}
 \]</span> Thus, recalling that the standard normal p.d.f. is <span class="math inline">\(\phi(u) = \frac{1}{(2\pi)^{\frac{1}{2}}} \exp \left( - \frac{u^2}{2} \right)\)</span>, we have <span class="math display">\[
