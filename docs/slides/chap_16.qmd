@@ -1,0 +1,422 @@
+---
+title: "Survival Models (MATH3085/6143)"
+subtitle: "Chapter 16: Graduation"
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    slide-number: true
+    progress: false
+    code-block-height: 170px
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: "André Victor Ribeiro Amaral"
+    url: "https://www.avramaral.com/"
+    email: "a.v.ribeiro-amaral@soton.ac.uk"
+    affiliations: "University of Southampton"
+date: today
+date-format: "DD/MM/YYYY"
+engine: knitr
+---
+
+```{r setup}
+#| echo: FALSE
+#| output: FALSE
+#| message: FALSE
+knitr::opts_chunk$set(include = TRUE)
+options(digits = 4)
+library("tidyverse")
+library("flexsurv")
+library("patchwork")
+library("gam")
+```
+
+
+## Recap
+
+::: {.justify}
+
+In the last chapter, we
+
+- Compared observed mortality rates with [**standard mortality rates**]{.alert} using standardised mortality ratios.
+- Used the [**chi-squared test**]{.alert} to assess whether the standard rates could explain the observed deaths across age groups.
+- Considered the [**cumulative deviations test**]{.secondary} and the [**sign test**]{.secondary} for detecting bias, and discussed the risks of multiple testing.
+
+:::
+
+# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 16**]{.secondary}: Graduation</span>
+
+## Graduation
+
+:::: {.justify .small-text}
+
+We expect the true underlying mortality rate in a population to vary smoothly with age.
+
+::: {.fragment}
+
+An estimated mortality rate
+
+$$
+\hat m_x=\frac{D_x}{E_x^C}
+$$
+
+is an observation of a random variable, with distribution centred on the true underlying mortality rate, but subject to variation quantified by its asymptotic variance $m_x/E_x^C$. This variance may be large when the exposure $E_x^C$ is small.
+
+:::
+
+::: {.fragment}
+
+[**Graduation**]{.alert} is the term actuaries and demographers use for the statistical [**smoothing**]{.secondary} of estimated mortality rates, to obtain a more realistic picture of how mortality changes with age.
+
+:::
+
+::::
+
+## Example
+
+::: {.justify .small-text}
+
+This is an expanded version of the example used in [**Chapter 15**]{.secondary}, where now we observe age groups $x=60,\cdots,89$.
+
+```{r}
+#| label: graduation-setup
+#| include: false
+
+have_data <- file.exists("data/ELT16.csv")
+
+if (have_data) {
+  set.seed(270966)
+  elt <- read.csv("data/ELT16.csv")
+  names(elt) <- c("x", "e", "d", "y", "g")
+  elt <- elt[match(60:89, elt$x), ]
+  stopifnot(!anyNA(elt$x))
+
+  elt$e <- round(elt$e / 1000, 1)
+  elt$d <- rbinom(30, elt$d, 1 / 1000)
+  elt$d[1:10] <- c(8, 10, 5, 8, 13, 16, 18, 12, 14, 11)
+  elt$m <- c(
+    0.00794, 0.00863, 0.00949, 0.01019, 0.01100,
+    0.01199, 0.01330, 0.01479, 0.01586, 0.01781,
+    0.02030, 0.02242, 0.02510, 0.02698, 0.03009,
+    0.03306, 0.03703, 0.04049, 0.04599, 0.05093,
+    0.05754, 0.06516, 0.07427, 0.08320, 0.09284,
+    0.10457, 0.11749, 0.13113, 0.14720, 0.16530
+  )
+}
+
+plot_graduation <- function(data, graduated = NULL, standard = NULL) {
+  old_par <- par(mfrow = c(1, 2), mgp = c(1.8, 0.6, 0),
+                 mar = c(3.2, 3.6, 0.8, 0.6))
+  on.exit(par(old_par))
+
+  raw <- data$d / data$e
+
+  draw <- function(transform, ylab) {
+    y <- transform(raw)
+    z <- if (!is.null(graduated)) transform(graduated) else NULL
+    s <- if (!is.null(standard)) transform(standard) else NULL
+
+    plot(data$x, y, xlab = "Age (x)", ylab = ylab,
+         ylim = range(c(y, z, s), finite = TRUE),
+         bty = "l", las = 1)
+
+    if (!is.null(s)) points(data$x, s, pch = 3)
+    if (!is.null(z)) points(data$x, z, pch = 2)
+  }
+
+  draw(identity, expression(hat(m)[x]))
+  draw(log, expression(log(hat(m)[x])))
+}
+```
+
+::: {style="margin-top: 15pt;"}
+:::
+
+Plots of the raw estimated mortality rates on the original and log scales.
+
+::: {style="margin-top: 25pt;"} 
+:::
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 3.75, fig.align = "center"}
+if (have_data) {
+  plot_graduation(elt)
+} else {
+  cat("Place ELT16.csv alongside this deck to reproduce the plots and fits.")
+}
+```
+
+:::
+
+## Graduation methods
+
+:::: {.justify .small-text}
+
+There are three main approaches to graduation, all of which involve fitting a statistical model.
+
+::: {.fragment}
+
+- Graduation against a set of [**standard mortality rates**]{.alert}.
+
+  This is used where we have good reason to expect our study population to share features with the mortality experience of the standard population.
+
+:::
+
+::: {.fragment}
+
+- Graduation using a [**parametric model**]{.alert}.
+
+  This is usually used where we have large amounts of data.
+
+:::
+
+::: {.fragment}
+
+- Graduation using a [**semiparametric (smooth) regression model**]{.alert}.
+
+  This is usually used where we have small amounts of data and no suitable standard mortality rates.
+
+:::
+
+::::
+
+## Graduation against a set of standard rates
+
+:::: {.justify .small-text}
+
+The simplest approach is to fit a regression-type model, such as
+
+$$
+D_x\sim\operatorname{Poisson}(E_x^C m_x),
+\qquad
+\log m_x=\beta_0+\beta_1\log m_x^S.
+$$
+
+::: {.fragment}
+
+This is a [**generalised linear model**]{.alert} (GLM), which is easy to fit in software such as `R`. The graduated mortality rates are the maximum likelihood estimates, given by
+
+$$
+\log\tilde m_x=\hat\beta_0+\hat\beta_1\log m_x^S.
+$$
+
+:::
+
+::: {.fragment}
+
+If the standard rates are smooth, as they typically will have been previously graduated, then the estimated rates will be smooth too.
+
+Students taking [**MATH3091**]{.secondary} will learn more about generalised linear models.
+
+:::
+
+::::
+
+## Return to the example
+
+::: {.justify .small-text}
+
+Graduation against standard rates. The plot shows the [**raw rates**]{.alert} [**(circles)**]{.secondary}, [**standard rates**]{.alert} [**(crosses)**]{.secondary} and [**graduated rates**]{.alert} [**(triangles)**]{.secondary} on the original and log scales.
+
+::: {style="margin-top: 25pt;"} 
+:::
+
+```{r, echo = TRUE, fig.width = 6.5, fig.height = 3, fig.align = "center"}
+if (have_data) {
+  # See how the model is fitted
+  fit_standard <- glm(d ~ log(m) + offset(log(e)), data = elt, family = poisson())
+  plot_graduation(elt, graduated = fitted(fit_standard) / elt$e, standard = elt$m)
+}
+```
+
+:::
+
+## Graduation using a parametric model
+
+:::: {.justify .small-text}
+
+This approach assumes that there is a parametric formula describing the relationship between the central mortality rate and age.
+
+The simplest model is the [**log-linear Gompertz model**]{.alert}.
+
+$$
+D_x\sim\operatorname{Poisson}(E_x^C m_x),
+\qquad
+\log m_x=\beta_0+\beta_1 x.
+$$
+
+::: {.fragment}
+
+This is a [**GLM**.]{.secondary} The graduated mortality rates are the maximum likelihood estimates, given by
+
+$$
+\log\tilde m_x=\hat\beta_0+\hat\beta_1x.
+$$
+
+The estimated rates vary smoothly with age.
+
+:::
+
+::: {.fragment}
+
+More complex Gompertz models replace $\beta_0+\beta_1x$ with a polynomial 
+$$
+\beta_0+\beta_1x+\beta_2x^2+\cdots+\beta_px^p.
+$$ 
+These are also [**GLMs**.]{.secondary}
+
+:::
+
+::::
+
+## Return to the example
+
+::: {.justify .small-text}
+
+Graduation using the [**log-linear Gompertz model**.]{.alert} The plot shows the [**raw rates**]{.alert} [**(circles)**]{.secondary} and [**graduated rates**]{.alert} [**(triangles)**]{.secondary} on the original and log scales.
+
+::: {style="margin-top: 25pt;"} 
+:::
+
+```{r, echo = TRUE, fig.width = 6.5, fig.height = 3, fig.align = "center"}
+if (have_data) {
+  # See how the model is fitted
+  fit_gompertz <- glm(d ~ x + offset(log(e)), data = elt, family = poisson())
+  plot_graduation(elt, graduated = fitted(fit_gompertz) / elt$e)
+}
+```
+
+:::
+
+## Models for human mortality
+
+:::: {.justify .small-text}
+
+A general Gompertz model
+
+$$
+\log m_x=\beta_0+\sum_{j=1}^p\beta_jx^j
+$$
+
+is often found to fit mortality at higher ages well, for quite small values of $p$, such as $p=1$ (linear model with two parameters) or $p=2$ (quadratic model with three parameters).
+
+::: {.fragment}
+
+If necessary, the Gompertz model can be extended to the [**Gompertz-Makeham family**]{.alert}, which has
+
+$$
+m_x=\alpha_0+\sum_{j=1}^q\alpha_jx^j+
+\exp\!\left(\beta_0+\sum_{j=1}^p\beta_jx^j\right).
+$$
+
+This model is [**no** longer a GLM]{.secondary} and is less straightforward to fit.
+
+:::
+
+::::
+
+## Graduation using a semiparametric model
+
+:::: {.justify .small-text}
+
+This approach estimates the underlying mortality rates by balancing fit to the data and smoothness of the underlying function.
+
+::: {.fragment}
+
+The resulting model is called a [**generalised additive model**]{.alert} [**(GAM)**]{.secondary} and can be written as
+
+$$
+D_x\sim\operatorname{Poisson}(E_x^C m_x),
+\qquad
+\log m_x=s(x),
+$$
+
+where $s(x)$ denotes a smooth function of $x$.
+
+:::
+
+::: {.fragment}
+
+A [**GAM**]{.secondary} is fitted by minimising an objective function that balances fit to the data (for example, the negative log-likelihood) and smoothness (for example, the integrated squared second derivative).
+
+:::
+
+::::
+
+## Return to the example
+
+::: {.justify .small-text}
+
+Graduation using the [**semiparametric model**.]{.alert} The plot shows the [**raw rates**]{.alert} [**(circles)**]{.secondary} and [**graduated rates**]{.alert} [**(triangles)**]{.secondary} on the original and log scales.
+
+::: {style="margin-top: 25pt;"} 
+:::
+
+```{r, echo = TRUE, fig.width = 6.5, fig.height = 3, fig.align = "center"}
+if (have_data & requireNamespace("gam", quietly = TRUE)) {
+  # See how the model is fitted
+  fit_smooth <- gam::gam(d ~ gam::s(x) + offset(log(e)), data = elt, family = poisson())
+  plot_graduation(elt, graduated = fitted(fit_smooth) / elt$e)
+} else if (have_data) { cat("Install the `gam` package to reproduce the semiparametric fit.") }
+```
+
+:::
+
+## Testing the fit of a graduation
+
+:::: {.justify .small-text}
+
+A set of graduated mortality rates should be compared with the original rates to check the fit of the graduation.
+
+The chi-squared test described in [**Chapter 15**]{.secondary} can be used for this, with test statistic
+
+$$
+X^2=\sum_x\frac{(D_x-E_x^C\tilde m_x)^2}{E_x^C\tilde m_x},
+\tag{1}
+$$
+
+where $\tilde m_x$ are the graduated rates.
+
+::: {.fragment}
+
+[A minor modification is required.]{.alert} The components of the sum in [**Equation $(1)$**]{.secondary} are no longer independent because the $D_x$ have been used to obtain the graduated rates $\tilde m_x$.
+
+:::
+
+::: {.fragment}
+
+Deduct one degree of freedom (from $v$) for each estimated parameter. If we have estimated $p$ parameters across $v$ age groups, the reference distribution is approximately $\chi^2_{v-p}$. 
+
+The other tests in [**Chapter 15**]{.secondary} do not have a simple adjustment for testing the fit of a graduation, and therefore should be avoided.
+
+:::
+
+::::
+
+## Return to the example
+
+:::: {.justify .small-text}
+
+For the graduations illustrated in Sections [**Section 16.3.1**]{.secondary}, [**Section 16.4.1**]{.secondary}, and  [**Section 16.5.2**]{.secondary}, respectively, we have
+
+- $X^2 = 31.74:$ graduation against standard rates
+- $X^2 = 28.20:$ graduation using Gompertz log-linear model
+- $X^2 = 25.84:$ graduation using semiparametric (smooth) model
+
+:::{.fragment}
+
+The number of age groups is $v = 30$ and the number of parameters is $p = 2$ for the first two models and $p = 3.0$ (an estimated function of the overall smoothness) for the semiparametric model.
+
+:::
+
+:::{.fragment}
+
+So we compare our $X^2$ values with the $95\%$ point of $\chi^2_{28}$ $(41.34)$ and the $95\%$ point of $\chi^2_{27}$ $(40.11)$.
+
+:::
+
+:::{.fragment}
+
+We see that there is no evidence to lead us to reject the fit of the graduated rates to the observed rates, so all three of the graduations seem satisfactory.
+
+:::

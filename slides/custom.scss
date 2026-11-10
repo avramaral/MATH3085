@@ -367,3 +367,17 @@ $selection-bg: #26351c !default;
 .inst2 {
   color: red !important;
 }
+
+.reveal .slides .limit-code pre.sourceCode > code {
+  display: block;
+  box-sizing: content-box;
+  max-height: 10lh;
+  overflow-y: auto;
+}
+
+.reveal .slides .limit-code-3 pre.sourceCode > code {
+  display: block;
+  box-sizing: content-box;
+  max-height: 2lh;
+  overflow-y: auto;
+}

@@ -1,0 +1,348 @@
+---
+title: "Survival Models (MATH3085/6143)"
+subtitle: "Chapter 12: Interpolating a Life Table"
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    slide-number: true
+    progress: false
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: "André Victor Ribeiro Amaral"
+    url: "https://www.avramaral.com/"
+    email: "a.v.ribeiro-amaral@soton.ac.uk"
+    affiliations: "University of Southampton"
+date: today
+date-format: "DD/MM/YYYY"
+---
+
+```{r setup}
+#| echo: FALSE
+#| output: FALSE
+#| message: FALSE
+knitr::opts_chunk$set(include = TRUE)
+options(digits = 4)
+library("tidyverse")
+library("flexsurv")
+library("patchwork")
+```
+
+## Recap
+
+::: {.justify}
+
+In the last chapter, we
+
+- Introduced the [**life table**]{.alert}, with survivor counts $\ell_x$, one-year death probabilities $q_x$, and expected death counts $d_x$.
+
+- Distinguished [**complete and curtate life expectancy**]{.alert} and showed how to calculate them from the life table.
+
+- Used the [**trapezium rule**]{.alert} to approximate the person-years lived between successive ages when the table gives only the survivor counts at the endpoints.
+
+:::
+
+# <span style="font-size: 42px; color: #131516; display: block; margin-bottom: -50px">[**Chapter 12:**]{.secondary} Interpolating a Life Table</span>
+
+## Interpolating a life table [**(Page 129)**]{.alert}
+
+:::: {.justify .small-text}
+
+The life table only includes values of $\ell_x$ and $q_x$ and hence $S_T(x)$ for certain, usually evenly spaced integer, values of $x$.
+
+::: {.fragment}
+
+We can [fill in the gaps]{.secondary} by [**interpolating**]{.alert}; however, this requires us to make assumptions about the distribution of lifetime $T$ in the intervals between ages represented in the life table.
+
+We shall initially assume that the rows of the life table represent $x=0,1,2,3,\cdots$. The generalisation to other intervals is straightforward.
+
+:::
+
+::: {.fragment}
+
+At age $x+t$, where $t\in[0,1)$ we have
+
+$$
+\begin{aligned}
+\ell_{x+t}
+&=\ell_0 S_T(x+t)\\
+&=\ell_0\mathbb{P}(T>x+t\mid T>x)\mathbb{P}(T>x)\\
+&={}_tp_x\,\ell_x
+\end{aligned}
+$$
+
+So completion of the life table requires us to specify our belief about ${}_tp_x$ (or equivalently ${}_tq_x$) for $t\in[0,1)$.
+
+:::
+
+::::
+
+## Uniform distribution of deaths [**(Gap on page 129)**]{.alert}
+
+:::: {.justify .small-text}
+
+Perhaps the easiest assumption is to assume that the deaths in $[x,x+1)$ are [**uniformly distributed**]{.alert}. Then
+
+$$
+\mathbb{P}(T\le x+t\mid x\le T<x+1)=t\qquad t\in[0,1)
+$$
+
+::: {.fragment}
+
+Hence
+
+$$
+\begin{aligned}
+{}_tq_x
+&=\mathbb{P}(T\le x+t\mid T\ge x)\\
+&=\mathbb{P}(T\le x+t\mid x\le T<x+1) \times \mathbb{P}(T<x+1\mid T\ge x)\\
+&=tq_x
+\end{aligned}
+$$
+
+:::
+
+::: {.fragment}
+
+So
+
+$$
+\ell_{x+t}=\ell_x(1-tq_x)\qquad t\in[0,1)
+$$
+
+which is the [**linear interpolation**]{.secondary} which makes the trapezium rule approximation, used in the calculation of life expectancy, exact.
+
+:::
+
+::::
+
+## Constant force of mortality [**(Gap on page 130)**]{.alert}
+
+:::: {.justify .small-text}
+
+An alternative assumption is to assume that the force of mortality (hazard of death) $\mu_x$ takes a [**constant value**]{.alert} $\mu$ in $[x,x+1)$. Then
+
+$$
+{}_tq_x=\mathbb{P}(T\le x+t\mid T\ge x)=1-\exp(-\mu t)\qquad t\in[0,1)
+$$
+
+::: {.fragment}
+
+Hence
+
+$$
+q_x=1-\exp(-\mu)\qquad\Rightarrow\qquad \mu=-\log(1-q_x)
+$$
+
+:::
+
+::: {.fragment}
+
+and therefore
+
+$$
+{}_tq_x=1-(1-q_x)^t\qquad t\in[0,1)
+$$
+
+and
+
+$$
+\ell_{x+t}=\ell_x(1-q_x)^t\qquad t\in[0,1)
+$$
+
+:::
+
+::::
+
+## Balducci assumption [**(Gap on page 131)**]{.alert}
+
+:::: {.justify .small-text}
+
+The final possible interpolation that we will consider is called the [**Balducci assumption**]{.alert}, which is expressed as
+
+$$
+{}_{1-t}q_{x+t}=(1-t)q_x\qquad t\in[0,1)
+$$
+
+meaning that the probability of death before time $x+1$ having survived to $x+t$ is proportional to the length of time remaining ($1-t$) with constant of proportionality equal to $q_x$ (so that the assumption is correct for $t=0$).
+
+::: {.fragment}
+
+Then we have
+
+$$
+1-q_x=p_x={}_tp_x\,{}_{1-t}p_{x+t}=(1-{}_tq_x)[1-(1-t)q_x]
+$$
+
+using the Balducci assumption.
+
+:::
+
+::::
+
+## Balducci assumption [**(Gap on page 132)**]{.alert}
+
+:::: {.justify .small-text}
+
+So
+
+$$
+{}_tq_x=1-\frac{1-q_x}{1-(1-t)q_x}\qquad t\in[0,1)
+$$
+
+::: {.fragment}
+
+and
+
+$$
+\ell_{x+t}=\ell_x\frac{1-q_x}{1-(1-t)q_x}\qquad t\in[0,1)
+$$
+
+:::
+
+::::
+
+## Shape of the survival function{.limit-code}
+
+:::: {.justify .small-text}
+
+The three interpolation assumptions give the same survivor counts at ages $x$ and $x+1$, but different curves between them.
+
+```{r, echo = TRUE, fig.width = 8, fig.height = 3.75, fig.align = "center"}
+q_x <- 0.5
+l_x <- 2
+u <- seq(0, 1, length.out = 200)  # Fraction of the year elapsed
+l_next <- l_x * (1 - q_x)
+
+old_par <- par(mar = c(3.5, 4.2, 1, 0.8), mgp = c(2.3, 0.7, 0))
+plot(NA_real_, NA_real_, xlim = c(-0.25, 1.25), ylim = c(0.75, 2.25),
+     xaxs = "i", yaxs = "i", axes = FALSE,
+     xlab = "Time",ylab = expression("\u2113"[0] * S[T](t)))
+axis(1, at = c(0, 1), labels = expression(x, x + 1))
+axis(2, at = c(l_next, l_x),
+     labels = expression("\u2113"[x + 1], "\u2113"[x]))
+box(bty = "l")
+
+segments(-0.25, c(l_x, l_next), c(0, 1), c(l_x, l_next),
+         col = "grey65", lty = 3)
+segments(c(0, 1), 0.75, c(0, 1), c(l_x, l_next),
+         col = "grey65", lty = 3)
+
+lines(u, l_x * (1 - u * q_x), lty = 1)
+lines(u, l_x * (1 - q_x)^u, lty = 2)
+lines(u, l_x * (1 - q_x) / (1 - (1 - u) * q_x), lty = 3)
+legend("topright", c("Uniform", "Constant force of mortality", "Balducci"),
+       lty = 1:3, bty = "n")
+
+```
+
+::::
+
+## Implied force of mortality [**(Gap on page 133)**]{.alert}
+
+:::: {.justify .small-text}
+
+The uniform distribution of deaths and Balducci assumptions have implications for the force of mortality over the region $[x,x+1)$ to which they are applied.
+
+Based on the known relationship between hazard and survival function, we have
+
+$$
+\mu_{x+t}=-\frac{\mathrm{d}}{\mathrm{d}t}\log\ell_{x+t}
+$$
+
+::: {.fragment}
+
+For the uniform distribution of deaths this gives
+
+$$
+\mu_{x+t}=\frac{q_x}{1-tq_x}\qquad t\in[0,1)
+$$
+
+an [**increasing function**]{.secondary} of $t$ and for the Balducci assumption, we get
+
+$$
+\mu_{x+t}=\frac{q_x}{1-(1-t)q_x}\qquad t\in[0,1)
+$$
+
+a [**decreasing function**]{.secondary} of $t$.
+
+:::
+
+::::
+
+## Other intervals
+
+:::: {.justify .small-text}
+
+Where a life table contains an interval $g\ne 1$, so that ${}_gq_x$ is presented for (at least) one $x$, we have the straightforward generalisations
+
+::: {.fragment}
+
+| Interpolation assumption | Death probability ${}_tq_x$ for $t\in[0,g)$ |
+|:-------------------------|:--------------------------------------------|
+| Uniform distribution of deaths | $\displaystyle \frac{t}{g}\,{}_gq_x$ |
+| Constant force of mortality | $\displaystyle 1-(1-{}_gq_x)^{t/g}$ |
+| Balducci assumption | $\displaystyle 1-\frac{1-{}_gq_x}{1-\left(1-\frac{t}{g}\right){}_gq_x}$ |
+
+:::
+
+::::
+
+## The life table quantity $\mu_x$ [**(Gap on page 134)**]{.alert}
+
+:::: {.justify .small-text}
+
+Sometimes a life table will include a column of $\mu_x$ values which are the forces of mortality at the exact ages $x$ in the life table. We know that
+
+$$
+\mu_{x+t}
+=-\frac{\mathrm{d}}{\mathrm{d}t}\log\ell_{x+t}
+=-\frac{1}{\ell_{x+t}}\frac{\mathrm{d}\ell_{x+t}}{\mathrm{d}t}
+$$
+
+::: {.fragment}
+
+This can be estimated using the life table quantities $\ell_x$ if we approximate $\ell_{x+t}$ around $x$ by a polynomial.
+
+If $\ell_{x+t}$ is well approximated by a [**quadratic**]{.alert}, we have
+
+$$
+\ell_{x+t}=at^2+bt+c
+\qquad\Rightarrow\qquad
+\left\{
+\begin{array}{l}
+\ell_{x+1}=a+b+c\\
+\ell_{x-1}=a-b+c
+\end{array}\right.
+$$
+
+:::
+
+::::
+
+## The life table quantity $\mu_x$ [**(Gap on page 134)**]{.alert}
+
+:::: {.justify .small-text}
+
+and therefore at $t=0$
+
+$$
+\mu_x
+=-\frac{1}{\ell_x}\frac{\mathrm{d}\ell_x}{\mathrm{d}t}
+=-\frac{b}{\ell_x}
+=\frac{\ell_{x-1}-\ell_{x+1}}{2\ell_x}
+$$
+
+::: {.fragment}
+
+An alternative [**quartic approximation**]{.alert} gives
+
+$$
+\mu_x
+=\frac{8(\ell_{x-1}-\ell_{x+1})-(\ell_{x-2}-\ell_{x+2})}{12\ell_x}
+$$
+
+:::
+
+::::

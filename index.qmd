@@ -60,12 +60,12 @@ The module content is structured into 16 chapters (with the corresponding slides
 8.  [Multistate Survival Models](/slides/_output/chap_8.html)
 9.  [Inference for Multistate Models](/slides/_output/chap_9.html)
 10. [Modelling Human Lifetime](/slides/_output/chap_10.html)
-11. The Life Table and Life Expectancy <!--(/slides/_output/chap_11.html)-->
-12. Interpolating a Life Table
-13. Life Table Models
-14. Exposure to Risk
-15. Comparing Mortality Rates
-16. Graduation
+11. [The Life Table and Life Expectancy](/slides/_output/chap_11.html)
+12. [Interpolating a Life Table](/slides/_output/chap_12.html)
+13. [Life Table Models](/slides/_output/chap_13.html)
+14. [Exposure to Risk](/slides/_output/chap_14.html)
+15. [Comparing Mortality Rates](/slides/_output/chap_15.html)
+16. [Graduation](/slides/_output/chap_16.html)
 
 These chapters can be divided into six parts (labelled A to F), each corresponding to a [problem sheet](/problem_sheets.html). The table below shows which chapters are included in each part.
 
