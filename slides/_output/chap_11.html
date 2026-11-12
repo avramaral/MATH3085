@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="André Victor Ribeiro Amaral">
-  <meta name="dcterms.date" content="2026-10-11">
+  <meta name="dcterms.date" content="2026-12-11">
   <title>Survival Models (MATH3085/6143)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -211,7 +211,7 @@
     </div>
 </div>
 
-  <p class="date">10/11/2026</p>
+  <p class="date">12/11/2026</p>
 </section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
@@ -292,7 +292,7 @@ q_x\;\;=\;\;1-\frac{S_T(x+1)}{S_T(x)}\;\;=\;\;1-\frac{\ell_{x+1}}{\ell_x}
 <p><span class="math display">\[
 \begin{aligned}
 d_x&amp;= \mathbb{E}[\mbox{number of deaths in } [x,x+1) \mbox{ from an initial population of size }\ell_0]\\
-&amp;=\ell_0 P(x\le T&lt;x+1)\\
+&amp;=\ell_0 \mathbb{P}(x\le T&lt;x+1)\\
 &amp;=\ell_0 [S_T(x)-S_T(x+1)]\\
 &amp;=\ell_x-\ell_{x+1}.
 \end{aligned}
@@ -309,7 +309,7 @@ d_x&amp;= \mathbb{E}[\mbox{number of deaths in } [x,x+1) \mbox{ from an initial 
 <p>The <span class="alert"><strong>curtate</strong></span> life expectancy at age <span class="math inline">\(x\)</span>, <span class="math inline">\(e_{x}\)</span> is defined as the expected future lifetime in completed years given survival to age <span class="math inline">\(x\)</span> (usually an integer),</p>
 <p><span class="math display">\[
 \begin{aligned}
-e_x&amp;=\mathbb{E}([T-x]\,|\,T&gt;x)\\
+e_x&amp;=\mathbb{E}(\lfloor T-x \rfloor\,|\,T&gt;x)\\
 &amp;=\sum_{k=0}^\infty k \mathbb{P}(x+k\le T&lt; x+k+1\,|\,T&gt;x)\\
 &amp;=\sum_{k=0}^\infty k [S_T(k|x)-S_T(k+1|x)]\\
 &amp;=\sum_{k=0}^\infty k \frac{S_T(x+k)-S_T(x+k+1)}{S_T(x)}
@@ -357,11 +357,11 @@ e_x \le \overset{\circ}{e}_x &lt; e_x+1.
 <p>We have</p>
 <p><span class="math display">\[
 \begin{aligned}
-\overset{\circ}{e}_x= E(T-x|T&gt;x)&amp;=\int_0^\infty S_T(t|x)\mathrm{d}t\\
+\overset{\circ}{e}_x= \mathbb{E}(T-x|T&gt;x)&amp;=\int_0^\infty S_T(t|x)\mathrm{d}t\\
 &amp;=\int_0^\infty  \frac{S_T(x+t)}{S_T(x)}\mathrm{d}t\\
 &amp;=\frac{1}{\ell_x}\int_0^\infty  \ell_0 S_T(x+t)\mathrm{d}t\\
 &amp;=\frac{1}{\ell_x}\int_x^\infty  \ell_0 S_T(t)\mathrm{d}t\\
-&amp;=\frac{1}{\ell_x}\sum_{i=1} \int_{x_{i-1}}^{x_i}  \ell_0 S_T(t)\mathrm{d}t
+&amp;=\frac{1}{\ell_x}\sum_{i=1}^{\infty} \int_{x_{i-1}}^{x_i}  \ell_0 S_T(t)\mathrm{d}t
 \end{aligned}
 \]</span></p>
 <p>where <span class="math inline">\(x=x_0&lt;x_1&lt;x_2\cdots\)</span> are the ages <span class="math inline">\(\ge x\)</span> represented in the life table.</p>
@@ -391,17 +391,17 @@ e_x \le \overset{\circ}{e}_x &lt; e_x+1.
 <section id="life-expectancy-using-l_x-and-t_x-gap-on-page-126" class="slide level2">
 <h2>Life expectancy using <span class="math inline">\(L_x\)</span> and <span class="math inline">\(T_x\)</span> <span class="alert"><strong>(Gap on page 126)</strong></span></h2>
 <div class="justify small-text">
-<p>It follows from Section 11.3.3 and 11.3.4 that life expectancy at birth is</p>
+<p>It follows from <span class="secondary"><strong>Section 11.3.3</strong></span> and <span class="secondary"><strong>Section 11.3.4</strong></span> that life expectancy at birth is</p>
 <p><span class="math display">\[
 \begin{aligned}
 \overset{\circ}{e}_x&amp;=\frac{1}{\ell_x}\int_x^\infty  \ell_0 S_T(t)\mathrm{d}t\;\;=\;\;\frac{T_x}{\ell_x}\\
-&amp;=\frac{1}{\ell_x}\sum_{i=1} \int_{x_{i-1}}^{x_i}  \ell_0 S_T(t)\mathrm{d}t\;\;=\;\; \frac{1}{\ell_x}\sum_{i=1} {}_{x_{i}-x_{i-1}}L_{x_{i-1}}
+&amp;=\frac{1}{\ell_x}\sum_{i=1}^{\infty} \int_{x_{i-1}}^{x_i}  \ell_0 S_T(t)\mathrm{d}t\;\;=\;\; \frac{1}{\ell_x}\sum_{i=1}^{\infty} {}_{x_{i}-x_{i-1}}L_{x_{i-1}}
 \end{aligned}
 \]</span></p>
 <div class="fragment">
 <p>When <span class="math inline">\(t=1\)</span>, <span class="math inline">\({}_{t}L_x\)</span> is simply denoted by <span class="math inline">\(L_x\)</span>.</p>
 <p>Therefore, for a life table with annual spacing, <span class="math inline">\(x_0=x\)</span>, <span class="math inline">\(x_1=x+1,\ldots\)</span>, we have <span class="math display">\[
-\overset{\circ}{e}_x\;\;=\;\;\frac{T_x}{\ell_x}\;\;=\;\; \frac{1}{\ell_x}\sum_{t=0} L_{x+t}
+\overset{\circ}{e}_x\;\;=\;\;\frac{T_x}{\ell_x}\;\;=\;\; \frac{1}{\ell_x}\sum_{t=0}^{\infty} L_{x+t}
 \]</span></p>
 </div>
 <div class="fragment">
@@ -472,7 +472,7 @@ e_x \le \overset{\circ}{e}_x &lt; e_x+1.
 <div class="justify small-text">
 <p><span class="math display">\[
 {}_{x_{i}-x_{i-1}}L_{x_{i-1}}\;\;=\;\;\int_{x_{i-1}}^{x_i}  \ell_0 S_T(t)\mathrm{d}t\;\;\approx\;\;(x_i-x_{i-1})\frac{\ell_{x_i}+\ell_{x_{i-1}}}{2}
-\]</span> so, when <span class="math inline">\(x_i-x_{i-1}=1\)</span> for all <span class="math inline">\(i\)</span>, we have <span class="math inline">\(L_x\approx(\ell_{x+1}+\ell_x)/2\)</span> which gives the expression in <span class="secondary"><strong>Section 11.3.2</strong></span> when substituted into <span class="math inline">\(\overset{\circ}{e}_x=\frac{1}{\ell_x}\sum_{t=0} L_{x+t}\)</span>.</p>
+\]</span> so, when <span class="math inline">\(x_i-x_{i-1}=1\)</span> for all <span class="math inline">\(i\)</span>, we have <span class="math inline">\(L_x\approx(\ell_{x+1}+\ell_x)/2\)</span> which gives the expression in <span class="secondary"><strong>Section 11.3.2</strong></span> when substituted into <span class="math inline">\(\overset{\circ}{e}_x=\frac{1}{\ell_x}\sum_{t=0}^{\infty} L_{x+t}\)</span>.</p>
 </div>
 </section>
 <section id="concluding-remarks-period-life-tables" class="slide level2">

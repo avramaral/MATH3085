@@ -137,7 +137,7 @@ The life table usually contains a column with $d_x$ values.
 $$
 \begin{aligned}
 d_x&= \mathbb{E}[\mbox{number of deaths in } [x,x+1) \mbox{ from an initial population of size }\ell_0]\\
-&=\ell_0 P(x\le T<x+1)\\
+&=\ell_0 \mathbb{P}(x\le T<x+1)\\
 &=\ell_0 [S_T(x)-S_T(x+1)]\\
 &=\ell_x-\ell_{x+1}.
 \end{aligned}
@@ -160,7 +160,7 @@ The [**curtate**]{.alert} life expectancy at age $x$,  $e_{x}$ is defined as the
 
 $$
 \begin{aligned}
-e_x&=\mathbb{E}([T-x]\,|\,T>x)\\
+e_x&=\mathbb{E}(\lfloor T-x \rfloor\,|\,T>x)\\
 &=\sum_{k=0}^\infty k \mathbb{P}(x+k\le T< x+k+1\,|\,T>x)\\
 &=\sum_{k=0}^\infty k [S_T(k|x)-S_T(k+1|x)]\\
 &=\sum_{k=0}^\infty k \frac{S_T(x+k)-S_T(x+k+1)}{S_T(x)}
@@ -229,11 +229,11 @@ We have
 
 $$
 \begin{aligned}
-\overset{\circ}{e}_x= E(T-x|T>x)&=\int_0^\infty S_T(t|x)\mathrm{d}t\\
+\overset{\circ}{e}_x= \mathbb{E}(T-x|T>x)&=\int_0^\infty S_T(t|x)\mathrm{d}t\\
 &=\int_0^\infty  \frac{S_T(x+t)}{S_T(x)}\mathrm{d}t\\
 &=\frac{1}{\ell_x}\int_0^\infty  \ell_0 S_T(x+t)\mathrm{d}t\\
 &=\frac{1}{\ell_x}\int_x^\infty  \ell_0 S_T(t)\mathrm{d}t\\
- &=\frac{1}{\ell_x}\sum_{i=1} \int_{x_{i-1}}^{x_i}  \ell_0 S_T(t)\mathrm{d}t
+ &=\frac{1}{\ell_x}\sum_{i=1}^{\infty} \int_{x_{i-1}}^{x_i}  \ell_0 S_T(t)\mathrm{d}t
 \end{aligned}
 $$
 
@@ -278,12 +278,12 @@ The quantity ${}_{\infty}L_x$, the expected total  years lived after age $x$ by 
 
 :::: {.justify .small-text}
 
-It follows from Section 11.3.3 and 11.3.4 that life expectancy at birth is
+It follows from [**Section 11.3.3**]{.secondary} and [**Section 11.3.4**]{.secondary} that life expectancy at birth is
 
 $$
 \begin{aligned}
 \overset{\circ}{e}_x&=\frac{1}{\ell_x}\int_x^\infty  \ell_0 S_T(t)\mathrm{d}t\;\;=\;\;\frac{T_x}{\ell_x}\\
-&=\frac{1}{\ell_x}\sum_{i=1} \int_{x_{i-1}}^{x_i}  \ell_0 S_T(t)\mathrm{d}t\;\;=\;\; \frac{1}{\ell_x}\sum_{i=1} {}_{x_{i}-x_{i-1}}L_{x_{i-1}}
+&=\frac{1}{\ell_x}\sum_{i=1}^{\infty} \int_{x_{i-1}}^{x_i}  \ell_0 S_T(t)\mathrm{d}t\;\;=\;\; \frac{1}{\ell_x}\sum_{i=1}^{\infty} {}_{x_{i}-x_{i-1}}L_{x_{i-1}}
 \end{aligned}
 $$
 
@@ -293,7 +293,7 @@ When $t=1$, ${}_{t}L_x$ is simply denoted by $L_x$.
 
 Therefore, for a life table with annual spacing, $x_0=x$, $x_1=x+1,\ldots$, we have 
 $$
-\overset{\circ}{e}_x\;\;=\;\;\frac{T_x}{\ell_x}\;\;=\;\; \frac{1}{\ell_x}\sum_{t=0} L_{x+t}
+\overset{\circ}{e}_x\;\;=\;\;\frac{T_x}{\ell_x}\;\;=\;\; \frac{1}{\ell_x}\sum_{t=0}^{\infty} L_{x+t}
 $$
 
 :::
@@ -374,7 +374,7 @@ $$
 {}_{x_{i}-x_{i-1}}L_{x_{i-1}}\;\;=\;\;\int_{x_{i-1}}^{x_i}  \ell_0 S_T(t)\mathrm{d}t\;\;\approx\;\;(x_i-x_{i-1})\frac{\ell_{x_i}+\ell_{x_{i-1}}}{2}
 $$
 so, when $x_i-x_{i-1}=1$ for all $i$, we have $L_x\approx(\ell_{x+1}+\ell_x)/2$ 
-which gives the expression in [**Section 11.3.2**]{.secondary} when substituted into $\overset{\circ}{e}_x=\frac{1}{\ell_x}\sum_{t=0} L_{x+t}$.
+which gives the expression in [**Section 11.3.2**]{.secondary} when substituted into $\overset{\circ}{e}_x=\frac{1}{\ell_x}\sum_{t=0}^{\infty} L_{x+t}$.
 
 ::::
 
