@@ -11,6 +11,10 @@ format:
 Welcome to the [Data Analysis Project]{.attention} section! 
 <!-- Here, you will find detailed instructions for the project in **MATH3085/6143**. -->
 
-The project (**MATH3085/6143**) will be released in early December 2026, with detailed instructions and guidance provided towards the end of the term.
+In this project, you will analyse survival (and mortality) data using `R`, present informative plots and interpret your findings using evidence from the supplied datasets.
+
+The project instructions are available on Blackboard under `Assessments` → `Data Analysis Project`.
+
+**Deadline:** Friday 11 December 2026 at 16:00 (UK time).
 
 ---

@@ -32,7 +32,7 @@
     "href": "project.html",
     "title": "Data Analysis Project",
     "section": "",
-    "text": "Welcome to the Data Analysis Project section! \nThe project (MATH3085/6143) will be released in early December 2026, with detailed instructions and guidance provided towards the end of the term."
+    "text": "Welcome to the Data Analysis Project section! \nIn this project, you will analyse survival (and mortality) data using R, present informative plots and interpret your findings using evidence from the supplied datasets.\nThe project instructions are available on Blackboard under Assessments → Data Analysis Project.\nDeadline: Friday 11 December 2026 at 16:00 (UK time)."
   },
   {
     "objectID": "installing_R.html",
