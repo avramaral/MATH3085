@@ -475,7 +475,7 @@ $$
 
 ::::
 
-## The actuarial estimator [**(Gap on pages 145–146)**]{.alert}
+## The actuarial estimator [**(Gap on page 145)**]{.alert}
 
 :::: {.justify .small-text}
 
