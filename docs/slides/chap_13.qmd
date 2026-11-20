@@ -475,7 +475,7 @@ $$
 
 ::::
 
-## The actuarial estimator [**(Gap on pages 145–146)**]{.alert}
+## The actuarial estimator [**(Gap on page 145)**]{.alert}
 
 :::: {.justify .small-text}
 
@@ -508,7 +508,7 @@ $$
 
 :::: {.justify .small-text}
 
-Using this approximation, the estimator in Section 13.1.7 can be expressed as
+Using this approximation, the estimator in [**Section 13.1.7**]{.secondary} can be expressed as
 
 $$
 \tilde{q}_x\;=\;\frac{D_x}{E^0_x}\;=\;\frac{D_x}{E^C_x+\frac{1}{2}D_x}
@@ -794,17 +794,17 @@ So the two estimators of $q_x$ are typically very close. For the data in [**Sect
 
 The Poisson model assumes that the $D_x$ are observations of independent $\text{Poisson}(m_x E^C_{x})$ random variables.
 
-Hence,
+Hence, the likelihood is
 
 $$
 \begin{aligned}
 & L(m_x)\;=\;\frac{\exp\left(-m_x E^C_{x}\right)\left(m_x E^C_{x}\right)^{D_x}}{D_x!}\\
 &\Rightarrow\quad  \ell(m_x)\;=\;C-m_x E^C_{x}+{D_x}\log m_x\\
-&\Rightarrow\quad  \hat{m}_x\;=\;\frac{D_x}{E^C_{x}}
+&\Rightarrow\quad  \hat{m}_x\;=\;\frac{D_x}{E^C_{x}},
 \end{aligned}
 $$
 
-the same estimator as for the two state model in [**Section 13.2.5**]{.secondary} (with the same standard error).
+i.e., the [**same estimator**]{.alert} as for the two state model in [**Section 13.2.5**]{.secondary} (with the same standard error).
 
 ::::
 

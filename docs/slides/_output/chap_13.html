@@ -10,7 +10,6 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="André Victor Ribeiro Amaral">
-  <meta name="dcterms.date" content="2026-10-11">
   <title>Survival Models (MATH3085/6143)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -211,7 +210,7 @@
     </div>
 </div>
 
-  <p class="date">10/11/2026</p>
+  <p class="date">18/11/2026</p>
 </section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
@@ -665,8 +664,8 @@ E_x^C\;=\;E^0_x-\sum_{i=1}^n y_i(b_i-t_i)
 </div>
 </div>
 </section>
-<section id="the-actuarial-estimator-gap-on-pages-145146" class="slide level2">
-<h2>The actuarial estimator <span class="alert"><strong>(Gap on pages 145–146)</strong></span></h2>
+<section id="the-actuarial-estimator-gap-on-page-145" class="slide level2">
+<h2>The actuarial estimator <span class="alert"><strong>(Gap on page 145)</strong></span></h2>
 <div class="justify small-text">
 <p>As we shall see in <span class="secondary"><strong>Chapter 14</strong></span>, it is usually easier to compute <span class="math inline">\(E_x^C\)</span> from the available data than it is to compute <span class="math inline">\(E_x^0\)</span>.</p>
 <p>Hence it is common to approximate <span class="math inline">\(E_x^0\)</span> using</p>
@@ -689,7 +688,7 @@ E_x^C\;\approx\;E^0_x-\frac{1}{2}D_x.
 <section id="the-actuarial-estimator-gap-on-page-146" class="slide level2">
 <h2>The actuarial estimator <span class="alert"><strong>(Gap on page 146)</strong></span></h2>
 <div class="justify small-text">
-<p>Using this approximation, the estimator in Section 13.1.7 can be expressed as</p>
+<p>Using this approximation, the estimator in <span class="secondary"><strong>Section 13.1.7</strong></span> can be expressed as</p>
 <p><span class="math display">\[
 \tilde{q}_x\;=\;\frac{D_x}{E^0_x}\;=\;\frac{D_x}{E^C_x+\frac{1}{2}D_x}
 \]</span></p>
@@ -945,15 +944,15 @@ m_x\;=\;\frac{q_x}{1-\frac{1}{2}q_x}
 <h2>The Poisson model</h2>
 <div class="justify small-text">
 <p>The Poisson model assumes that the <span class="math inline">\(D_x\)</span> are observations of independent <span class="math inline">\(\text{Poisson}(m_x E^C_{x})\)</span> random variables.</p>
-<p>Hence,</p>
+<p>Hence, the likelihood is</p>
 <p><span class="math display">\[
 \begin{aligned}
 &amp; L(m_x)\;=\;\frac{\exp\left(-m_x E^C_{x}\right)\left(m_x E^C_{x}\right)^{D_x}}{D_x!}\\
 &amp;\Rightarrow\quad  \ell(m_x)\;=\;C-m_x E^C_{x}+{D_x}\log m_x\\
-&amp;\Rightarrow\quad  \hat{m}_x\;=\;\frac{D_x}{E^C_{x}}
+&amp;\Rightarrow\quad  \hat{m}_x\;=\;\frac{D_x}{E^C_{x}},
 \end{aligned}
 \]</span></p>
-<p>the same estimator as for the two state model in <span class="secondary"><strong>Section 13.2.5</strong></span> (with the same standard error).</p>
+<p>i.e., the <span class="alert"><strong>same estimator</strong></span> as for the two state model in <span class="secondary"><strong>Section 13.2.5</strong></span> (with the same standard error).</p>
 </div>
 </section>
 <section id="poisson-model-versus-multi-state-model" class="slide level2">
