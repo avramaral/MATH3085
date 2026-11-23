@@ -229,12 +229,18 @@ If $t_f-t_0=1$ year, then $E^C_x$ is an estimate of the [**mid-year pop. at age 
 
 ## The principle of correspondence
 
-:::: {.justify}
+:::: {.justify .small-text}
 
 The principle of correspondence as it applies to the estimation of mortality rates states that
 
-:::{.callout-important .fragment}
-A life alive at time $t$ should be included in the exposure at age $x$ at time $t$ if and only if, were that life to die immediately, it would be counted in the deaths data at age $x$.
+:::{.callout-important}
+A person alive at time $t$ should be included in the exposure at age $x$ at time $t$ if and only if, were that life to die immediately, it would be counted in the deaths data at age $x$.
+:::
+
+:::{.fragment} 
+
+In other words, given the mortality estimator $\widehat{m}_x = \frac{D_x}{E_x^C}$, [*include a person’s time in the denominator exactly when an immediate death of that person would be included in the numerator.*]{.alert}
+
 :::
 
 ::: {.fragment}
