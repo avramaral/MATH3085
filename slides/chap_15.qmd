@@ -259,7 +259,7 @@ pchisq(q = X2, df = 10, lower.tail = FALSE)
 A general rule of thumb is that conclusions from a chi-squared test can be considered reliable if all of the
 $E^C_xm^S_x$ values are greater than $1$, and no more than $20\%$ of them are less than $5$.
 
-The chi-squared test is usually a very sound [**omnibus**]{.alert} test which can detect a wide range of discrepancies between a set of observed and standard rates.
+The chi-squared test is usually a very sound [**omnibus**]{.alert} test; i.e., [it can detect a wide range of discrepancies between a set of observed and standard rates.]{.secondary}
 
 ::: {.fragment}
 

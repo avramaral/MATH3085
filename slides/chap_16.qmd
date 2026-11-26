@@ -158,7 +158,7 @@ There are three main approaches to graduation, all of which involve fitting a st
 
 - Graduation against a set of [**standard mortality rates**]{.alert}.
 
-  This is used where we have good reason to expect our study population to share features with the mortality experience of the standard population.
+  This is used where [we have good reason to expect our **study population** to share features with the mortality experience of the **standard population**.]{.secondary}
 
 :::
 
@@ -166,7 +166,7 @@ There are three main approaches to graduation, all of which involve fitting a st
 
 - Graduation using a [**parametric model**]{.alert}.
 
-  This is usually used where we have large amounts of data.
+  This is usually used where [we have large amounts of data.]{.secondary}
 
 :::
 
@@ -174,7 +174,7 @@ There are three main approaches to graduation, all of which involve fitting a st
 
 - Graduation using a [**semiparametric (smooth) regression model**]{.alert}.
 
-  This is usually used where we have small amounts of data and no suitable standard mortality rates.
+  This is usually used where [we have **small amounts of data** and **no suitable standard mortality rates**.]{.secondary}
 
 :::
 
@@ -204,7 +204,7 @@ $$
 
 ::: {.fragment}
 
-If the standard rates are smooth, as they typically will have been previously graduated, then the estimated rates will be smooth too.
+If the standard rates are smooth, [as they typically will have been previously graduated,]{.secondary} then the estimated rates will be smooth too.
 
 Students taking [**MATH3091**]{.secondary} will learn more about generalised linear models.
 
@@ -405,7 +405,7 @@ For the graduations illustrated in Sections [**Section 16.3.1**]{.secondary}, [*
 
 :::{.fragment}
 
-The number of age groups is $v = 30$ and the number of parameters is $p = 2$ for the first two models and $p = 3.0$ (an estimated function of the overall smoothness) for the semiparametric model.
+The number of age groups is $v = 30$ and the number of parameters is $p = 2$ for the first two models and $p = 3$ (an estimated function of the overall smoothness) for the semiparametric model.
 
 :::
 
@@ -417,6 +417,6 @@ So we compare our $X^2$ values with the $95\%$ point of $\chi^2_{28}$ $(41.34)$ 
 
 :::{.fragment}
 
-We see that there is no evidence to lead us to reject the fit of the graduated rates to the observed rates, so all three of the graduations seem satisfactory.
+We see that there is [**no evidence** to lead us **to reject the fit of the graduated rates** to the observed rates,]{.secondary} [**so all three of the graduations seem satisfactory**.]{.alert}
 
 :::
